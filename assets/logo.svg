@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="roundedSquare">
+      <rect width="512" height="512" rx="90" ry="90"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#roundedSquare)">
+    <!-- Background -->
+    <rect width="512" height="512" fill="#1a2744"/>
+
+    <!-- Bitcoin coin (main circle) -->
+    <circle cx="256" cy="248" r="140" fill="#e8920a"/>
+
+    <!-- Growth chart line across coin -->
+    <path d="M140 310 Q180 300 210 280 Q240 260 270 230 Q300 200 330 210 Q360 220 380 190"
+          fill="none" stroke="#1a2744" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Chart dots -->
+    <circle cx="175" cy="303" r="8" fill="#1a2744"/>
+    <circle cx="230" cy="268" r="8" fill="#1a2744"/>
+    <circle cx="290" cy="222" r="8" fill="#1a2744"/>
+    <circle cx="350" cy="205" r="8" fill="#1a2744"/>
+
+    <!-- Rocket body -->
+    <g transform="translate(256, 72)">
+      <!-- Rocket nose cone -->
+      <path d="M0 -35 L-14 0 L14 0 Z" fill="#e8920a"/>
+      <!-- Rocket body -->
+      <rect x="-14" y="0" width="28" height="36" rx="2" fill="#e8920a"/>
+      <!-- Rocket fins -->
+      <path d="M-14 28 L-24 40 L-14 36 Z" fill="#e8920a"/>
+      <path d="M14 28 L24 40 L14 36 Z" fill="#e8920a"/>
+      <!-- Rocket flame -->
+      <path d="M-8 36 Q0 50 8 36" fill="#ff6b1a"/>
+      <!-- Bitcoin B on rocket -->
+      <text x="0" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#1a2744">&#x20bf;</text>
+    </g>
+
+    <!-- Text at bottom -->
+    <text x="256" y="438" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="30" fill="#e8920a">Calculadora de Retiro</text>
+    <text x="256" y="472" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="30" fill="#e8920a">con Bitcoin</text>
+  </g>
+</svg>
