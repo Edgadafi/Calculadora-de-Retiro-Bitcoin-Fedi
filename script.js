@@ -915,6 +915,13 @@
 
   function updateAureoVisibility() {
     dom.aureoLink.href = AUREO_REFERRAL_URL;
+    if (state.isFedi) {
+      dom.aureoLink.removeAttribute('target');
+      dom.aureoLink.removeAttribute('rel');
+    } else {
+      dom.aureoLink.setAttribute('target', '_blank');
+      dom.aureoLink.setAttribute('rel', 'noopener');
+    }
     if (isMexicoUser()) {
       dom.aureoCta.classList.remove('hidden');
     } else {
