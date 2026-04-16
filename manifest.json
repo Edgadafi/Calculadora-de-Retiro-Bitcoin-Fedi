@@ -1,0 +1,20 @@
+{
+  "name": "Calculadora de Retiro Bitcoin",
+  "short_name": "Retiro BTC",
+  "description": "Planifica tu independencia financiera con Bitcoin. Mini App para Fedi.xyz",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#f7931a",
+  "orientation": "portrait",
+  "lang": "es",
+  "categories": ["finance", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d0d0d'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='%23f7931a'>₿</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
