@@ -17,8 +17,7 @@
   const LIFETIME_PRICE_USD = 10;
   const AUREO_REFERRAL_URL = 'https://app.aureobitcoin.com/es/auth/signup?ref=HACKATHONBITCOIN';
   const LANG_KEY = 'btc_retirement_lang';
-  const LNBITS_URL = 'https://legend.lnbits.com';
-  const LNBITS_API_KEY = 'YOUR_INVOICE_READ_KEY';
+  const PAYMENT_API = '/api';
 
   // ─── i18n Dictionary ───────────────────────────────────────
   const LANG = {
@@ -1112,13 +1111,10 @@
 
   async function createInvoice(sats, type) {
     const memo = `${t('pdf_title')} – ${type}`;
-    const resp = await fetch(`${LNBITS_URL}/api/v1/payments`, {
+    const resp = await fetch(`${PAYMENT_API}/create-invoice`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Api-Key': LNBITS_API_KEY,
-      },
-      body: JSON.stringify({ out: false, amount: sats, memo }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: sats, memo }),
     });
     if (!resp.ok) throw new Error('Invoice creation failed');
     return resp.json();
@@ -1129,9 +1125,7 @@
     const start = Date.now();
     while (Date.now() - start < timeoutMs) {
       try {
-        const resp = await fetch(`${LNBITS_URL}/api/v1/payments/${paymentHash}`, {
-          headers: { 'X-Api-Key': LNBITS_API_KEY },
-        });
+        const resp = await fetch(`${PAYMENT_API}/check-payment?hash=${paymentHash}`);
         const data = await resp.json();
         if (data.paid) return true;
       } catch (_) { /* network hiccup, retry */ }
@@ -1153,14 +1147,46 @@
     showToast(t('toast_no_purchase'));
   }
 
-  // ─── BTC Price ────────────────────────────────────────────
+  // ─── BTC Price (cached with 60s TTL + fallback) ──────────
+  const BTC_CACHE_KEY = 'btc_price_cache';
+  const BTC_CACHE_TTL = 60_000;
+
   async function fetchBTCPrice() {
+    const cached = loadPriceCache();
+    if (cached) {
+      state.btcPrice.usd = cached.usd;
+      state.btcPrice.mxn = cached.mxn;
+      return;
+    }
     try {
       const resp = await fetch(BTC_PRICE_API);
       const data = await resp.json();
       state.btcPrice.usd = data.bitcoin.usd;
       state.btcPrice.mxn = data.bitcoin.mxn;
+      savePriceCache(data.bitcoin.usd, data.bitcoin.mxn);
+    } catch (_) {
+      const fallback = loadPriceCache(true);
+      if (fallback) {
+        state.btcPrice.usd = fallback.usd;
+        state.btcPrice.mxn = fallback.mxn;
+      }
+    }
+  }
+
+  function savePriceCache(usd, mxn) {
+    try {
+      localStorage.setItem(BTC_CACHE_KEY, JSON.stringify({ usd, mxn, ts: Date.now() }));
     } catch (_) {}
+  }
+
+  function loadPriceCache(ignoreTTL) {
+    try {
+      const raw = localStorage.getItem(BTC_CACHE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!ignoreTTL && Date.now() - data.ts > BTC_CACHE_TTL) return null;
+      return data;
+    } catch (_) { return null; }
   }
 
   function usdToSats(usd) {
