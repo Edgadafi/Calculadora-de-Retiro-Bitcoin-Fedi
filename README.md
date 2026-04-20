@@ -11,8 +11,47 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── script.js       # Lógica: cálculos, gráficas, Fedi/WebLN, premium
 ├── manifest.json   # PWA manifest
+├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
+├── api/            # Serverless: Mercado Pago (preferencia, verificación), LNbits, webhook MP
+├── .env.example    # Plantilla de variables (copiar a .env.local)
 └── README.md       # Esta documentación
 ```
+
+## Entorno de desarrollo (Node.js + Mercado Pago SDK)
+
+La integración de pagos con **Mercado Pago** usa el [SDK oficial para Node.js](https://www.npmjs.com/package/mercadopago) en las rutas `/api/*` (Vercel). El frontend sigue siendo HTML/JS estático.
+
+**Requisitos:** Node.js **18** o superior (ver `.nvmrc`).
+
+1. Instalar dependencias (incluye `mercadopago`):
+
+   ```bash
+   cd "Calculadora de Retiro Bitcoin_Fedi catalogo"
+   npm install
+   ```
+
+2. Variables de entorno locales: copia `.env.example` a `.env.local` y pega tus **credenciales de prueba** desde [Tus integraciones](https://www.mercadopago.com.mx/developers/panel/app) (Public Key y Access Token de prueba).
+
+3. Para probar endpoints que usen el SDK en local, usa [Vercel CLI](https://vercel.com/docs/cli) (`vercel dev`), que inyecta variables y ejecuta las funciones en `/api` igual que en producción.
+
+El **Access Token** solo debe existir en el servidor o en `.env.local` / panel de Vercel; no lo pongas en `script.js` ni en el repositorio.
+
+### Checkout Pro (preferencia de pago)
+
+El flujo premium usa la API de **preferencias** del SDK (`/api/create-preference`). Tras crear la preferencia, el usuario es redirigido al checkout de Mercado Pago. Al volver, la app llama a `/api/verify-mp-payment` con el `payment_id` de la URL para confirmar el pago y activar Premium.
+
+Variables recomendadas en Vercel:
+
+| Variable | Descripción |
+|----------|-------------|
+| `MERCADOPAGO_ACCESS_TOKEN` | Access Token de producción (o prueba en desarrollo) |
+| `APP_BASE_URL` | URL pública `https://...` (back_urls y webhook) |
+| `MERCADOPAGO_PRICE_MONTHLY_MXN` | Precio del ítem mensual en MXN (default 20) |
+| `MERCADOPAGO_PRICE_LIFETIME_MXN` | Precio del ítem de por vida en MXN (default 200) |
+
+Configura la **URL de notificaciones** en el panel de Mercado Pago apuntando a `https://TU_DOMINIO/api/mp-webhook` (opcional para registrar eventos; la activación inmediata usa la verificación al volver del checkout).
+
+Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMENT_USE_MERCADOPAGO = false`.
 
 ## Funcionalidades
 
@@ -25,7 +64,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 - Gráfica interactiva (Chart.js)
 - Compartir resultados como texto
 
-### Versión Premium (pago vía Lightning)
+### Versión Premium (pago vía Mercado Pago — Checkout Pro)
 - Comparar 3 escenarios (conservador, moderado, agresivo)
 - Simulación de retiro (Safe Withdrawal Rate — 4%)
 - Guardar planes en localStorage cifrado
@@ -34,7 +73,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 
 ### Integración Fedi.xyz
 - Detecta `window.fedi` para preferencias de moneda
-- Usa `window.webln` para pagos Lightning (Premium)
+- Pagos Premium vía Mercado Pago (Checkout Pro); opcional Lightning si desactivas Mercado Pago en código
 - Usa `window.nostr` para guardar planes (NIP-78)
 - Funciona standalone si no hay Fedi
 

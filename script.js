@@ -18,6 +18,8 @@
   const AUREO_REFERRAL_URL = 'https://app.aureobitcoin.com/es/auth/signup?ref=HACKATHONBITCOIN';
   const LANG_KEY = 'btc_retirement_lang';
   const PAYMENT_API = '/api';
+  /** true = Checkout Pro (Mercado Pago). false = Lightning (LNbits /api/create-invoice). */
+  const PAYMENT_USE_MERCADOPAGO = true;
 
   // ─── i18n Dictionary ───────────────────────────────────────
   const LANG = {
@@ -69,16 +71,18 @@
       btn_export_pdf: '📄 Exportar PDF',
       btn_load: '📂 Cargar plan guardado',
       modal_premium_title: '⚡ Desbloquea Premium',
+      price_mp_monthly: 'Pago mensual (MXN en checkout)',
+      price_mp_lifetime: 'Pago único / de por vida (MXN en checkout)',
       modal_premium_desc: 'Accede a todas las herramientas para planificar tu retiro como un profesional.',
       pf_scenarios: 'Comparar 3 escenarios lado a lado',
       pf_swr: 'Simulación de retiro (SWR 4%)',
       pf_save: 'Guardar planes con cifrado local',
       pf_pdf: 'Exportar reporte PDF profesional',
       pf_no_ads: 'Sin anuncios, soporte prioritario',
-      plan_monthly: '~$1 USD/mes',
-      plan_lifetime: '~$10 USD perpetuo',
+      plan_monthly: 'Plan mensual — Mercado Pago',
+      plan_lifetime: 'De por vida — Mercado Pago',
       btn_restore: 'Restaurar compra anterior',
-      modal_payment_note: 'Pago vía Lightning Network ⚡',
+      modal_payment_note: 'Pago seguro con Mercado Pago (tarjeta y otros medios)',
       help_title: '📖 Guía de usuario',
       help_calc_title: 'Cómo usar la calculadora',
       help_calc_initial: '<strong>Ahorro inicial:</strong> cuánto tienes hoy para empezar. Puedes ponerlo en USD, MXN, BTC o sats.',
@@ -109,7 +113,7 @@
       help_save_pdf: '<strong>📄 Exportar PDF:</strong> genera un reporte profesional descargable con datos, tabla anual y parámetros.',
       help_premium_title: 'Cómo activar Premium',
       help_premium_btn: 'Presiona <strong>"⚡ Desbloquear Premium"</strong> para ver los planes.',
-      help_premium_prices: 'Paga con Lightning Network: <strong>$1 USD/mes</strong> o <strong>$10 USD perpetuo</strong>.',
+      help_premium_prices: 'Paga con <strong>Mercado Pago</strong> (tarjeta y otros medios): plan mensual o de por vida. Montos en MXN en el checkout.',
       help_premium_fedi: 'Si usas Fedi, el pago se hace directamente desde tu wallet integrada.',
       help_premium_restore: 'Si cambias de dispositivo, usa <strong>"Restaurar compra"</strong> (funciona en el mismo navegador).',
       help_aureo_title: 'Comprar Bitcoin con Aureo (solo México)',
@@ -246,16 +250,18 @@
       btn_export_pdf: '📄 Export PDF',
       btn_load: '📂 Load saved plan',
       modal_premium_title: '⚡ Unlock Premium',
+      price_mp_monthly: 'Monthly (MXN at checkout)',
+      price_mp_lifetime: 'One-time / lifetime (MXN at checkout)',
       modal_premium_desc: 'Access all the tools to plan your retirement like a pro.',
       pf_scenarios: 'Compare 3 scenarios side by side',
       pf_swr: 'Withdrawal simulation (SWR 4%)',
       pf_save: 'Save plans with local encryption',
       pf_pdf: 'Export professional PDF report',
       pf_no_ads: 'No ads, priority support',
-      plan_monthly: '~$1 USD/month',
-      plan_lifetime: '~$10 USD lifetime',
+      plan_monthly: 'Monthly plan — Mercado Pago',
+      plan_lifetime: 'Lifetime — Mercado Pago',
       btn_restore: 'Restore previous purchase',
-      modal_payment_note: 'Payment via Lightning Network ⚡',
+      modal_payment_note: 'Secure payment with Mercado Pago',
       help_title: '📖 User Guide',
       help_calc_title: 'How to use the calculator',
       help_calc_initial: '<strong>Initial savings:</strong> how much you have today to start. You can enter it in USD, MXN, BTC or sats.',
@@ -286,7 +292,7 @@
       help_save_pdf: '<strong>📄 Export PDF:</strong> generates a downloadable professional report with data, annual table and parameters.',
       help_premium_title: 'How to activate Premium',
       help_premium_btn: 'Press <strong>"⚡ Unlock Premium"</strong> to see the plans.',
-      help_premium_prices: 'Pay with Lightning Network: <strong>$1 USD/month</strong> or <strong>$10 USD lifetime</strong>.',
+      help_premium_prices: 'Pay with <strong>Mercado Pago</strong> (card and other methods): monthly or lifetime plan. Amounts in MXN at checkout.',
       help_premium_fedi: 'If you use Fedi, payment is made directly from your integrated wallet.',
       help_premium_restore: 'If you switch devices, use <strong>"Restore purchase"</strong> (works in the same browser).',
       help_aureo_title: 'Buy Bitcoin with Aureo (Mexico only)',
@@ -423,16 +429,18 @@
       btn_export_pdf: '📄 Exportar PDF',
       btn_load: '📂 Carregar plano salvo',
       modal_premium_title: '⚡ Desbloqueie Premium',
+      price_mp_monthly: 'Mensal (MXN no checkout)',
+      price_mp_lifetime: 'Pagamento único / vitalício (MXN no checkout)',
       modal_premium_desc: 'Acesse todas as ferramentas para planejar sua aposentadoria como um profissional.',
       pf_scenarios: 'Comparar 3 cenários lado a lado',
       pf_swr: 'Simulação de retirada (SWR 4%)',
       pf_save: 'Salvar planos com criptografia local',
       pf_pdf: 'Exportar relatório PDF profissional',
       pf_no_ads: 'Sem anúncios, suporte prioritário',
-      plan_monthly: '~$1 USD/mês',
-      plan_lifetime: '~$10 USD perpétuo',
+      plan_monthly: 'Plano mensal — Mercado Pago',
+      plan_lifetime: 'Vitalício — Mercado Pago',
       btn_restore: 'Restaurar compra anterior',
-      modal_payment_note: 'Pagamento via Lightning Network ⚡',
+      modal_payment_note: 'Pagamento com Mercado Pago',
       help_title: '📖 Guia do usuário',
       help_calc_title: 'Como usar a calculadora',
       help_calc_initial: '<strong>Poupança inicial:</strong> quanto você tem hoje para começar. Pode colocar em USD, MXN, BTC ou sats.',
@@ -463,7 +471,7 @@
       help_save_pdf: '<strong>📄 Exportar PDF:</strong> gera um relatório profissional baixável com dados, tabela anual e parâmetros.',
       help_premium_title: 'Como ativar Premium',
       help_premium_btn: 'Pressione <strong>"⚡ Desbloquear Premium"</strong> para ver os planos.',
-      help_premium_prices: 'Pague com Lightning Network: <strong>$1 USD/mês</strong> ou <strong>$10 USD perpétuo</strong>.',
+      help_premium_prices: 'Pague com <strong>Mercado Pago</strong>: plano mensal ou vitalício. Valores em MXN no checkout.',
       help_premium_fedi: 'Se usa Fedi, o pagamento é feito diretamente da sua wallet integrada.',
       help_premium_restore: 'Se trocar de dispositivo, use <strong>"Restaurar compra"</strong> (funciona no mesmo navegador).',
       help_aureo_title: 'Comprar Bitcoin com Aureo (só México)',
@@ -600,16 +608,18 @@
       btn_export_pdf: '📄 Exporter PDF',
       btn_load: '📂 Charger un plan sauvegardé',
       modal_premium_title: '⚡ Débloquez Premium',
+      price_mp_monthly: 'Mensuel (MXN au paiement)',
+      price_mp_lifetime: 'Paiement unique / à vie (MXN au paiement)',
       modal_premium_desc: 'Accédez à tous les outils pour planifier votre retraite comme un pro.',
       pf_scenarios: 'Comparer 3 scénarios côte à côte',
       pf_swr: 'Simulation de retrait (SWR 4%)',
       pf_save: 'Sauvegarder les plans avec chiffrement local',
       pf_pdf: 'Exporter un rapport PDF professionnel',
       pf_no_ads: 'Sans publicité, support prioritaire',
-      plan_monthly: '~1 $ USD/mois',
-      plan_lifetime: '~10 $ USD perpétuel',
+      plan_monthly: 'Forfait mensuel — Mercado Pago',
+      plan_lifetime: 'À vie — Mercado Pago',
       btn_restore: 'Restaurer un achat précédent',
-      modal_payment_note: 'Paiement via Lightning Network ⚡',
+      modal_payment_note: 'Paiement avec Mercado Pago',
       help_title: '📖 Guide utilisateur',
       help_calc_title: 'Comment utiliser la calculatrice',
       help_calc_initial: '<strong>Épargne initiale :</strong> combien vous avez aujourd\'hui pour commencer. Vous pouvez l\'indiquer en USD, MXN, BTC ou sats.',
@@ -640,7 +650,7 @@
       help_save_pdf: '<strong>📄 Exporter PDF :</strong> génère un rapport professionnel téléchargeable avec données, tableau annuel et paramètres.',
       help_premium_title: 'Comment activer Premium',
       help_premium_btn: 'Appuyez sur <strong>"⚡ Débloquer Premium"</strong> pour voir les plans.',
-      help_premium_prices: 'Payez avec Lightning Network : <strong>1 $ USD/mois</strong> ou <strong>10 $ USD perpétuel</strong>.',
+      help_premium_prices: 'Payez avec <strong>Mercado Pago</strong> : forfait mensuel ou à vie. Montants en MXN au paiement.',
       help_premium_fedi: 'Si vous utilisez Fedi, le paiement se fait directement depuis votre wallet intégré.',
       help_premium_restore: 'Si vous changez d\'appareil, utilisez <strong>"Restaurer un achat"</strong> (fonctionne dans le même navigateur).',
       help_aureo_title: 'Acheter du Bitcoin avec Aureo (Mexique uniquement)',
@@ -849,6 +859,7 @@
     loadLanguage();
     detectEnvironment();
     loadTheme();
+    await checkMercadoPagoReturn();
     checkPremiumStatus();
     bindEvents();
     await fetchBTCPrice();
@@ -990,10 +1001,78 @@
     showToast(t('toast_premium'));
   }
 
+  function stripMercadoPagoQueryParams() {
+    const url = new URL(window.location.href);
+    const keys = [
+      'payment_id', 'status', 'collection_status', 'collection_id',
+      'external_reference', 'payment_type', 'merchant_order_id',
+      'preference_id', 'site_id', 'processing_mode', 'merchant_account_id',
+    ];
+    keys.forEach((k) => url.searchParams.delete(k));
+    const q = url.searchParams.toString();
+    window.history.replaceState({}, '', url.pathname + (q ? `?${q}` : '') + url.hash);
+  }
+
+  async function checkMercadoPagoReturn() {
+    if (!PAYMENT_USE_MERCADOPAGO) return;
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get('payment_id');
+    if (!paymentId) return;
+
+    const status = params.get('status') || params.get('collection_status') || '';
+    if (status && status !== 'approved' && status !== 'success') {
+      stripMercadoPagoQueryParams();
+      return;
+    }
+
+    try {
+      const resp = await fetch(`${PAYMENT_API}/verify-mp-payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_id: paymentId }),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok && data.plan && (data.plan === 'monthly' || data.plan === 'lifetime')) {
+        savePremiumStatus(data.plan);
+      }
+    } catch (e) {
+      console.error('checkMercadoPagoReturn:', e);
+    } finally {
+      stripMercadoPagoQueryParams();
+    }
+  }
+
   async function handlePayment(amountUSD) {
-    const sats = usdToSats(amountUSD);
     const type = amountUSD === MONTHLY_PRICE_USD ? 'monthly' : 'lifetime';
 
+    if (PAYMENT_USE_MERCADOPAGO) {
+      try {
+        showPaymentUI('loading');
+        const resp = await fetch(`${PAYMENT_API}/create-preference`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan: type }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          console.error('create-preference:', data);
+          showPaymentUI('error');
+          return;
+        }
+        const checkoutUrl = data.init_point || data.sandbox_init_point;
+        if (!checkoutUrl) {
+          showPaymentUI('error');
+          return;
+        }
+        window.location.href = checkoutUrl;
+      } catch (err) {
+        console.error('Payment error:', err);
+        showPaymentUI('error');
+      }
+      return;
+    }
+
+    const sats = usdToSats(amountUSD);
     try {
       showPaymentUI('loading');
       const { payment_hash, payment_request } = await createInvoice(sats, type);
@@ -1194,6 +1273,11 @@
   }
 
   function updatePriceTags() {
+    if (PAYMENT_USE_MERCADOPAGO) {
+      dom.priceMonthly.textContent = t('price_mp_monthly');
+      dom.priceLifetime.textContent = t('price_mp_lifetime');
+      return;
+    }
     const monthlySats = usdToSats(MONTHLY_PRICE_USD);
     const lifetimeSats = usdToSats(LIFETIME_PRICE_USD);
     dom.priceMonthly.textContent = `≈ ${formatNumber(monthlySats)} sats`;

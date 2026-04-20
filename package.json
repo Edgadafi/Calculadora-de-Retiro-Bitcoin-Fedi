@@ -1,0 +1,12 @@
+{
+  "name": "calculadora-de-retiro-bitcoin-fedi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calculadora de Retiro Bitcoin — Fedi Mini App",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "mercadopago": "^2.12.0"
+  }
+}
