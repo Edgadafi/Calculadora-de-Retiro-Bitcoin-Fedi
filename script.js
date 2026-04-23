@@ -1059,7 +1059,8 @@
           showPaymentUI('error');
           return;
         }
-        const checkoutUrl = data.init_point || data.sandbox_init_point;
+        const checkoutUrl =
+          data.checkout_url || data.init_point || data.sandbox_init_point;
         if (!checkoutUrl) {
           showPaymentUI('error');
           return;

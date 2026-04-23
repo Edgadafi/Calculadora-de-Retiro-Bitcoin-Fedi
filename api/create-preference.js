@@ -32,6 +32,17 @@ function getAccessToken() {
   );
 }
 
+/**
+ * Vercel: set MERCADOPAGO_CHECKOUT_SANDBOX=true|false to force sandbox vs production URL.
+ * If unset, sandbox_init_point is preferred when the access token starts with "TEST-".
+ */
+function shouldPreferSandboxInitPoint(accessToken) {
+  const raw = (process.env.MERCADOPAGO_CHECKOUT_SANDBOX || '').trim().toLowerCase();
+  if (raw === 'true' || raw === '1' || raw === 'yes') return true;
+  if (raw === 'false' || raw === '0' || raw === 'no') return false;
+  return accessToken.startsWith('TEST-');
+}
+
 function planItem(plan) {
   if (plan === 'monthly') {
     return {
@@ -115,10 +126,17 @@ export default async function handler(req, res) {
       });
     }
 
+    const preferSandbox = shouldPreferSandboxInitPoint(accessToken);
+    const checkoutUrl = preferSandbox
+      ? (sandboxInitPoint || initPoint)
+      : (initPoint || sandboxInitPoint);
+
     return res.status(200).json({
       id,
       init_point: initPoint,
       sandbox_init_point: sandboxInitPoint,
+      checkout_url: checkoutUrl,
+      checkout_sandbox: preferSandbox,
     });
   } catch (err) {
     console.error('MercadoPago preference.create:', err);
