@@ -247,7 +247,14 @@
             </button>
           </div>
           <div id="payment-flow" class="hidden"></div>
-          <button id="btn-restore" class="btn-link" data-i18n="btn_restore">Restaurar compra anterior</button>
+          <button id="btn-restore" class="btn-link" data-i18n="btn_restore">Reactivar premium en este dispositivo</button>
+          <div id="restore-by-id-block" class="restore-by-id">
+            <p class="modal-note restore-id-help" data-i18n-html="restore_id_help">¿Pagaste en otro navegador? Pega el <strong>payment_id</strong> (N.° de pago) y confirma.</p>
+            <div class="restore-id-row">
+              <input type="text" id="input-restore-payment-id" class="input-restore-id" data-i18n-placeholder="restore_id_placeholder" inputmode="numeric" pattern="[0-9]*" placeholder="" autocomplete="off" />
+              <button type="button" id="btn-restore-by-payment-id" class="btn-secondary" data-i18n="btn_restore_by_payment_id">Verificar pago</button>
+            </div>
+          </div>
           <p class="modal-note" data-i18n="modal_payment_note">Pago vía Lightning Network ⚡</p>
         </div>
       </div>

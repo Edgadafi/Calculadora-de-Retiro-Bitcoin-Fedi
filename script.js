@@ -81,7 +81,10 @@
       pf_no_ads: 'Sin anuncios, soporte prioritario',
       plan_monthly: 'Plan mensual — Mercado Pago',
       plan_lifetime: 'De por vida — Mercado Pago',
-      btn_restore: 'Restaurar compra anterior',
+      btn_restore: 'Reactivar premium en este dispositivo',
+      restore_id_help: '¿Pagaste en otro navegador? Pega el <strong>N.° de pago (payment_id)</strong> que aparece al volver o en el recibo de Mercado Pago y confirma. Solo operaciones aprobadas.',
+      restore_id_placeholder: 'Ej. 1234567890',
+      btn_restore_by_payment_id: 'Verificar pago',
       modal_payment_note: 'Pago seguro con Mercado Pago (tarjeta y otros medios)',
       help_title: '📖 Guía de usuario',
       help_calc_title: 'Cómo usar la calculadora',
@@ -115,7 +118,7 @@
       help_premium_btn: 'Presiona <strong>"⚡ Desbloquear Premium"</strong> para ver los planes.',
       help_premium_prices: 'Paga con <strong>Mercado Pago</strong> (tarjeta y otros medios): plan mensual o de por vida. Montos en MXN en el checkout.',
       help_premium_fedi: 'Si usas Fedi, el pago se hace directamente desde tu wallet integrada.',
-      help_premium_restore: 'Si cambias de dispositivo, usa <strong>"Restaurar compra"</strong> (funciona en el mismo navegador).',
+      help_premium_restore: 'El premium se guarda en <strong>este dispositivo y navegador</strong> tras un pago aprobado. <strong>"Reactivar premium"</strong> vuelve a leer lo guardado aquí. En otro equipo pega el <strong>payment_id</strong> bajo <strong>Verificar pago</strong> en el modal.',
       help_aureo_title: 'Comprar Bitcoin con Aureo (solo México)',
       help_aureo_desc: 'El botón <strong>"Comprar Bitcoin en Aureo"</strong> te lleva a la plataforma Aureo donde puedes comprar BTC con pesos mexicanos.',
       help_aureo_condition: 'Solo aparece si tu moneda está configurada en MXN.',
@@ -155,13 +158,16 @@
       toast_payment_cancel: 'Pago cancelado',
       toast_payment_error: 'Error en el pago. Intenta de nuevo.',
       toast_restored: 'Compra restaurada correctamente.',
-      toast_no_purchase: 'No se encontró compra previa en este dispositivo.',
+      toast_no_purchase: 'No hay premium guardado en este navegador. Si ya pagaste, pega el payment_id (N.° de pago) abajo o vuelve desde el enlace de Mercado Pago.',
+      toast_verify_restored: 'Pago verificado. Premium activado.',
+      toast_verify_failed: 'No se pudo verificar ese pago. Revisa el número o que el pago esté aprobado.',
       toast_saved: '💾 Plan guardado correctamente',
       toast_no_plans: 'No hay planes guardados',
       toast_loaded: '📂 Plan del {date} cargado',
       toast_pdf: '📄 PDF exportado',
       toast_copied: 'Resultado copiado al portapapeles',
       payment_generating: 'Generando invoice Lightning...',
+      payment_generating_mp: 'Conectando con Mercado Pago…',
       payment_scan_or_copy: 'Escanea el QR o copia la invoice para pagar',
       payment_copy_invoice: 'Copiar invoice',
       payment_copied: '¡Copiado!',
@@ -260,7 +266,10 @@
       pf_no_ads: 'No ads, priority support',
       plan_monthly: 'Monthly plan — Mercado Pago',
       plan_lifetime: 'Lifetime — Mercado Pago',
-      btn_restore: 'Restore previous purchase',
+      btn_restore: 'Reactivate premium on this device',
+      restore_id_help: 'Paid in another browser? Paste the <strong>payment_id</strong> from the return URL or your Mercado Pago receipt, then confirm. Approved payments only.',
+      restore_id_placeholder: 'E.g. 1234567890',
+      btn_restore_by_payment_id: 'Verify payment',
       modal_payment_note: 'Secure payment with Mercado Pago',
       help_title: '📖 User Guide',
       help_calc_title: 'How to use the calculator',
@@ -294,7 +303,7 @@
       help_premium_btn: 'Press <strong>"⚡ Unlock Premium"</strong> to see the plans.',
       help_premium_prices: 'Pay with <strong>Mercado Pago</strong> (card and other methods): monthly or lifetime plan. Amounts in MXN at checkout.',
       help_premium_fedi: 'If you use Fedi, payment is made directly from your integrated wallet.',
-      help_premium_restore: 'If you switch devices, use <strong>"Restore purchase"</strong> (works in the same browser).',
+      help_premium_restore: 'Premium is stored in <strong>this browser and device</strong> after an approved payment. <strong>“Reactivate premium”</strong> re-reads that save. On another device paste the <strong>payment_id</strong> under <strong>Verify payment</strong> in the modal.',
       help_aureo_title: 'Buy Bitcoin with Aureo (Mexico only)',
       help_aureo_desc: 'The <strong>"Buy Bitcoin on Aureo"</strong> button takes you to the Aureo platform where you can buy BTC with Mexican pesos.',
       help_aureo_condition: 'Only appears if your currency is set to MXN.',
@@ -334,13 +343,16 @@
       toast_payment_cancel: 'Payment cancelled',
       toast_payment_error: 'Payment error. Try again.',
       toast_restored: 'Purchase restored successfully.',
-      toast_no_purchase: 'No previous purchase found on this device.',
+      toast_no_purchase: 'No premium saved in this browser. If you already paid, paste the payment_id below or return from the Mercado Pago success link.',
+      toast_verify_restored: 'Payment verified. Premium on.',
+      toast_verify_failed: 'Could not verify that payment. Check the id or that it is approved.',
       toast_saved: '💾 Plan saved successfully',
       toast_no_plans: 'No saved plans',
       toast_loaded: '📂 Plan from {date} loaded',
       toast_pdf: '📄 PDF exported',
       toast_copied: 'Result copied to clipboard',
       payment_generating: 'Generating Lightning invoice...',
+      payment_generating_mp: 'Connecting to Mercado Pago…',
       payment_scan_or_copy: 'Scan the QR or copy the invoice to pay',
       payment_copy_invoice: 'Copy invoice',
       payment_copied: 'Copied!',
@@ -439,7 +451,10 @@
       pf_no_ads: 'Sem anúncios, suporte prioritário',
       plan_monthly: 'Plano mensal — Mercado Pago',
       plan_lifetime: 'Vitalício — Mercado Pago',
-      btn_restore: 'Restaurar compra anterior',
+      btn_restore: 'Reativar premium neste dispositivo',
+      restore_id_help: 'Pagou em outro navegador? Cole o <strong>payment_id</strong> da URL ao voltar ou do comprovante do Mercado Pago e confirme. Apenas pagamentos aprovados.',
+      restore_id_placeholder: 'Ex. 1234567890',
+      btn_restore_by_payment_id: 'Verificar pagamento',
       modal_payment_note: 'Pagamento com Mercado Pago',
       help_title: '📖 Guia do usuário',
       help_calc_title: 'Como usar a calculadora',
@@ -473,7 +488,7 @@
       help_premium_btn: 'Pressione <strong>"⚡ Desbloquear Premium"</strong> para ver os planos.',
       help_premium_prices: 'Pague com <strong>Mercado Pago</strong>: plano mensal ou vitalício. Valores em MXN no checkout.',
       help_premium_fedi: 'Se usa Fedi, o pagamento é feito diretamente da sua wallet integrada.',
-      help_premium_restore: 'Se trocar de dispositivo, use <strong>"Restaurar compra"</strong> (funciona no mesmo navegador).',
+      help_premium_restore: 'O premium fica guardado <strong>neste navegador e dispositivo</strong> após um pagamento aprovado. <strong>“Reativar premium”</strong> relê o que está salvo aqui. Em outro aparelho cole o <strong>payment_id</strong> em <strong>Verificar pagamento</strong> no modal.',
       help_aureo_title: 'Comprar Bitcoin com Aureo (só México)',
       help_aureo_desc: 'O botão <strong>"Comprar Bitcoin na Aureo"</strong> leva à plataforma Aureo onde pode comprar BTC com pesos mexicanos.',
       help_aureo_condition: 'Só aparece se sua moeda estiver configurada em MXN.',
@@ -513,13 +528,16 @@
       toast_payment_cancel: 'Pagamento cancelado',
       toast_payment_error: 'Erro no pagamento. Tente novamente.',
       toast_restored: 'Compra restaurada com sucesso.',
-      toast_no_purchase: 'Nenhuma compra anterior encontrada neste dispositivo.',
+      toast_no_purchase: 'Não há premium salvo neste navegador. Se já pagou, cole o payment_id abaixo ou volte pelo link do Mercado Pago.',
+      toast_verify_restored: 'Pagamento verificado. Premium ativado.',
+      toast_verify_failed: 'Não foi possível verificar esse pagamento. Confira o número ou se está aprovado.',
       toast_saved: '💾 Plano salvo com sucesso',
       toast_no_plans: 'Nenhum plano salvo',
       toast_loaded: '📂 Plano de {date} carregado',
       toast_pdf: '📄 PDF exportado',
       toast_copied: 'Resultado copiado para a área de transferência',
       payment_generating: 'Gerando invoice Lightning...',
+      payment_generating_mp: 'Conectando com Mercado Pago…',
       payment_scan_or_copy: 'Escaneie o QR ou copie a invoice para pagar',
       payment_copy_invoice: 'Copiar invoice',
       payment_copied: 'Copiado!',
@@ -618,7 +636,10 @@
       pf_no_ads: 'Sans publicité, support prioritaire',
       plan_monthly: 'Forfait mensuel — Mercado Pago',
       plan_lifetime: 'À vie — Mercado Pago',
-      btn_restore: 'Restaurer un achat précédent',
+      btn_restore: 'Réactiver Premium sur cet appareil',
+      restore_id_help: 'Payé dans un autre navigateur ? Collez le <strong>payment_id</strong> de l’URL au retour ou du reçu Mercado Pago, puis confirmez. Paiements approuvés uniquement.',
+      restore_id_placeholder: 'Ex. 1234567890',
+      btn_restore_by_payment_id: 'Vérifier le paiement',
       modal_payment_note: 'Paiement avec Mercado Pago',
       help_title: '📖 Guide utilisateur',
       help_calc_title: 'Comment utiliser la calculatrice',
@@ -652,7 +673,7 @@
       help_premium_btn: 'Appuyez sur <strong>"⚡ Débloquer Premium"</strong> pour voir les plans.',
       help_premium_prices: 'Payez avec <strong>Mercado Pago</strong> : forfait mensuel ou à vie. Montants en MXN au paiement.',
       help_premium_fedi: 'Si vous utilisez Fedi, le paiement se fait directement depuis votre wallet intégré.',
-      help_premium_restore: 'Si vous changez d\'appareil, utilisez <strong>"Restaurer un achat"</strong> (fonctionne dans le même navigateur).',
+      help_premium_restore: 'Le Premium est enregistré <strong>dans ce navigateur et appareil</strong> après un paiement approuvé. <strong>« Réactiver Premium »</strong> relit cette sauvegarde. Sur un autre poste collez le <strong>payment_id</strong> sous <strong>Vérifier le paiement</strong> dans le modal.',
       help_aureo_title: 'Acheter du Bitcoin avec Aureo (Mexique uniquement)',
       help_aureo_desc: 'Le bouton <strong>"Acheter du Bitcoin sur Aureo"</strong> vous emmène sur la plateforme Aureo où vous pouvez acheter du BTC avec des pesos mexicains.',
       help_aureo_condition: 'Apparaît uniquement si votre monnaie est réglée sur MXN.',
@@ -692,13 +713,16 @@
       toast_payment_cancel: 'Paiement annulé',
       toast_payment_error: 'Erreur de paiement. Réessayez.',
       toast_restored: 'Achat restauré avec succès.',
-      toast_no_purchase: 'Aucun achat précédent trouvé sur cet appareil.',
+      toast_no_purchase: 'Aucun Premium enregistré dans ce navigateur. Si vous avez payé, collez le payment_id ci-dessous ou revenez via le lien Mercado Pago.',
+      toast_verify_restored: 'Paiement vérifié. Premium activé.',
+      toast_verify_failed: 'Impossible de vérifier ce paiement. Vérifiez l’id ou l’approbation.',
       toast_saved: '💾 Plan sauvegardé avec succès',
       toast_no_plans: 'Aucun plan sauvegardé',
       toast_loaded: '📂 Plan du {date} chargé',
       toast_pdf: '📄 PDF exporté',
       toast_copied: 'Résultat copié dans le presse-papiers',
       payment_generating: 'Génération de la facture Lightning...',
+      payment_generating_mp: 'Connexion à Mercado Pago…',
       payment_scan_or_copy: 'Scannez le QR ou copiez la facture pour payer',
       payment_copy_invoice: 'Copier la facture',
       payment_copied: 'Copié !',
@@ -811,6 +835,9 @@
     btnPayMonthly: $('#btn-pay-monthly'),
     btnPayLifetime: $('#btn-pay-lifetime'),
     btnRestore: $('#btn-restore'),
+    restoreByIdBlock: $('#restore-by-id-block'),
+    inputRestorePaymentId: $('#input-restore-payment-id'),
+    btnRestoreByPaymentId: $('#btn-restore-by-payment-id'),
     premiumPlans: $('#premium-plans'),
     premiumFeatures: $('.premium-features'),
     paymentFlow: $('#payment-flow'),
@@ -852,6 +879,10 @@
       const key = el.getAttribute('data-i18n-html');
       if (t(key) !== key) el.innerHTML = t(key);
     });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t(key) !== key) el.setAttribute('placeholder', t(key));
+    });
   }
 
   // ─── Init ─────────────────────────────────────────────────
@@ -861,6 +892,9 @@
     loadTheme();
     await checkMercadoPagoReturn();
     checkPremiumStatus();
+    if (!PAYMENT_USE_MERCADOPAGO && dom.restoreByIdBlock) {
+      dom.restoreByIdBlock.classList.add('hidden');
+    }
     bindEvents();
     await fetchBTCPrice();
     updatePriceTags();
@@ -989,7 +1023,7 @@
     dom.btnPremiumCta?.classList.add('hidden');
   }
 
-  function savePremiumStatus(type) {
+  function savePremiumStatus(type, opts) {
     const data = { type, activated: new Date().toISOString() };
     if (type === 'monthly') {
       const expires = new Date();
@@ -998,7 +1032,7 @@
     }
     localStorage.setItem(PREMIUM_KEY, JSON.stringify(data));
     activatePremium();
-    showToast(t('toast_premium'));
+    if (!opts || !opts.skipToast) showToast(t('toast_premium'));
   }
 
   function stripMercadoPagoQueryParams() {
@@ -1047,7 +1081,7 @@
 
     if (PAYMENT_USE_MERCADOPAGO) {
       try {
-        showPaymentUI('loading');
+        showPaymentUI('loading_mp');
         const resp = await fetch(`${PAYMENT_API}/create-preference`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1064,6 +1098,16 @@
         if (!checkoutUrl) {
           showPaymentUI('error');
           return;
+        }
+        if (new URLSearchParams(window.location.search).get('mpdebug') === '1') {
+          console.log('[mp]', {
+            checkout_url: data.checkout_url,
+            checkout_sandbox: data.checkout_sandbox,
+            id: data.id,
+            init_point: data.init_point,
+            sandbox_init_point: data.sandbox_init_point,
+            redirect: checkoutUrl,
+          });
         }
         window.location.href = checkoutUrl;
       } catch (err) {
@@ -1112,13 +1156,16 @@
     dom.premiumPlans.classList.add('hidden');
     dom.premiumFeatures.classList.add('hidden');
     dom.btnRestore.classList.add('hidden');
+    if (dom.restoreByIdBlock) dom.restoreByIdBlock.classList.add('hidden');
     container.classList.remove('hidden');
 
-    if (status === 'loading') {
+    if (status === 'loading' || status === 'loading_mp') {
+      const loadingKey =
+        status === 'loading_mp' ? 'payment_generating_mp' : 'payment_generating';
       container.innerHTML = `
         <div class="payment-status">
           <div class="payment-spinner"></div>
-          <p>${t('payment_generating')}</p>
+          <p>${t(loadingKey)}</p>
         </div>`;
     } else if (status === 'invoice') {
       container.innerHTML = `
@@ -1187,6 +1234,7 @@
     dom.premiumPlans.classList.remove('hidden');
     dom.premiumFeatures.classList.remove('hidden');
     dom.btnRestore.classList.remove('hidden');
+    if (dom.restoreByIdBlock) dom.restoreByIdBlock.classList.remove('hidden');
   }
 
   async function createInvoice(sats, type) {
@@ -1225,6 +1273,34 @@
       }
     }
     showToast(t('toast_no_purchase'));
+  }
+
+  async function verifyRestoreByPaymentId() {
+    if (!PAYMENT_USE_MERCADOPAGO || !dom.inputRestorePaymentId) return;
+    const raw = dom.inputRestorePaymentId.value.trim();
+    if (!/^\d+$/.test(raw)) {
+      showToast(t('toast_verify_failed'));
+      return;
+    }
+    try {
+      const resp = await fetch(`${PAYMENT_API}/verify-mp-payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_id: raw }),
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok && data.plan && (data.plan === 'monthly' || data.plan === 'lifetime')) {
+        savePremiumStatus(data.plan, { skipToast: true });
+        showToast(t('toast_verify_restored'));
+        dom.inputRestorePaymentId.value = '';
+        closePremiumModal();
+        if (dom.results && !dom.results.classList.contains('hidden')) calculate();
+        return;
+      }
+    } catch (e) {
+      console.error('verifyRestoreByPaymentId:', e);
+    }
+    showToast(t('toast_verify_failed'));
   }
 
   // ─── BTC Price (cached with 60s TTL + fallback) ──────────
@@ -1777,6 +1853,15 @@
     dom.btnPremiumCta.addEventListener('click', openPremiumModal);
     dom.modalClose.addEventListener('click', closePremiumModal);
     dom.btnRestore.addEventListener('click', restorePurchase);
+    dom.btnRestoreByPaymentId?.addEventListener('click', () => {
+      void verifyRestoreByPaymentId();
+    });
+    dom.inputRestorePaymentId?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        void verifyRestoreByPaymentId();
+      }
+    });
 
     dom.modalPremium.addEventListener('click', (e) => {
       if (e.target === dom.modalPremium) closePremiumModal();

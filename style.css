@@ -758,6 +758,37 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-muted) !important;
 }
 
+.restore-by-id {
+  margin-bottom: 12px;
+}
+
+.restore-id-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.input-restore-id {
+  flex: 1;
+  min-width: 140px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.restore-id-help {
+  margin-bottom: 0;
+}
+
+#btn-restore-by-payment-id {
+  white-space: nowrap;
+}
+
 /* Payment flow states */
 #payment-flow {
   text-align: center;
