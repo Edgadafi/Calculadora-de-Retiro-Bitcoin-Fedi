@@ -941,7 +941,14 @@
 
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    dom.btnTheme.textContent = theme === 'dark' ? '☀️' : '🌙';
+    const moon = dom.btnTheme.querySelector('.icon-theme-moon');
+    const sun = dom.btnTheme.querySelector('.icon-theme-sun');
+    if (moon && sun) {
+      moon.classList.toggle('hidden', theme === 'dark');
+      sun.classList.toggle('hidden', theme !== 'dark');
+    } else {
+      dom.btnTheme.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
     localStorage.setItem(THEME_KEY, theme);
   }
 

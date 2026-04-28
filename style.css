@@ -228,8 +228,8 @@ header.br-nav .logo.br-nav-brand {
 }
 
 header.br-nav .lang-select.br-select {
-  width: auto;
-  min-width: 64px;
+  width: 72px;
+  min-width: 72px;
   max-width: 100%;
 }
 
