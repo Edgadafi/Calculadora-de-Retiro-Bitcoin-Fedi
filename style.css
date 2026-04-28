@@ -73,6 +73,33 @@ body::after {
   opacity: 0.12;
 }
 
+/*
+ * Atmósfera .br-mesh: en el DS original los gradientes (~5% opacidad) casi no se notan
+ * sobre el gris plano de tema claro (--bg #f5f5f5). Alineamos canvas con tokens --br-*
+ * y reforzamos mallas en claro/oscuro para que se perciban en producción.
+ */
+[data-theme="light"] body {
+  background-color: var(--br-bg-deep);
+}
+
+[data-theme="light"] .br-mesh {
+  background:
+    radial-gradient(ellipse 88% 52% at 14% 18%, rgba(247, 147, 26, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 72% 48% at 86% 82%, rgba(201, 122, 10, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 65% at 50% 108%, rgba(10, 10, 30, 0.08) 0%, transparent 52%);
+}
+
+[data-theme="light"] body::after {
+  opacity: 0.22;
+}
+
+html[data-theme="dark"] .br-mesh {
+  background:
+    radial-gradient(ellipse 62% 42% at 10% 15%, rgba(247, 147, 26, 0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 52% 50% at 90% 85%, rgba(201, 168, 76, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(247, 147, 26, 0.04) 0%, transparent 55%);
+}
+
 /* Header */
 header {
   text-align: center;
