@@ -9,31 +9,39 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/logo-512.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/bitcoin-retiro-design-system.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js" integrity="sha384-0RsG1yo/crf/1Qc14sho26SXXOTngNCjgJw7fuvXBt9W/OChF/Ijx+aUuBDqQwEk" crossorigin="anonymous"></script>
 </head>
 <body>
+  <div class="br-mesh" aria-hidden="true"></div>
   <div id="app">
 
     <!-- Header -->
-    <header id="header">
-      <div class="header-row">
-        <div class="logo"><img src="assets/logo.svg" alt="Logo" width="32" height="32"> <span data-i18n="logo_text">Retiro Bitcoin</span></div>
-        <div class="header-actions">
-          <select id="input-lang" class="lang-select" aria-label="Language">
+    <header id="header" class="br-nav">
+      <div class="br-nav-inner br-container">
+        <div class="br-nav-brand logo">
+          <img src="assets/logo.svg" alt="Logo" width="32" height="32" />
+          <span class="br-nav-brand-text" data-i18n="logo_text">Retiro Bitcoin</span>
+        </div>
+        <div class="header-actions br-row br-gap-2">
+          <select id="input-lang" class="lang-select br-select" aria-label="Language">
             <option value="es">ES</option>
             <option value="en">EN</option>
             <option value="pt">PT</option>
             <option value="fr">FR</option>
           </select>
-          <button id="btn-help" class="icon-btn" aria-label="Guía de usuario">?</button>
-          <button id="btn-theme" class="icon-btn" aria-label="Cambiar tema">🌙</button>
-          <span id="badge-premium" class="badge hidden">⚡ Premium</span>
+          <button type="button" id="btn-help" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Guía de usuario">?</button>
+          <button type="button" id="btn-theme" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Cambiar tema">🌙</button>
+          <span id="badge-premium" class="hidden br-chip-lightning">⚡ Premium</span>
         </div>
       </div>
-      <p class="tagline" data-i18n="tagline">Planifica tu independencia financiera con Bitcoin</p>
+      <p class="tagline br-subhead" data-i18n="tagline">Planifica tu independencia financiera con Bitcoin</p>
     </header>
 
     <!-- Environment Banner -->
@@ -41,14 +49,14 @@
 
     <!-- Main Calculator -->
     <main>
-      <section id="calculator" class="card">
-        <h2 data-i18n="calc_title">Tu plan de retiro</h2>
+      <section id="calculator" class="card br-card br-stack br-stack-6">
+        <h2 class="br-headline" data-i18n="calc_title">Tu plan de retiro</h2>
 
-        <div class="form-group">
-          <label for="input-initial" data-i18n="label_initial">Ahorro inicial</label>
-          <div class="input-row">
-            <input type="number" id="input-initial" value="500" min="0" step="10" />
-            <select id="input-currency">
+        <div class="br-field">
+          <label class="br-field-label" for="input-initial" data-i18n="label_initial">Ahorro inicial</label>
+          <div class="input-row br-row br-gap-2">
+            <input type="number" id="input-initial" class="br-input" value="500" min="0" step="10" />
+            <select id="input-currency" class="br-select">
               <option value="USD">USD</option>
               <option value="MXN">MXN</option>
               <option value="BTC">BTC</option>
@@ -57,11 +65,11 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-contribution" data-i18n="label_contribution">Aporte periódico</label>
-          <div class="input-row">
-            <input type="number" id="input-contribution" value="100" min="0" step="5" />
-            <select id="input-frequency">
+        <div class="br-field">
+          <label class="br-field-label" for="input-contribution" data-i18n="label_contribution">Aporte periódico</label>
+          <div class="input-row br-row br-gap-2">
+            <input type="number" id="input-contribution" class="br-input" value="100" min="0" step="5" />
+            <select id="input-frequency" class="br-select">
               <option value="monthly" data-i18n="freq_monthly">Mensual</option>
               <option value="weekly" data-i18n="freq_weekly">Semanal</option>
               <option value="daily" data-i18n="freq_daily">Diario</option>
@@ -69,20 +77,26 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-years"><span data-i18n="label_years">Horizonte de tiempo:</span> <strong id="years-display">10</strong> <span data-i18n="years_unit">años</span></label>
-          <input type="range" id="input-years" min="1" max="50" value="10" />
+        <div class="br-slider-field">
+          <div class="br-slider-header">
+            <label class="br-slider-label" for="input-years"><span data-i18n="label_years">Horizonte de tiempo</span></label>
+            <span class="br-slider-value"><strong id="years-display">10</strong> <span data-i18n="years_unit">años</span></span>
+          </div>
+          <input type="range" id="input-years" class="br-range" min="1" max="50" value="10" />
         </div>
 
-        <div class="form-group">
-          <label for="input-return"><span data-i18n="label_return">Rendimiento anual esperado:</span> <strong id="return-display">10</strong>%</label>
-          <input type="range" id="input-return" min="3" max="30" value="10" step="0.5" />
-          <div class="range-hints">
+        <div class="br-slider-field">
+          <div class="br-slider-header">
+            <label class="br-slider-label" for="input-return"><span data-i18n="label_return">Rendimiento anual esperado</span></label>
+            <span class="br-slider-value"><strong id="return-display">10</strong>%</span>
+          </div>
+          <input type="range" id="input-return" class="br-range" min="3" max="30" value="10" step="0.5" />
+          <div class="range-hints br-slider-hints">
             <span data-i18n="range_conservative">3% conservador</span>
             <span data-i18n="range_aggressive">30% agresivo</span>
           </div>
           <div id="return-context" class="info-box">
-            <button type="button" class="info-toggle" data-i18n="return_info_toggle">¿Qué rendimiento elegir?</button>
+            <button type="button" class="info-toggle br-btn br-btn-ghost br-btn-sm br-btn-full" data-i18n="return_info_toggle">¿Qué rendimiento elegir?</button>
             <div class="info-content hidden">
               <p data-i18n="return_info_4y">Últimos 4 años (2021–2025): ~30% anual</p>
               <p data-i18n="return_info_8y">Últimos 8 años (2017–2025): ~25% anual</p>
@@ -93,17 +107,20 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-inflation"><span data-i18n="label_inflation">Inflación anual local (opcional):</span> <strong id="inflation-display">5</strong>%</label>
-          <input type="range" id="input-inflation" min="0" max="30" value="5" step="0.5" />
+        <div class="br-slider-field">
+          <div class="br-slider-header">
+            <label class="br-slider-label" for="input-inflation"><span data-i18n="label_inflation">Inflación anual local (opcional)</span></label>
+            <span class="br-slider-value"><strong id="inflation-display">5</strong>%</span>
+          </div>
+          <input type="range" id="input-inflation" class="br-range" min="0" max="30" value="5" step="0.5" />
         </div>
 
-        <button id="btn-calculate" class="btn-primary" data-i18n="btn_calculate">Calcular mi retiro</button>
+        <button type="button" id="btn-calculate" class="btn-primary br-btn br-btn-primary br-btn-full br-pulse" data-i18n="btn_calculate">Calcular mi retiro</button>
       </section>
 
       <!-- Results (Free) -->
-      <section id="results" class="card hidden">
-        <h2 data-i18n="results_title">Tu proyección</h2>
+      <section id="results" class="card br-card hidden">
+        <h2 class="br-headline" data-i18n="results_title">Tu proyección</h2>
         <div class="result-cards">
           <div class="result-item highlight">
             <span class="result-label" data-i18n="res_btc_label">Saldo final en BTC</span>
@@ -131,9 +148,9 @@
           <canvas id="chart-projection"></canvas>
         </div>
 
-        <div class="result-actions">
-          <button id="btn-share" class="btn-secondary" data-i18n="btn_share">Compartir resultado</button>
-          <button id="btn-premium-cta" class="btn-accent" data-i18n="btn_premium_cta">⚡ Desbloquear Premium</button>
+        <div class="result-actions br-row br-gap-4 br-result-actions-row">
+          <button type="button" id="btn-share" class="btn-secondary br-btn br-btn-secondary" data-i18n="btn_share">Compartir resultado</button>
+          <button type="button" id="btn-premium-cta" class="btn-accent br-btn br-btn-lightning" data-i18n="btn_premium_cta">⚡ Desbloquear Premium</button>
         </div>
       </section>
 

@@ -59,10 +59,18 @@ body {
 }
 
 #app {
+  position: relative;
+  z-index: 2;
   max-width: 520px;
   margin: 0 auto;
   padding: 16px;
   padding-bottom: 40px;
+}
+
+/* Design system (styles/bitcoin-retiro-design-system.css): capa de ruido bajo la UI */
+body::after {
+  z-index: 1;
+  opacity: 0.12;
 }
 
 /* Header */
@@ -158,6 +166,87 @@ header {
 .tagline {
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+/* — Bitcoin Retiro DS: header nav + calculadora (convive con tokens del tema) */
+header.br-nav {
+  text-align: left;
+  padding: 0;
+}
+
+header.br-nav .br-container {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+header.br-nav .tagline {
+  text-align: center;
+  padding: 0 0 16px;
+  margin-top: 4px;
+}
+
+header.br-nav .logo.br-nav-brand {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  color: inherit;
+}
+
+header.br-nav .lang-select.br-select {
+  width: auto;
+  min-width: 64px;
+  max-width: 100%;
+}
+
+header.br-nav .header-actions .icon-btn.br-btn {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 6px 10px;
+}
+
+[data-theme="light"] header.br-nav {
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom-color: var(--border);
+}
+
+#calculator .input-row.br-row .br-input {
+  flex: 1;
+  min-width: 0;
+}
+
+#calculator .input-row.br-row .br-select {
+  flex: 0 0 120px;
+  width: 120px;
+}
+
+.card h2.br-headline {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text);
+  letter-spacing: normal;
+}
+
+.result-actions.br-result-actions-row {
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.result-actions.br-result-actions-row .br-btn {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* Botón calcular: DS primario gana sobre .btn-primary donde choca */
+#btn-calculate.br-btn-primary {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-family: var(--br-font-ui), var(--font);
+}
+
+#btn-calculate.br-pulse {
+  margin-top: 4px;
 }
 
 /* Environment Banner */

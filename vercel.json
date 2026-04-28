@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.coingecko.com; img-src 'self' data: blob:; font-src 'self'; frame-ancestors 'self' https://*.fedi.xyz"
+          "value": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://api.coingecko.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com data:; frame-ancestors 'self' https://*.fedi.xyz"
         },
         {
           "key": "X-Content-Type-Options",
