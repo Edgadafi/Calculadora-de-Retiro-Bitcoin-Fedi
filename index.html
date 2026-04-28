@@ -64,12 +64,12 @@
     <main>
       <section id="calculator" class="card br-card br-stack br-stack-6">
         <h2 class="br-headline" data-i18n="calc_title">Tu plan de retiro</h2>
-
+    
         <div class="br-field">
           <label class="br-field-label" for="input-initial" data-i18n="label_initial">Ahorro inicial</label>
-          <div class="input-row br-row br-gap-2">
+          <div class="br-row br-gap-2">
             <input type="number" id="input-initial" class="br-input" value="500" min="0" step="10" />
-            <select id="input-currency" class="br-select">
+            <select id="input-currency" class="br-select" aria-label="Moneda">
               <option value="USD">USD</option>
               <option value="MXN">MXN</option>
               <option value="BTC">BTC</option>
@@ -77,19 +77,19 @@
             </select>
           </div>
         </div>
-
+    
         <div class="br-field">
           <label class="br-field-label" for="input-contribution" data-i18n="label_contribution">Aporte periódico</label>
-          <div class="input-row br-row br-gap-2">
+          <div class="br-row br-gap-2">
             <input type="number" id="input-contribution" class="br-input" value="100" min="0" step="5" />
-            <select id="input-frequency" class="br-select">
+            <select id="input-frequency" class="br-select" aria-label="Frecuencia">
               <option value="monthly" data-i18n="freq_monthly">Mensual</option>
-              <option value="weekly" data-i18n="freq_weekly">Semanal</option>
-              <option value="daily" data-i18n="freq_daily">Diario</option>
+              <option value="weekly"  data-i18n="freq_weekly">Semanal</option>
+              <option value="daily"   data-i18n="freq_daily">Diario</option>
             </select>
           </div>
         </div>
-
+    
         <div class="br-slider-field">
           <div class="br-slider-header">
             <label class="br-slider-label" for="input-years"><span data-i18n="label_years">Horizonte de tiempo</span></label>
@@ -97,29 +97,29 @@
           </div>
           <input type="range" id="input-years" class="br-range" min="1" max="50" value="10" />
         </div>
-
+    
         <div class="br-slider-field">
           <div class="br-slider-header">
             <label class="br-slider-label" for="input-return"><span data-i18n="label_return">Rendimiento anual esperado</span></label>
             <span class="br-slider-value"><strong id="return-display">10</strong>%</span>
           </div>
           <input type="range" id="input-return" class="br-range" min="3" max="30" value="10" step="0.5" />
-          <div class="range-hints br-slider-hints">
+          <div class="br-slider-hints">
             <span data-i18n="range_conservative">3% conservador</span>
             <span data-i18n="range_aggressive">30% agresivo</span>
           </div>
-          <div id="return-context" class="info-box">
+          <div id="return-context" class="info-box br-card info-box-nested">
             <button type="button" class="info-toggle br-btn br-btn-ghost br-btn-sm br-btn-full" data-i18n="return_info_toggle">¿Qué rendimiento elegir?</button>
-            <div class="info-content hidden">
-              <p data-i18n="return_info_4y">Últimos 4 años (2021–2025): ~30% anual</p>
-              <p data-i18n="return_info_8y">Últimos 8 años (2017–2025): ~25% anual</p>
-              <p data-i18n="return_info_12y">Últimos 12 años (2013–2025): ~60% anual</p>
-              <p class="info-disclaimer" data-i18n="return_info_disclaimer">El rendimiento pasado no garantiza resultados futuros.</p>
-              <p class="info-suggestion" data-i18n="return_info_suggestion">Un rango de 5%–15% es razonable para proyecciones conservadoras a largo plazo.</p>
+            <div class="info-content info-content-br hidden">
+              <p class="br-body" data-i18n="return_info_4y">Últimos 4 años (2021–2025): ~30% anual</p>
+              <p class="br-body" data-i18n="return_info_8y">Últimos 8 años (2017–2025): ~25% anual</p>
+              <p class="br-body" data-i18n="return_info_12y">Últimos 12 años (2013–2025): ~60% anual</p>
+              <p class="info-disclaimer br-disclaimer" data-i18n="return_info_disclaimer">El rendimiento pasado no garantiza resultados futuros.</p>
+              <p class="info-suggestion br-body" data-i18n="return_info_suggestion">Un rango de 5%–15% es razonable para proyecciones conservadoras a largo plazo.</p>
             </div>
           </div>
         </div>
-
+    
         <div class="br-slider-field">
           <div class="br-slider-header">
             <label class="br-slider-label" for="input-inflation"><span data-i18n="label_inflation">Inflación anual local (opcional)</span></label>
@@ -127,7 +127,7 @@
           </div>
           <input type="range" id="input-inflation" class="br-range" min="0" max="30" value="5" step="0.5" />
         </div>
-
+    
         <button type="button" id="btn-calculate" class="btn-primary br-btn br-btn-primary br-btn-full br-pulse" data-i18n="btn_calculate">Calcular mi retiro</button>
       </section>
 
