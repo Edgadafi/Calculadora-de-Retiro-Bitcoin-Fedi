@@ -44,7 +44,8 @@
 }
 
 html {
-  font-size: 16px;
+  /* ~12% más legible por defecto; crece en pantallas anchas (Meet, desktop) */
+  font-size: clamp(17px, 2.85vw, 22px);
   scroll-behavior: smooth;
 }
 
@@ -52,7 +53,7 @@ body {
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.62;
   min-height: 100vh;
   transition: background var(--transition), color var(--transition);
   -webkit-font-smoothing: antialiased;
@@ -61,10 +62,10 @@ body {
 #app {
   position: relative;
   z-index: 2;
-  max-width: 520px;
+  max-width: min(94vw, 640px);
   margin: 0 auto;
-  padding: 16px;
-  padding-bottom: 40px;
+  padding: clamp(14px, 3.5vw, 22px);
+  padding-bottom: clamp(40px, 5vw, 52px);
 }
 
 /* Design system (styles/bitcoin-retiro-design-system.css): capa de ruido bajo la UI */
@@ -135,7 +136,7 @@ header {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 6px 8px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
   cursor: pointer;
@@ -171,9 +172,9 @@ header {
 
 #btn-help {
   font-weight: 800;
-  font-size: 1rem;
-  width: 36px;
-  height: 36px;
+  font-size: 1.05rem;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,10 +212,16 @@ header.br-nav .tagline {
   text-align: center;
   padding: 0 0 16px;
   margin-top: 4px;
+  font-size: 1.02rem;
+}
+
+header.br-nav .br-nav-brand img {
+  width: 42px;
+  height: 42px;
 }
 
 header.br-nav .logo.br-nav-brand {
-  font-size: inherit;
+  font-size: 1.08rem;
   font-weight: inherit;
   letter-spacing: normal;
   color: inherit;
@@ -227,9 +234,10 @@ header.br-nav .lang-select.br-select {
 }
 
 header.br-nav .header-actions .icon-btn.br-btn {
-  min-width: 36px;
-  min-height: 36px;
-  padding: 6px 10px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 8px 12px;
+  font-size: 1.2rem;
 }
 
 [data-theme="light"] header.br-nav {
@@ -243,14 +251,14 @@ header.br-nav .header-actions .icon-btn.br-btn {
 }
 
 #calculator .input-row.br-row .br-select {
-  flex: 0 0 120px;
-  width: 120px;
+  flex: 0 0 132px;
+  width: 132px;
 }
 
 .card h2.br-headline {
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 1.15rem;
   color: var(--text);
   letter-spacing: normal;
 }
@@ -262,7 +270,7 @@ header.br-nav .header-actions .icon-btn.br-btn {
 
 .result-actions.br-result-actions-row .br-btn {
   flex: 1;
-  min-width: 140px;
+  min-width: 155px;
 }
 
 /* Botón calcular: DS primario gana sobre .btn-primary donde choca */
@@ -274,6 +282,44 @@ header.br-nav .header-actions .icon-btn.br-btn {
 
 #btn-calculate.br-pulse {
   margin-top: 4px;
+}
+
+/* Campos DS en calculadora: targets táctiles y cifras más legibles */
+#calculator .br-input,
+#calculator .br-select {
+  font-size: 1.05rem;
+  min-height: 48px;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+#calculator .br-slider-value {
+  font-size: 1.08rem;
+}
+
+#calculator .br-field-label,
+#calculator .br-slider-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+#calculator .br-slider-hints {
+  font-size: 0.8rem;
+}
+
+/* Sliders con clase DS: thumbs alineados al tamaño nuevo */
+#calculator input[type="range"].br-range {
+  height: 8px;
+}
+
+input[type="range"].br-range::-webkit-slider-thumb {
+  width: 26px;
+  height: 26px;
+}
+
+input[type="range"].br-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
 }
 
 /* Environment Banner */
@@ -303,30 +349,30 @@ header.br-nav .header-actions .icon-btn.br-btn {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
-  margin-bottom: 16px;
+  padding: 1.55rem;
+  margin-bottom: 1.1rem;
   box-shadow: var(--shadow);
   transition: background var(--transition), border var(--transition);
 }
 
 .card h2 {
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 1.15rem;
   color: var(--text);
 }
 
 /* Form */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.2rem;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -350,8 +396,8 @@ select {
   background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 12px 16px;
-  font-size: 1rem;
+  padding: 0.72rem 1rem;
+  font-size: 1.05rem;
   color: var(--text);
   font-family: var(--font);
   transition: border var(--transition);
@@ -376,8 +422,8 @@ select {
 }
 
 .input-row select {
-  flex: 0 0 120px;
-  width: 120px;
+  flex: 0 0 132px;
+  width: 132px;
 }
 
 /* Range slider */
@@ -385,8 +431,8 @@ input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
-  border-radius: 3px;
+  height: 8px;
+  border-radius: 4px;
   background: var(--border);
   outline: none;
   transition: background var(--transition);
@@ -395,8 +441,8 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
@@ -405,12 +451,12 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
+  transform: scale(1.12);
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
@@ -421,9 +467,9 @@ input[type="range"]::-moz-range-thumb {
 .range-hints {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* Return context info box */
@@ -435,8 +481,8 @@ input[type="range"]::-moz-range-thumb {
   background: none;
   border: 1px dashed var(--border);
   border-radius: var(--radius-sm);
-  padding: 8px 14px;
-  font-size: 0.8rem;
+  padding: 0.55rem 1rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--accent);
   cursor: pointer;
@@ -488,8 +534,8 @@ input[type="range"]::-moz-range-thumb {
 .btn-primary {
   display: block;
   width: 100%;
-  padding: 16px;
-  font-size: 1.1rem;
+  padding: 1.05rem 1.1rem;
+  font-size: 1.12rem;
   font-weight: 700;
   font-family: var(--font);
   color: #000;
@@ -513,8 +559,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .btn-secondary {
-  padding: 12px 20px;
-  font-size: 0.9rem;
+  padding: 0.75rem 1.15rem;
+  font-size: 0.98rem;
   font-weight: 600;
   font-family: var(--font);
   color: var(--text);
@@ -531,8 +577,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .btn-accent {
-  padding: 12px 20px;
-  font-size: 0.95rem;
+  padding: 0.75rem 1.15rem;
+  font-size: 1.02rem;
   font-weight: 700;
   font-family: var(--font);
   color: #000;
@@ -567,15 +613,15 @@ input[type="range"]::-moz-range-thumb {
 .result-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 1.15rem;
 }
 
 .result-item {
   background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 16px;
+  padding: 1.05rem;
   text-align: center;
 }
 
@@ -587,16 +633,16 @@ input[type="range"]::-moz-range-thumb {
 
 .result-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 0.45rem;
 }
 
 .result-value {
   display: block;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   font-weight: 800;
   color: var(--text);
 }
@@ -615,7 +661,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .chart-container canvas {
-  max-height: 300px;
+  max-height: 340px;
 }
 
 /* Result actions */
@@ -763,7 +809,7 @@ input[type="range"]::-moz-range-thumb {
 
 .premium-buttons button {
   flex: 1;
-  min-width: 120px;
+  min-width: 132px;
 }
 
 /* Modal */
@@ -776,7 +822,7 @@ input[type="range"]::-moz-range-thumb {
   justify-content: center;
   background: var(--modal-overlay);
   backdrop-filter: blur(8px);
-  padding: 16px;
+  padding: 1.1rem;
   animation: fadeIn 0.2s ease;
 }
 
@@ -784,28 +830,28 @@ input[type="range"]::-moz-range-thumb {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px 24px;
-  max-width: 420px;
+  padding: 2rem 1.5rem;
+  max-width: min(94vw, 460px);
   width: 100%;
   position: relative;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
 }
 
 .modal-help-content {
-  max-width: 500px;
-  max-height: 85vh;
+  max-width: min(96vw, 540px);
+  max-height: 88vh;
   overflow-y: auto;
 }
 
 .modal-content h2 {
-  font-size: 1.3rem;
+  font-size: 1.42rem;
   margin-bottom: 12px;
   text-align: center;
 }
 
 .modal-content p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.96rem;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -834,7 +880,7 @@ input[type="range"]::-moz-range-thumb {
 
 .premium-features li {
   padding: 6px 0;
-  font-size: 0.9rem;
+  font-size: 0.96rem;
   color: var(--text);
 }
 
@@ -1061,10 +1107,10 @@ input[type="range"]::-moz-range-thumb {
 
 .acc-body p {
   text-align: left;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
   margin-bottom: 8px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .acc-body p strong {
@@ -1080,7 +1126,7 @@ footer {
   text-align: center;
   padding: 24px 0;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
 }
 
 footer a {
@@ -1093,7 +1139,7 @@ footer a:hover {
 }
 
 footer .small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   margin-top: 4px;
   opacity: 0.7;
 }
@@ -1147,7 +1193,7 @@ footer .small {
   }
 
   .result-value {
-    font-size: 1.1rem;
+    font-size: 1.22rem;
   }
 
   .scenario-grid {
@@ -1170,7 +1216,7 @@ footer .small {
 
 @media (min-width: 768px) {
   #app {
-    padding: 24px;
+    padding: 28px;
   }
 }
 
