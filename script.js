@@ -15,7 +15,7 @@
   const THEME_KEY = 'btc_retirement_theme';
   const MONTHLY_PRICE_USD = 1;
   const LIFETIME_PRICE_USD = 10;
-  const AUREO_REFERRAL_URL = 'https://app.aureobitcoin.com/es/auth/signup?ref=HACKATHONBITCOIN';
+  const AUREO_REFERRAL_URL = 'https://app.aureobitcoin.com/calculadoraderetiro';
   const LANG_KEY = 'btc_retirement_lang';
   const PAYMENT_API = '/api';
   /** true = Checkout Pro (Mercado Pago). false = Lightning (LNbits /api/create-invoice). */
