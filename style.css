@@ -262,9 +262,10 @@ header.br-nav .header-actions .icon-btn.br-btn {
 }
 
 #calculator #input-frequency.br-select {
-  flex: 0 0 110px;
-  width: 110px;
-  min-width: 110px;
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 11em;
+  max-width: 50%;
 }
 
 .card h2.br-headline {
@@ -282,7 +283,12 @@ header.br-nav .header-actions .icon-btn.br-btn {
 
 .result-actions.br-result-actions-row .br-btn {
   flex: 1;
-  min-width: 155px;
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
 }
 
 /* Botón calcular: DS primario gana sobre .btn-primary donde choca */
@@ -701,7 +707,10 @@ input[type="range"]::-moz-range-thumb {
 
 .result-actions button {
   flex: 1;
-  min-width: 140px;
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
 }
 
 /* Aureo CTA */
@@ -1210,6 +1219,20 @@ footer .small {
   animation: slideUp 0.3s ease;
 }
 
+/* Resultados: botones a ancho completo en móvil / columnas estrechas */
+@media (max-width: 640px) {
+  .result-actions {
+    flex-direction: column;
+  }
+
+  .result-actions button,
+  .result-actions.br-result-actions-row .br-btn {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+  }
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   #app {
@@ -1231,10 +1254,6 @@ footer .small {
 
   .tools-grid {
     grid-template-columns: 1fr;
-  }
-
-  .result-actions {
-    flex-direction: column;
   }
 
   .premium-buttons {
