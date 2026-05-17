@@ -215,16 +215,37 @@ header.br-nav .tagline {
   font-size: 1.02rem;
 }
 
-header.br-nav .br-nav-brand img.brand-mark-app {
+/* Nav: logo-app 3D — zoom dentro de círculo para cortar borde navy del squircle */
+header.br-nav .nav-logo-zoom {
   width: 46px;
   height: 46px;
-  object-fit: cover;
+  flex-shrink: 0;
   border-radius: 50%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
-[data-theme="light"] header.br-nav .br-nav-brand img.brand-mark-app {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Tema claro: máscara más suave + sombra ligera para integrar el squircle del PNG */
+[data-theme='light'] header.br-nav .nav-logo-zoom {
+  -webkit-mask-image: radial-gradient(circle, #000 64%, transparent 92%);
+  mask-image: radial-gradient(circle, #000 64%, transparent 92%);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.07),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+header.br-nav .nav-logo-zoom img.brand-mark-app {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 38%;
+  transform: translate(-50%, -50%) scale(1.82);
+  border-radius: 0;
 }
 
 header.br-nav .logo.br-nav-brand {
