@@ -7,15 +7,7 @@
   padding-bottom: var(--br-sp-16);
 }
 
-.landing-brand-img {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  object-fit: contain;
-  border-radius: 12px;
-}
-
-.landing-hero {
+/* Landing: nav usa .brand-mark-app (style.css); hero mantiene clases locales */
   padding: var(--br-sp-12) 0 var(--br-sp-12);
   text-align: center;
   max-width: 52rem;

@@ -215,11 +215,16 @@ header.br-nav .tagline {
   font-size: 1.02rem;
 }
 
-header.br-nav .br-nav-brand img.brand-mark {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  border-radius: 12px;
+header.br-nav .br-nav-brand img.brand-mark-app {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+}
+
+[data-theme="light"] header.br-nav .br-nav-brand img.brand-mark-app {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header.br-nav .logo.br-nav-brand {

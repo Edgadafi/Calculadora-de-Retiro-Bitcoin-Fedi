@@ -7,10 +7,9 @@
   <meta name="theme-color" content="#F07D38" />
   <title>Calculadora de Retiro Bitcoin | Fedi Mini App</title>
   <link rel="manifest" href="manifest.json" />
-  <!-- Favicon: PNG del icon 3D (pestaña/legacy); SVG como fallback vector -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/logo-192.png" />
+  <!-- Favicon: SVG transparente primero (pestaña clara sin bloque navy); PNG 192 para contextos legacy -->
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml" sizes="any" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/logo-192.png" />
 
   <!-- Open Graph — usar URLs absolutas con dominio de producción cuando despliegues -->
   <meta property="og:title" content="Calculadora de Retiro Bitcoin | Fedi Mini App" />
@@ -35,7 +34,7 @@
     <header id="header" class="br-nav">
       <div class="br-nav-inner br-container">
         <div class="br-nav-brand logo">
-          <img class="brand-mark" src="assets/logo.svg" alt="" width="44" height="44" decoding="async" />
+          <img class="brand-mark-app" src="assets/logo-app.png" alt="" width="46" height="46" decoding="async" />
           <span class="br-nav-brand-text" data-i18n="logo_text">Retiro Bitcoin</span>
         </div>
         <div class="header-actions br-row br-gap-2">
