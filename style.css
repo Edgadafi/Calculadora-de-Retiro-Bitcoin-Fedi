@@ -215,14 +215,11 @@ header.br-nav .tagline {
   font-size: 1.02rem;
 }
 
-header.br-nav .br-nav-brand img.app-brand-icon {
+header.br-nav .br-nav-brand img.brand-mark {
   width: 44px;
   height: 44px;
-  object-fit: cover;
-  border-radius: 18px;
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
+  object-fit: contain;
+  border-radius: 12px;
 }
 
 header.br-nav .logo.br-nav-brand {

@@ -11,7 +11,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ├── landing.html    # Página pública de marketing → enlace a la calculadora
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── styles/         # Design system + landing.css
-├── assets/         # logo-app.png (icon 3D), logo-192/512.png, logo.svg (favicon opcional vector)
+├── assets/         # logo-app.png, favicon-32.png, logo-192/512.png, logo.svg (vector / fallback favicon)
 ├── script.js       # Lógica: cálculos, gráficas, Fedi/WebLN, premium
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
