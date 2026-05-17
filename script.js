@@ -1494,8 +1494,8 @@
           {
             label: `${t('chart_balance')} (${curr})`,
             data: snapshots.map((s) => Math.round(s.balance * fiatMul)),
-            borderColor: '#f7931a',
-            backgroundColor: 'rgba(247, 147, 26, 0.1)',
+            borderColor: '#F07D38',
+            backgroundColor: 'rgba(240, 125, 56, 0.1)',
             fill: true,
             tension: 0.3,
             pointRadius: 2,
@@ -1540,7 +1540,7 @@
     };
 
     const scenarioData = {};
-    const colors = { conservative: '#4fc3f7', moderate: '#f7931a', aggressive: '#ff5252' };
+    const colors = { conservative: '#4fc3f7', moderate: '#F07D38', aggressive: '#ff5252' };
 
     for (const [key, rate] of Object.entries(rates)) {
       const snaps = computeProjection(inputs.initial, inputs.monthlyContrib, inputs.years, rate);
@@ -1711,14 +1711,14 @@
     const fiatMul = curr === 'MXN' ? (state.btcPrice.mxn / state.btcPrice.usd) : 1;
 
     doc.setFontSize(20);
-    doc.setTextColor(247, 147, 26);
+    doc.setTextColor(240, 125, 56);
     doc.text(t('pdf_title'), 20, 25);
 
     doc.setFontSize(10);
     doc.setTextColor(100);
     doc.text(`${t('pdf_generated')} ${new Date().toLocaleDateString()} | ${t('pdf_btc_price')} $${formatNumber(state.btcPrice.usd)} USD`, 20, 33);
 
-    doc.setDrawColor(247, 147, 26);
+    doc.setDrawColor(240, 125, 56);
     doc.line(20, 37, 190, 37);
 
     doc.setFontSize(14);
@@ -1741,7 +1741,7 @@
     doc.text(t('pdf_results'), 20, 100);
 
     doc.setFontSize(12);
-    doc.setTextColor(247, 147, 26);
+    doc.setTextColor(240, 125, 56);
     doc.text(`${t('pdf_final')} ₿ ${(last.balance / state.btcPrice.usd).toFixed(4)}`, 25, 110);
     doc.setTextColor(60);
     doc.text(`${t('pdf_equivalent')} ${formatCurrency(last.balance * fiatMul, curr)}`, 25, 118);

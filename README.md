@@ -7,8 +7,11 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ## Estructura del proyecto
 
 ```
-├── index.html      # SPA principal
+├── index.html      # SPA principal (calculadora)
+├── landing.html    # Página pública de marketing → enlace a la calculadora
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
+├── styles/         # Design system + landing.css
+├── assets/         # logo-app.png (icon 3D), logo-192/512.png, logo.svg (favicon opcional vector)
 ├── script.js       # Lógica: cálculos, gráficas, Fedi/WebLN, premium
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
@@ -35,6 +38,26 @@ La integración de pagos con **Mercado Pago** usa el [SDK oficial para Node.js](
 3. Para probar endpoints que usen el SDK en local, usa [Vercel CLI](https://vercel.com/docs/cli) (`vercel dev`), que inyecta variables y ejecuta las funciones en `/api` igual que en producción.
 
 El **Access Token** solo debe existir en el servidor o en `.env.local` / panel de Vercel; no lo pongas en `script.js` ni en el repositorio.
+
+### Linux / WSL — checklist (entorno reproducible)
+
+Usa estos pasos cuando desarrolles desde **Ubuntu (WSL)** u otro Linux para que coincida el comportamiento con `README` / Vercel. **GitHub no cambia** por usar WSL; el deploy en producción solo cambia cuando haces push y/o despliegue explícito.
+
+1. **Clonar el repo dentro de Linux** (`~/proyectos/…`) cuando puedas (mejor rendimiento de E/S que solo trabajar desde `/mnt/c/...`; si igual usas disco Windows, igual funciona pero puede ser más lento).
+2. **Abrir terminal en la raíz del repo**: el directorio donde está `vercel.json` (ej. `ls vercel.json` debe existir).
+3. **Node 18 o superior**, alineado con [`.nvmrc`](./.nvmrc) (`nvm install` / `nvm use` si usas `nvm`):
+   ```bash
+   node -v    # debe ser >= 18
+   ```
+4. **Instalar dependencias**:
+   ```bash
+   npm install
+   ```
+5. **Variables locales**: copia `.env.example` → `.env.local` en esa misma raíz; rellena `MERCADOPAGO_ACCESS_TOKEN_TEST` (y demás vars). No subas `.env.local` a Git (está en `.gitignore`).
+6. **`APP_BASE_URL` en local**: mismo origen que muestre el navegador, con **http** y el **puerto** que imprima `vercel dev` (ej. `http://127.0.0.1:3000`).
+7. **Mercado Pago / APIs**: ejecuta **`npx vercel dev`** desde la raíz para que carguen `.env.local` y existan rutas `/api/*`. Si editas `.env.local`, **reinicia** el proceso.
+8. **Vercel CLI en clone nuevo**: si no trajiste `.vercel/`, ejecuta [`vercel link`](https://vercel.com/docs/cli/link) una vez (`npx vercel link`). No borra tu proyecto remoto en Vercel; solo enlaza esta copia local.
+9. **Probar sólo frontend estático**: si usas Python Live Server / `serve` / Live Server sin `vercel dev`, **las rutas `/api/*` no existen** ahí — el Premium con Mercado Pago requiere el paso 7.
 
 ### Checkout Pro (preferencia de pago)
 
@@ -81,14 +104,27 @@ Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMEN
 
 ## Probar localmente
 
+### Landing pública
+
+Abre `landing.html` en el navegador (misma raíz que `index.html`), por ejemplo con cualquiera de las opciones de abajo: `http://localhost:PORT/landing.html`. La calculadora sigue en `/` o `index.html`; el manifest PWA no cambia.
+
 ### Opción 1: Servidor simple con Python
 
-```bash
-cd "Calculadora de Retiro Bitcoin_Fedi catalogo"
+**Windows (PowerShell o CMD),** dentro de la carpeta del proyecto:
+
+```powershell
+cd "c:\Users\edgar\Calculadora de Retiro Bitcoin_Fedi catalogo"
 python -m http.server 8080
 ```
 
-Abre http://localhost:8080 en tu navegador.
+**Linux nativo / WSL (bash):** no uses rutas tipo `c:\...`; monta Windows como `/mnt/c/`. En Ubuntu suele estar solo **`python3`**, no **`python`**:
+
+```bash
+cd "/mnt/c/Users/edgar/Calculadora de Retiro Bitcoin_Fedi catalogo"
+python3 -m http.server 8080
+```
+
+Abre http://localhost:8080 en tu navegador (landing: `/landing.html`).
 
 ### Opción 2: Live Server (VS Code)
 

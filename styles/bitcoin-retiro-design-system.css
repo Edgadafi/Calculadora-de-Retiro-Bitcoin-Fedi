@@ -4,6 +4,10 @@
  * retirobtc.mx
  * ============================================================
  *
+ * MARCA visual v2 (logo 3D Feb 2026): navy ~#1E2B58, acento rocket ~#F07D38, oro BTC ~#F7B500
+ * • UI: "Retiro Bitcoin" | titular extendido "Calculadora de Retiro Bitcoin"
+ * • Nav: raster logo-app PNG mínimo 40–44px lado
+ *
  * STACK TIPOGRÁFICO (agregar en <head>):
  * <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
  *
@@ -43,16 +47,21 @@
   --br-border:     #2A2A42;   /* bordes sutiles */
   --br-border-mid: #3A3A58;   /* bordes medios */
 
-  /* — Marca — Bitcoin */
-  --br-orange:      #F7931A;
-  --br-orange-dark: #C97A0A;
-  --br-orange-glow: rgba(247, 147, 26, 0.18);
-  --br-orange-soft: rgba(247, 147, 26, 0.07);
+  /* — Marca — Acentos (rocket + BTC oro, desde icon 3D) */
+  --br-orange:      #F07D38;
+  --br-orange-dark: #C55A22;
+  --br-orange-rgb:   240, 125, 56;
+  --br-orange-glow: rgba(var(--br-orange-rgb), 0.18);
+  --br-orange-soft: rgba(var(--br-orange-rgb), 0.08);
 
-  /* — Marca — Oro / Acento editorial */
-  --br-gold:        #C9A84C;
-  --br-gold-light:  #E6CC80;
-  --br-gold-pale:   #F5EDD4;
+  /* — Marca — Oro / destacados */
+  --br-gold:        #F7B500;
+  --br-gold-light:  #FFD153;
+  --br-gold-pale:   #FFF8E2;
+
+  /* — Marca — Navy ícono (bloques landing / overlays) */
+  --br-brand-navy:       #1E2B58;
+  --br-brand-navy-soft:  rgba(30, 43, 88, 0.42);
 
   /* — Texto */
   --br-text-primary:   #E8EAF5;
@@ -105,8 +114,8 @@
   /* — Sombras */
   --br-shadow-sm:   0 1px 4px rgba(0,0,0,0.4);
   --br-shadow-md:   0 2px 16px rgba(0,0,0,0.5);
-  --br-shadow-glow: 0 0 40px rgba(247,147,26,0.12), 0 4px 32px rgba(0,0,0,0.6);
-  --br-shadow-gold: 0 0 24px rgba(201,168,76,0.15);
+  --br-shadow-glow: 0 0 40px rgba(var(--br-orange-rgb),0.12), 0 4px 32px rgba(0,0,0,0.6);
+  --br-shadow-gold: 0 0 24px rgba(247, 181, 0, 0.14);
 
   /* — Transiciones */
   --br-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -168,8 +177,9 @@ body::after {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse 60% 40% at 10% 15%, rgba(247,147,26,0.055) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 50% at 90% 85%, rgba(201,168,76,0.04)  0%, transparent 65%);
+    radial-gradient(ellipse 55% 45% at 8% 20%, rgba(30,43,88,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 15%, rgba(var(--br-orange-rgb),0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 90% 85%, rgba(247,181,0,0.05) 0%, transparent 65%);
 }
 
 a {
@@ -423,11 +433,11 @@ img, svg { display: block; max-width: 100%; }
 .br-btn-primary {
   background: var(--br-orange);
   color: var(--br-bg-deep);
-  box-shadow: 0 0 20px rgba(247,147,26,0.28);
+  box-shadow: 0 0 20px rgba(var(--br-orange-rgb), 0.28);
 }
 .br-btn-primary:hover {
-  background: #FFB040;
-  box-shadow: 0 0 36px rgba(247,147,26,0.45);
+  background: #FF964D;
+  box-shadow: 0 0 36px rgba(var(--br-orange-rgb), 0.45);
   color: var(--br-bg-deep);
 }
 
@@ -435,7 +445,7 @@ img, svg { display: block; max-width: 100%; }
 .br-btn-secondary {
   background: transparent;
   color: var(--br-orange);
-  border: 1px solid rgba(247,147,26,0.45);
+  border: 1px solid rgba(var(--br-orange-rgb),0.45);
 }
 .br-btn-secondary:hover {
   background: var(--br-orange-soft);
@@ -546,7 +556,7 @@ img, svg { display: block; max-width: 100%; }
 
 .br-input:focus {
   border-color: var(--br-orange);
-  box-shadow: 0 0 0 3px rgba(247,147,26,0.12);
+  box-shadow: 0 0 0 3px rgba(var(--br-orange-rgb),0.12);
 }
 
 .br-input::placeholder { color: var(--br-text-disabled); }
@@ -653,12 +663,12 @@ input[type="range"].br-range::-webkit-slider-thumb {
   border-radius: 50%;
   background: var(--br-orange);
   cursor: pointer;
-  box-shadow: 0 0 8px rgba(247,147,26,0.5);
+  box-shadow: 0 0 8px rgba(var(--br-orange-rgb),0.5);
   transition: box-shadow var(--br-fast) var(--br-ease);
 }
 
 input[type="range"].br-range::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 16px rgba(247,147,26,0.7);
+  box-shadow: 0 0 16px rgba(var(--br-orange-rgb),0.7);
 }
 
 input[type="range"].br-range::-moz-range-thumb {
@@ -717,7 +727,7 @@ input[type="range"].br-range::-moz-range-thumb {
 /* Card de resultado hero */
 .br-card-result {
   background: linear-gradient(135deg, var(--br-orange-glow) 0%, transparent 60%);
-  border: 1px solid rgba(247,147,26,0.2);
+  border: 1px solid rgba(var(--br-orange-rgb),0.2);
   border-radius: var(--br-r-lg);
   padding: var(--br-sp-6);
   position: relative;
@@ -730,7 +740,7 @@ input[type="range"].br-range::-moz-range-thumb {
   right: -10px;
   bottom: -20px;
   font-size: 100px;
-  color: rgba(247,147,26,0.04);
+  color: rgba(var(--br-orange-rgb),0.04);
   font-family: var(--br-font-ui);
   font-weight: 800;
   pointer-events: none;
@@ -760,12 +770,12 @@ input[type="range"].br-range::-moz-range-thumb {
 }
 
 .br-stat:hover {
-  border-color: rgba(247,147,26,0.2);
+  border-color: rgba(var(--br-orange-rgb),0.2);
   background: var(--br-orange-soft);
 }
 
 .br-stat.br-stat-hero {
-  border-color: rgba(247,147,26,0.3);
+  border-color: rgba(var(--br-orange-rgb),0.3);
   background: var(--br-orange-soft);
 }
 
@@ -810,7 +820,7 @@ input[type="range"].br-range::-moz-range-thumb {
 
 .br-chip-orange {
   background: var(--br-orange-glow);
-  border: 1px solid rgba(247,147,26,0.3);
+  border: 1px solid rgba(var(--br-orange-rgb),0.3);
   color: var(--br-orange);
 }
 
@@ -862,7 +872,7 @@ input[type="range"].br-range::-moz-range-thumb {
   align-items: center;
   gap: var(--br-sp-2);
   background: var(--br-orange-glow);
-  border: 1px solid rgba(247,147,26,0.3);
+  border: 1px solid rgba(var(--br-orange-rgb),0.3);
   border-radius: var(--br-r-full);
   padding: 6px 16px 6px 10px;
   font-family: var(--br-font-data);
@@ -1113,10 +1123,10 @@ input[type="range"].br-range::-moz-range-thumb {
   tickColor:    #7070A0
   tooltipBg:    #1C1C30
   tooltipBorder:#2A2A42
-  lineOrange:   #F7931A
-  lineGold:     #C9A84C
+  lineOrange:   #F07D38
+  lineGold:     #F7B500
   lineGreen:    #2ECC71
-  areaOrange:   rgba(247, 147, 26, 0.12)
+  areaOrange:   rgba(var(--br-orange-rgb), 0.12)
 */
 
 
@@ -1192,8 +1202,8 @@ input[type="range"].br-range::-moz-range-thumb {
 }
 
 @keyframes br-pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(247,147,26,0.2); }
-  50%       { box-shadow: 0 0 40px rgba(247,147,26,0.4); }
+  0%, 100% { box-shadow: 0 0 20px rgba(var(--br-orange-rgb),0.2); }
+  50%       { box-shadow: 0 0 40px rgba(var(--br-orange-rgb),0.4); }
 }
 
 @keyframes br-spin {
@@ -1264,7 +1274,9 @@ input[type="range"].br-range::-moz-range-thumb {
   --br-text-muted:     #8A8A9A;
   --br-text-disabled:  #C0C0CC;
 
-  --br-orange-glow: rgba(201, 120, 10, 0.12);
-  --br-orange-soft: rgba(201, 120, 10, 0.06);
-  --br-orange:      #C97A0A;
+  --br-orange:       #CF5F1F;
+  --br-orange-dark:  #A64A18;
+  --br-orange-rgb:   207, 95, 31;
+  --br-orange-glow:  rgba(var(--br-orange-rgb), 0.12);
+  --br-orange-soft:  rgba(var(--br-orange-rgb), 0.06);
 }

@@ -9,9 +9,9 @@
   --bg-card-hover: #222;
   --text: #e8e8e8;
   --text-muted: #888;
-  --accent: #f7931a;
-  --accent-hover: #ffab40;
-  --accent-glow: rgba(247, 147, 26, 0.25);
+  --accent: #F07D38;
+  --accent-hover: #FF964D;
+  --accent-glow: rgba(240, 125, 56, 0.28);
   --green: #00c853;
   --red: #ff5252;
   --border: #2a2a2a;
@@ -85,7 +85,7 @@ body::after {
 
 [data-theme="light"] .br-mesh {
   background:
-    radial-gradient(ellipse 88% 52% at 14% 18%, rgba(247, 147, 26, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 88% 52% at 14% 18%, rgba(240, 125, 56, 0.24) 0%, transparent 58%),
     radial-gradient(ellipse 72% 48% at 86% 82%, rgba(201, 122, 10, 0.18) 0%, transparent 55%),
     radial-gradient(ellipse 100% 65% at 50% 108%, rgba(10, 10, 30, 0.08) 0%, transparent 52%);
 }
@@ -96,9 +96,9 @@ body::after {
 
 html[data-theme="dark"] .br-mesh {
   background:
-    radial-gradient(ellipse 62% 42% at 10% 15%, rgba(247, 147, 26, 0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 62% 42% at 10% 15%, rgba(240, 125, 56, 0.11) 0%, transparent 65%),
     radial-gradient(ellipse 52% 50% at 90% 85%, rgba(201, 168, 76, 0.08) 0%, transparent 65%),
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(247, 147, 26, 0.04) 0%, transparent 55%);
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(240, 125, 56, 0.04) 0%, transparent 55%);
 }
 
 /* Header */
@@ -215,9 +215,14 @@ header.br-nav .tagline {
   font-size: 1.02rem;
 }
 
-header.br-nav .br-nav-brand img {
-  width: 42px;
-  height: 42px;
+header.br-nav .br-nav-brand img.app-brand-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 header.br-nav .logo.br-nav-brand {
@@ -351,7 +356,7 @@ input[type="range"].br-range::-moz-range-thumb {
 }
 
 .env-banner.fedi {
-  background: rgba(247, 147, 26, 0.15);
+  background: rgba(240, 125, 56, 0.15);
   color: var(--accent);
   border: 1px solid var(--accent);
 }
@@ -662,7 +667,7 @@ input[type="range"]::-moz-range-thumb {
 .result-item.highlight {
   grid-column: 1 / -1;
   border-color: var(--accent);
-  background: linear-gradient(135deg, rgba(247, 147, 26, 0.08), rgba(247, 147, 26, 0.02));
+  background: linear-gradient(135deg, rgba(240, 125, 56, 0.08), rgba(240, 125, 56, 0.02));
 }
 
 .result-label {
@@ -811,7 +816,7 @@ input[type="range"]::-moz-range-thumb {
 
 .scenario-col.featured {
   border-color: var(--accent);
-  background: linear-gradient(135deg, rgba(247, 147, 26, 0.08), transparent);
+  background: linear-gradient(135deg, rgba(240, 125, 56, 0.08), transparent);
 }
 
 .scenario-col h3 {

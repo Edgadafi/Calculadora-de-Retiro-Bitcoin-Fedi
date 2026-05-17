@@ -1,0 +1,156 @@
+/* Landing pública — capa marca v2 (navy / rocket / BTC oro).
+   Consume tokens de bitcoin-retiro-design-system.css */
+
+.landing-main {
+  position: relative;
+  z-index: var(--br-z-base);
+  padding-bottom: var(--br-sp-16);
+}
+
+.landing-brand-img {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: calc(var(--br-r-lg) + 2px);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.landing-hero {
+  padding: var(--br-sp-12) 0 var(--br-sp-12);
+  text-align: center;
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.landing-hero-visual {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--br-sp-8);
+}
+
+.landing-hero-logo {
+  width: clamp(7rem, 26vw, 11rem);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: clamp(22%, 26%, 28%);
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--br-brand-navy-soft) 0%,
+    var(--br-brand-navy) 75%
+  );
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 4px 0 rgba(247, 181, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.landing-hero h1 {
+  font-family: var(--br-font-display);
+  font-size: var(--br-text-hero);
+  font-weight: 700;
+  line-height: 1.08;
+  margin: 0 0 var(--br-sp-4);
+  letter-spacing: -0.02em;
+}
+
+.landing-hero h1 em {
+  font-style: normal;
+  color: var(--br-gold);
+}
+
+.landing-hero .landing-kicker {
+  font-family: var(--br-font-data);
+  font-size: var(--br-text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--br-gold-light);
+  margin: 0 0 var(--br-sp-4);
+}
+
+.landing-hero .lead {
+  font-size: var(--br-text-lg);
+  color: var(--br-text-secondary);
+  margin: 0 auto var(--br-sp-8);
+  max-width: 32rem;
+}
+
+.landing-highlight-band {
+  background: linear-gradient(
+    165deg,
+    var(--br-brand-navy-soft) 0%,
+    transparent 70%
+  );
+  border: 1px solid var(--br-border);
+  border-radius: var(--br-r-xl);
+  padding: var(--br-sp-8) var(--br-sp-6);
+  margin: var(--br-sp-10) auto;
+  box-shadow: var(--br-shadow-md);
+}
+
+[data-theme='light'] .landing-highlight-band {
+  background: linear-gradient(
+    165deg,
+    rgba(30, 43, 88, 0.12) 0%,
+    transparent 75%
+  );
+}
+
+.landing-grid {
+  display: grid;
+  gap: var(--br-sp-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .landing-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing-grid .br-card {
+  box-shadow:
+    var(--br-shadow-sm),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.landing-step-num {
+  font-family: var(--br-font-data);
+  font-size: var(--br-text-sm);
+  color: var(--br-orange);
+  margin-bottom: var(--br-sp-2);
+}
+
+.landing-section-title {
+  font-family: var(--br-font-display);
+  font-size: var(--br-text-2xl);
+  font-weight: 600;
+  margin: 0 0 var(--br-sp-8);
+  text-align: center;
+}
+
+.landing-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--br-sp-4);
+  margin-top: var(--br-sp-4);
+  font-size: var(--br-text-sm);
+}
+
+.landing-footer-links a {
+  color: var(--br-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.landing-footer-links a:hover {
+  color: var(--br-orange);
+}
+
+.landing-card-heading {
+  font-size: var(--br-text-xl);
+}
