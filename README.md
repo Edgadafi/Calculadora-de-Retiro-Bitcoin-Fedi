@@ -72,7 +72,7 @@ Variables recomendadas en Vercel:
 | `MERCADOPAGO_PRICE_MONTHLY_MXN` | Precio del ítem mensual en MXN (default 20) |
 | `MERCADOPAGO_PRICE_LIFETIME_MXN` | Precio del ítem de por vida en MXN (default 200) |
 
-Configura la **URL de notificaciones** en el panel de Mercado Pago apuntando a `https://TU_DOMINIO/api/mp-webhook` (opcional para registrar eventos; la activación inmediata usa la verificación al volver del checkout).
+Configura la **URL de notificaciones** en el panel de Mercado Pago apuntando a `https://retirobtc.mx/api/mp-webhook` (opcional para registrar eventos; la activación inmediata usa la verificación al volver del checkout).
 
 Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMENT_USE_MERCADOPAGO = false`.
 
@@ -154,7 +154,19 @@ npx serve .
 
 3. Sigue las instrucciones. Vercel detectará los archivos estáticos automáticamente.
 
-4. Tu app estará en `https://tu-proyecto.vercel.app`
+4. Tu app tendrá una URL tipo `https://tu-proyecto.vercel.app`, o tu dominio propio (ej. producción **`https://retirobtc.mx`**).
+
+### Dominio personalizado (HTTPS propio)
+
+Producción actual: **`https://retirobtc.mx`** (apex). Checklist cuando añadas o muevas dominio:
+
+1. En [Vercel](https://vercel.com/dashboard) → tu proyecto → **Settings** → **Domains** → **Add** (`retirobtc.mx`, `www` opcional si aplica).
+2. En el **registrar**, los registros **A/CNAME** que indique Vercel hasta estado **Valid** (SSL automático).
+3. Variables **Environment**: `APP_BASE_URL` = `https://retirobtc.mx` (sin barra final), alineado con el origen desde el que cargan los usuarios.
+4. Mercado Pago → **URL de notificaciones**: `https://retirobtc.mx/api/mp-webhook`.
+5. **Fedi catálogo** / enlaces públicos: `https://retirobtc.mx` (calculadora) y opcional **`https://retirobtc.mx/landing.html`** para marketing.
+
+Tras cambiar variables, **Redeploy** desde Vercel.
 
 ### Desplegar en Netlify
 
@@ -224,7 +236,7 @@ Para enviar tu Mini App al catálogo de Fedi:
 2. Ve a la [página de desarrolladores de Fedi](https://www.fedi.xyz/developers)
 3. Completa el formulario con:
    - **Nombre**: Calculadora de Retiro Bitcoin
-   - **URL**: `https://tu-deploy.vercel.app`
+   - **URL**: `https://retirobtc.mx`
    - **Descripción**: Planifica tu independencia financiera con Bitcoin. Proyecta tu retiro con ahorro periódico, múltiples escenarios y simulación de retiro.
    - **Categoría**: Finance / Tools
    - **Idiomas**: Español
