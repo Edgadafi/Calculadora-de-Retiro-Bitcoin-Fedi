@@ -4,60 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
-  <meta name="description" content="Calcula tu retiro con Bitcoin. Planifica tu independencia financiera con ahorro en BTC y Lightning Network. Mini App para Fedi.xyz" />
+  <meta name="description" content="Planifica tu retiro con Bitcoin: proyección de ahorro, herramienta clara para México y comunidad Fedi.xyz." />
   <meta name="theme-color" content="#F07D38" />
-  <title>Calculadora de Retiro Bitcoin | Fedi Mini App</title>
-  <link rel="manifest" href="/manifest.json" />
-  <!-- Favicon: solo SVG con transparencia (evita PNG 192 con marco navy en pestaña) -->
-  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" sizes="any" />
 
   <!-- Open Graph + Twitter — URLs absolutas (retirobtc.mx) -->
-  <link rel="canonical" href="https://retirobtc.mx/calc" />
-  <meta property="og:title" content="Calculadora de Retiro Bitcoin | Fedi Mini App" />
-  <meta property="og:description" content="Planifica tu independencia financiera con Bitcoin. Mini App para Fedi.xyz." />
+  <link rel="canonical" href="https://retirobtc.mx/" />
+  <meta property="og:title" content="Calculadora de Retiro Bitcoin — Tu plan en ₿" />
+  <meta property="og:description" content="Herramienta clara para proyectar tu retiro con Bitcoin y aportes. Premium con PDF y escenarios. Integración Fedi.xyz." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://retirobtc.mx/calc" />
+  <meta property="og:url" content="https://retirobtc.mx/" />
   <meta property="og:image" content="https://retirobtc.mx/assets/logo-app.png" />
   <meta property="og:locale" content="es_MX" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Calculadora de Retiro Bitcoin | Fedi Mini App" />
-  <meta name="twitter:description" content="Planifica tu independencia financiera con Bitcoin. Mini App para Fedi.xyz." />
+  <meta name="twitter:title" content="Calculadora de Retiro Bitcoin" />
+  <meta name="twitter:description" content="Planifica tu independencia financiera con Bitcoin." />
   <meta name="twitter:image" content="https://retirobtc.mx/assets/logo-app.png" />
+
+  <title>Calculadora de Retiro Bitcoin — Planifica tu independencia</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" sizes="any" />
   <link rel="apple-touch-icon" href="assets/logo-512.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/bitcoin-retiro-design-system.css" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js" integrity="sha384-0RsG1yo/crf/1Qc14sho26SXXOTngNCjgJw7fuvXBt9W/OChF/Ijx+aUuBDqQwEk" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles/landing.css" />
 </head>
 <body>
   <div class="br-mesh" aria-hidden="true"></div>
-  <div id="app">
 
-    <header id="header" class="br-nav">
+  <div id="app">
+    <header class="br-nav">
       <div class="br-nav-inner br-container">
-        <div class="br-nav-brand logo">
+        <div class="br-nav-brand logo br-row br-gap-2">
           <span class="nav-logo-zoom" aria-hidden="true">
             <img class="brand-mark-app" src="assets/logo-app.png" alt="" width="128" height="128" decoding="async" />
           </span>
-          <span class="br-nav-brand-text" data-i18n="logo_text">Retiro Bitcoin</span>
+          <span class="br-nav-brand-text">Retiro Bitcoin</span>
         </div>
         <div class="header-actions br-row br-gap-2">
-          <select id="input-lang" class="lang-select br-select" aria-label="Language">
-            <option value="es">ES</option>
-            <option value="en">EN</option>
-            <option value="pt">PT</option>
-            <option value="fr">FR</option>
-          </select>
-          <button type="button" id="btn-help" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Guía de usuario">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-          </button>
-          <button type="button" id="btn-theme" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Cambiar tema">
+          <a href="/calc" class="br-btn br-btn-ghost br-btn-sm">Calculadora</a>
+          <button type="button" id="landing-theme-toggle" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Cambiar tema">
             <svg class="icon-theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
@@ -66,379 +54,106 @@
               <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
             </svg>
           </button>
-          <span id="badge-premium" class="hidden br-chip br-chip-lightning">⚡ Premium</span>
         </div>
-      </div>
-      <div class="br-container">
-        <p class="tagline br-body" data-i18n="tagline">Planifica tu independencia financiera con Bitcoin</p>
       </div>
     </header>
 
-    <!-- Environment Banner -->
-    <div id="env-banner" class="env-banner hidden"></div>
-
-    <!-- Main Calculator -->
-    <main>
-      <section id="calculator" class="card br-card br-stack br-stack-6">
-        <h2 class="br-headline" data-i18n="calc_title">Tu plan de retiro</h2>
-    
-        <div class="br-field">
-          <label class="br-field-label" for="input-initial" data-i18n="label_initial">Ahorro inicial</label>
-          <div class="br-row br-gap-2">
-            <input type="number" id="input-initial" class="br-input" value="500" min="0" step="10" />
-            <select id="input-currency" class="br-select" aria-label="Moneda">
-              <option value="USD">USD</option>
-              <option value="MXN">MXN</option>
-              <option value="BTC">BTC</option>
-              <option value="sats">sats</option>
-            </select>
-          </div>
+    <main class="br-container landing-main">
+      <section class="landing-hero" aria-labelledby="landing-h1">
+        <p class="landing-kicker">Calculadora de retiro</p>
+        <div class="landing-hero-visual">
+          <img class="landing-hero-logo" src="assets/logo-app.png" width="352" height="352" decoding="async" alt="" aria-hidden="true" />
         </div>
-    
-        <div class="br-field">
-          <label class="br-field-label" for="input-contribution" data-i18n="label_contribution">Aporte periódico</label>
-          <div class="br-row br-gap-2">
-            <input type="number" id="input-contribution" class="br-input" value="100" min="0" step="5" />
-            <select id="input-frequency" class="br-select" aria-label="Frecuencia">
-              <option value="monthly" data-i18n="freq_monthly">Mensual</option>
-              <option value="weekly"  data-i18n="freq_weekly">Semanal</option>
-              <option value="daily"   data-i18n="freq_daily">Diario</option>
-            </select>
-          </div>
-        </div>
-    
-        <div class="br-slider-field">
-          <div class="br-slider-header">
-            <label class="br-slider-label" for="input-years"><span data-i18n="label_years">Horizonte de tiempo</span></label>
-            <span class="br-slider-value"><strong id="years-display">10</strong> <span data-i18n="years_unit">años</span></span>
-          </div>
-          <input type="range" id="input-years" class="br-range" min="1" max="50" value="10" />
-        </div>
-    
-        <div class="br-slider-field">
-          <div class="br-slider-header">
-            <label class="br-slider-label" for="input-return"><span data-i18n="label_return">Rendimiento anual esperado</span></label>
-            <span class="br-slider-value"><strong id="return-display">10</strong>%</span>
-          </div>
-          <input type="range" id="input-return" class="br-range" min="3" max="30" value="10" step="0.5" />
-          <div class="br-slider-hints">
-            <span data-i18n="range_conservative">3% conservador</span>
-            <span data-i18n="range_aggressive">30% agresivo</span>
-          </div>
-          <div id="return-context" class="info-box br-card info-box-nested">
-            <button type="button" class="info-toggle br-btn br-btn-ghost br-btn-sm br-btn-full" data-i18n="return_info_toggle">¿Qué rendimiento elegir?</button>
-            <div class="info-content info-content-br hidden">
-              <p class="br-body" data-i18n="return_info_4y">Últimos 4 años (2021–2025): ~30% anual</p>
-              <p class="br-body" data-i18n="return_info_8y">Últimos 8 años (2017–2025): ~25% anual</p>
-              <p class="br-body" data-i18n="return_info_12y">Últimos 12 años (2013–2025): ~60% anual</p>
-              <p class="info-disclaimer br-disclaimer" data-i18n="return_info_disclaimer">El rendimiento pasado no garantiza resultados futuros.</p>
-              <p class="info-suggestion br-body" data-i18n="return_info_suggestion">Un rango de 5%–15% es razonable para proyecciones conservadoras a largo plazo.</p>
-            </div>
-          </div>
-        </div>
-    
-        <div class="br-slider-field">
-          <div class="br-slider-header">
-            <label class="br-slider-label" for="input-inflation"><span data-i18n="label_inflation">Inflación anual local (opcional)</span></label>
-            <span class="br-slider-value"><strong id="inflation-display">5</strong>%</span>
-          </div>
-          <input type="range" id="input-inflation" class="br-range" min="0" max="30" value="5" step="0.5" />
-        </div>
-    
-        <button type="button" id="btn-calculate" class="btn-primary br-btn br-btn-primary br-btn-full br-pulse" data-i18n="btn_calculate">Calcular mi retiro</button>
+        <h1 id="landing-h1">Tu plan de retiro en <em>Bitcoin</em></h1>
+        <p class="lead">Proyecta ahorros iniciales, aportes y horizonte con una herramienta clara, orientada a la comunidad Bitcoin y uso en <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi.xyz</a>.</p>
+        <a href="/calc" class="br-btn br-btn-primary br-btn-lg">Abrir calculadora</a>
       </section>
 
-      <!-- Results (Free) -->
-      <section id="results" class="card br-card hidden">
-        <h2 class="br-headline" data-i18n="results_title">Tu proyección</h2>
-        <div class="result-cards">
-          <div class="result-item highlight">
-            <span class="result-label" data-i18n="res_btc_label">Saldo final en BTC</span>
-            <span class="result-value" id="res-btc">—</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label"><span data-i18n="res_fiat_label">Equivalente en</span> <span id="res-currency-label">USD</span></span>
-            <span class="result-value" id="res-fiat">—</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label" data-i18n="res_invested_label">Total invertido</span>
-            <span class="result-value" id="res-invested">—</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label" data-i18n="res_gain_label">Ganancia neta</span>
-            <span class="result-value accent" id="res-gain">—</span>
-          </div>
-          <div class="result-item" id="res-inflation-box">
-            <span class="result-label" data-i18n="res_real_label">Poder adquisitivo real</span>
-            <span class="result-value" id="res-real">—</span>
-          </div>
-        </div>
-
-        <div class="chart-container">
-          <canvas id="chart-projection"></canvas>
-        </div>
-
-        <div class="result-actions br-row br-gap-4 br-result-actions-row">
-          <button type="button" id="btn-share" class="btn-secondary br-btn br-btn-secondary" data-i18n="btn_share">Compartir resultado</button>
-          <button type="button" id="btn-premium-cta" class="btn-accent br-btn br-btn-lightning" data-i18n="btn_premium_cta">⚡ Desbloquear Premium</button>
+      <section class="landing-highlight-band br-stack br-stack-12" aria-labelledby="landing-features">
+        <h2 id="landing-features" class="landing-section-title">Qué puedes hacer</h2>
+        <div class="landing-grid">
+          <article class="br-card br-stack br-stack-4">
+            <h3 class="br-headline landing-card-heading">Proyección clara</h3>
+            <p class="br-body">Ahorro inicial, aporte periódico, años y rendimiento esperado en USD, MXN, BTC o sats.</p>
+          </article>
+          <article class="br-card br-stack br-stack-4">
+            <h3 class="br-headline landing-card-heading">Premium opcional</h3>
+            <p class="br-body">Tres escenarios, regla del 4&nbsp;% para retiro, planes cifrados y exportación PDF — pago por Mercado Pago (MXN) cuando esté activo.</p>
+          </article>
+          <article class="br-card br-stack br-stack-4">
+            <h3 class="br-headline landing-card-heading">Tu dispositivo</h3>
+            <p class="br-body">Los planes se pueden guardar en el navegador; no necesitas cuenta en la herramienta para empezar a calcular.</p>
+          </article>
         </div>
       </section>
 
-      <!-- Aureo CTA (Mexico only) -->
-      <section id="aureo-cta" class="card aureo-card hidden">
-        <div class="aureo-inner">
-          <h2 data-i18n="aureo_title">🇲🇽 Compra Bitcoin con pesos</h2>
-          <p data-i18n="aureo_desc">Empieza tu plan de ahorro comprando BTC en Aureo, la plataforma para México.</p>
-          <a id="aureo-link" href="https://app.aureobitcoin.com/calculadoraderetiro" target="_blank" rel="noopener" class="btn-aureo" data-i18n="aureo_btn">Comprar Bitcoin en Aureo →</a>
+      <section class="br-stack br-stack-10" aria-labelledby="landing-steps">
+        <h2 id="landing-steps" class="landing-section-title">En tres pasos</h2>
+        <div class="br-stack br-stack-6">
+          <div class="br-card">
+            <p class="landing-step-num">01</p>
+            <p class="br-headline">Abre la calculadora</p>
+            <p class="br-body">Introduce tus supuestos reales para ver curvas en el tiempo.</p>
+          </div>
+          <div class="br-card">
+            <p class="landing-step-num">02</p>
+            <p class="br-headline">Ajusta y compara</p>
+            <p class="br-body">Cambia rendimiento y moneda; en Premium puedes comparar conservador contra agresivo.</p>
+          </div>
+          <div class="br-card">
+            <p class="landing-step-num">03</p>
+            <p class="br-headline">Documenta tu plan</p>
+            <p class="br-body">Comparte el resultado en texto o lleva tu reporte en PDF si tienes Premium activo.</p>
+          </div>
+        </div>
+        <div class="br-row br-gap-4" style="justify-content:center; flex-wrap:wrap">
+          <a href="/brujula" class="br-btn br-btn-ghost br-btn-lg">Tu brújula financiera</a>
+          <a href="/calc" class="br-btn br-btn-primary br-btn-lg">Ir a la calculadora</a>
+          <span class="br-body br-text-muted" style="align-self:center">/</span>
+          <a href="https://fedi.xyz" class="br-btn br-btn-ghost br-btn-lg" target="_blank" rel="noopener">Explorar Fedi</a>
         </div>
       </section>
-
-      <!-- Tools: Calendar + Price Alert -->
-      <section id="tools-section" class="card hidden">
-        <h2 data-i18n="tools_title">Herramientas para tu plan</h2>
-        <div class="tools-grid">
-          <a id="btn-calendar" href="#" target="_blank" rel="noopener" class="tool-card">
-            <span class="tool-icon">📅</span>
-            <span class="tool-title" data-i18n="tool_calendar_title">Recordatorio de ahorro</span>
-            <span class="tool-desc" data-i18n="tool_calendar_desc">Agrega un evento recurrente a Google Calendar</span>
-          </a>
-          <a id="btn-coingecko" href="https://www.coingecko.com/en/coins/bitcoin" target="_blank" rel="noopener" class="tool-card">
-            <span class="tool-icon">🔔</span>
-            <span class="tool-title" data-i18n="tool_coingecko_title">Alerta de precio BTC</span>
-            <span class="tool-desc" data-i18n="tool_coingecko_desc">Configura alertas gratis en CoinGecko</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- Premium: Multi-scenario comparison -->
-      <section id="premium-scenarios" class="card hidden">
-        <h2 data-i18n="scenarios_title">Comparación de escenarios</h2>
-        <div class="scenario-grid">
-          <div class="scenario-col" id="scenario-conservative">
-            <h3 data-i18n="scenario_conservative">🐢 Conservador</h3>
-            <p class="scenario-return"></p>
-            <p class="scenario-btc"></p>
-            <p class="scenario-fiat"></p>
-          </div>
-          <div class="scenario-col featured" id="scenario-moderate">
-            <h3 data-i18n="scenario_moderate">⚖️ Moderado</h3>
-            <p class="scenario-return"></p>
-            <p class="scenario-btc"></p>
-            <p class="scenario-fiat"></p>
-          </div>
-          <div class="scenario-col" id="scenario-aggressive">
-            <h3 data-i18n="scenario_aggressive">🚀 Agresivo</h3>
-            <p class="scenario-return"></p>
-            <p class="scenario-btc"></p>
-            <p class="scenario-fiat"></p>
-          </div>
-        </div>
-        <div class="chart-container">
-          <canvas id="chart-scenarios"></canvas>
-        </div>
-      </section>
-
-      <!-- Premium: Withdrawal simulation -->
-      <section id="premium-withdrawal" class="card hidden">
-        <h2 data-i18n="withdrawal_title">Simulación de retiro (SWR 4%)</h2>
-        <div class="result-cards">
-          <div class="result-item highlight">
-            <span class="result-label" data-i18n="res_swr_annual">Retiro anual seguro</span>
-            <span class="result-value" id="res-swr-annual">—</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label" data-i18n="res_swr_monthly">Retiro mensual</span>
-            <span class="result-value" id="res-swr-monthly">—</span>
-          </div>
-          <div class="result-item">
-            <span class="result-label" data-i18n="res_swr_years">Años de retiro sostenible</span>
-            <span class="result-value" id="res-swr-years">—</span>
-          </div>
-        </div>
-        <div class="chart-container">
-          <canvas id="chart-withdrawal"></canvas>
-        </div>
-      </section>
-
-      <!-- Premium: Save & Export -->
-      <section id="premium-actions" class="card hidden">
-        <h2 data-i18n="premium_tools_title">Herramientas Premium</h2>
-        <div class="premium-buttons">
-          <button id="btn-save" class="btn-secondary" data-i18n="btn_save">💾 Guardar plan</button>
-          <button id="btn-export-pdf" class="btn-secondary" data-i18n="btn_export_pdf">📄 Exportar PDF</button>
-          <button id="btn-load" class="btn-secondary" data-i18n="btn_load">📂 Cargar plan guardado</button>
-        </div>
-      </section>
-
-      <!-- Premium Modal -->
-      <div id="modal-premium" class="modal hidden">
-        <div class="modal-content">
-          <button id="modal-close" class="modal-close">&times;</button>
-          <h2 data-i18n="modal_premium_title">⚡ Desbloquea Premium</h2>
-          <p data-i18n="modal_premium_desc">Accede a todas las herramientas para planificar tu retiro como un profesional.</p>
-          <ul class="premium-features">
-            <li data-i18n="pf_scenarios">Comparar 3 escenarios lado a lado</li>
-            <li data-i18n="pf_swr">Simulación de retiro (SWR 4%)</li>
-            <li data-i18n="pf_save">Guardar planes con cifrado local</li>
-            <li data-i18n="pf_pdf">Exportar reporte PDF profesional</li>
-            <li data-i18n="pf_no_ads">Sin anuncios, soporte prioritario</li>
-          </ul>
-          <div id="mp-email-row" class="mp-email-row">
-            <label class="mp-email-label" for="input-mp-email" data-i18n="mp_email_label">Correo electrónico (para Mercado Pago)</label>
-            <input id="input-mp-email" type="email" autocomplete="email" maxlength="254" spellcheck="false" class="input-restore-id mp-email-input" data-i18n-placeholder="mp_email_placeholder" placeholder="" />
-            <p class="mp-email-hint" data-i18n="mp_email_hint"></p>
-          </div>
-          <div id="premium-plans" class="premium-plans">
-            <button id="btn-pay-monthly" class="btn-accent plan-btn">
-              <span class="plan-price" data-i18n="plan_monthly">~$1 USD/mes</span>
-              <span class="plan-sats" id="price-monthly-sats"></span>
-            </button>
-            <button id="btn-pay-lifetime" class="btn-primary plan-btn">
-              <span class="plan-price" data-i18n="plan_lifetime">~$10 USD perpetuo</span>
-              <span class="plan-sats" id="price-lifetime-sats"></span>
-            </button>
-          </div>
-          <div id="payment-flow" class="hidden"></div>
-          <button id="btn-restore" class="btn-link" data-i18n="btn_restore">Reactivar premium en este dispositivo</button>
-          <div id="restore-by-id-block" class="restore-by-id">
-            <p class="modal-note restore-id-help" data-i18n-html="restore_id_help">¿Pagaste en otro navegador? Pega el <strong>payment_id</strong> (N.° de pago) y confirma.</p>
-            <div class="restore-id-row">
-              <input type="text" id="input-restore-payment-id" class="input-restore-id" data-i18n-placeholder="restore_id_placeholder" inputmode="numeric" pattern="[0-9]*" placeholder="" autocomplete="off" />
-              <button type="button" id="btn-restore-by-payment-id" class="btn-secondary" data-i18n="btn_restore_by_payment_id">Verificar pago</button>
-            </div>
-          </div>
-          <p class="modal-note" data-i18n="modal_payment_note">Pago vía Lightning Network ⚡</p>
-        </div>
-      </div>
-
-      <!-- Manual / Help Modal -->
-      <div id="modal-help" class="modal hidden">
-        <div class="modal-content modal-help-content">
-          <button id="help-close" class="modal-close">&times;</button>
-          <h2 data-i18n="help_title">📖 Guía de usuario</h2>
-
-          <div class="accordion">
-            <details>
-              <summary data-i18n="help_calc_title">Cómo usar la calculadora</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_calc_initial"><strong>Ahorro inicial:</strong> cuánto tienes hoy para empezar. Puedes ponerlo en USD, MXN, BTC o sats.</p>
-                <p data-i18n-html="help_calc_contribution"><strong>Aporte periódico:</strong> cuánto vas a agregar cada día, semana o mes a tu plan.</p>
-                <p data-i18n-html="help_calc_horizon"><strong>Horizonte:</strong> cuántos años planeas ahorrar. Mueve el slider de 1 a 50 años.</p>
-                <p data-i18n-html="help_calc_return"><strong>Rendimiento:</strong> cuánto esperas que crezca tu inversión por año. 3% es conservador, 10% moderado, 30% agresivo.</p>
-                <p data-i18n-html="help_calc_inflation"><strong>Inflación:</strong> cuánto pierde valor tu moneda local por año. Te muestra el poder adquisitivo real de tu ahorro.</p>
-                <p data-i18n-html="help_calc_action">Presiona <strong>"Calcular mi retiro"</strong> para ver tu proyección con gráfica interactiva.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_results_title">Cómo leer los resultados</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_res_btc"><strong>Saldo final en BTC:</strong> cuánto Bitcoin tendrías al final del periodo.</p>
-                <p data-i18n-html="help_res_fiat"><strong>Equivalente en tu moneda:</strong> el valor en USD o MXN al precio actual de BTC.</p>
-                <p data-i18n-html="help_res_invested"><strong>Total invertido:</strong> cuánto dinero pusiste en total (ahorro inicial + todos tus aportes).</p>
-                <p data-i18n-html="help_res_gain"><strong>Ganancia neta:</strong> la diferencia entre lo que tendrías y lo que invertiste. En verde.</p>
-                <p data-i18n-html="help_res_real"><strong>Poder adquisitivo real:</strong> tu saldo ajustado por inflación — lo que realmente podrías comprar con ese dinero.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_scenarios_title">Comparación de escenarios (Premium)</summary>
-              <div class="acc-body">
-                <p data-i18n="help_scenarios_desc">La app genera 3 proyecciones automáticas con diferentes rendimientos:</p>
-                <p data-i18n-html="help_scenarios_cons"><strong>🐢 Conservador:</strong> la mitad del rendimiento que elegiste.</p>
-                <p data-i18n-html="help_scenarios_mod"><strong>⚖️ Moderado:</strong> el rendimiento que elegiste.</p>
-                <p data-i18n-html="help_scenarios_agg"><strong>🚀 Agresivo:</strong> 1.5x el rendimiento que elegiste.</p>
-                <p data-i18n="help_scenarios_chart">La gráfica compara los 3 lado a lado para que veas el rango de posibilidades.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_swr_title">Simulación de retiro — regla del 4% (Premium)</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_swr_desc">El <strong>SWR</strong> (Safe Withdrawal Rate) es una regla clásica: puedes retirar el 4% de tu saldo cada año sin quedarte sin dinero.</p>
-                <p data-i18n="help_swr_calc">La app calcula cuánto podrías retirar por año y por mes.</p>
-                <p data-i18n="help_swr_chart">La gráfica de barras muestra cuántos años dura tu dinero si retiras ese monto fijo. Verde = saludable, rojo = zona de riesgo.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_save_title">Guardar plan y exportar PDF (Premium)</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_save_save"><strong>💾 Guardar plan:</strong> almacena tus parámetros en tu dispositivo. Puedes guardar hasta 10 planes.</p>
-                <p data-i18n-html="help_save_load"><strong>📂 Cargar plan:</strong> restaura el último plan guardado con todos los campos.</p>
-                <p data-i18n-html="help_save_pdf"><strong>📄 Exportar PDF:</strong> genera un reporte profesional descargable con datos, tabla anual y parámetros.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_premium_title">Cómo activar Premium</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_premium_btn">Presiona <strong>"⚡ Desbloquear Premium"</strong> para ver los planes.</p>
-                <p data-i18n-html="help_premium_prices">Paga con <strong>Mercado Pago</strong> (tarjeta y otros medios): plan mensual o de por vida. Montos en MXN en el checkout.</p>
-                <p data-i18n="help_premium_fedi">Si usas Fedi, el pago se hace directamente desde tu wallet integrada.</p>
-                <p data-i18n-html="help_premium_restore">El premium se guarda en <strong>este dispositivo y navegador</strong> tras un pago aprobado. <strong>"Reactivar premium"</strong> vuelve a leer lo guardado aquí. En otro equipo pega el <strong>payment_id</strong> bajo <strong>Verificar pago</strong> en el modal.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_aureo_title">Comprar Bitcoin con Aureo (solo México)</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_aureo_desc">El botón <strong>"Comprar Bitcoin en Aureo"</strong> enlaza a <strong>app.aureobitcoin.com/calculadoraderetiro</strong>, la calculadora de retiro de Aureo para operar en MXN. Enlace aprobado; sin parámetros de referido (<code>?ref=</code>) en la URL.</p>
-                <p data-i18n="help_aureo_condition">Solo aparece si tu moneda está configurada en MXN.</p>
-                <p data-i18n="help_aureo_platform">Aureo es una plataforma regulada en México para compra y venta de Bitcoin.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_calendar_title">Recordatorio de ahorro</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_calendar_desc">El botón <strong>"📅 Recordatorio de ahorro"</strong> crea un evento recurrente en Google Calendar.</p>
-                <p data-i18n="help_calendar_freq">Te recuerda hacer tu aporte según la frecuencia que elegiste (diario, semanal, mensual).</p>
-                <p data-i18n="help_calendar_privacy">No necesitas dar tu email ni crear cuenta. Se abre directo en tu calendario.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_coingecko_title">Alerta de precio Bitcoin</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_cg_step1"><strong>1.</strong> Crea una cuenta gratuita en CoinGecko (o inicia sesión).</p>
-                <p data-i18n-html="help_cg_step2"><strong>2.</strong> Busca "Bitcoin" en la barra de búsqueda.</p>
-                <p data-i18n-html="help_cg_step3"><strong>3.</strong> En la página de Bitcoin, haz click en el icono de campana / "Price Alert".</p>
-                <p data-i18n-html="help_cg_step4"><strong>4.</strong> Configura el precio objetivo (por arriba o por debajo del precio actual).</p>
-                <p data-i18n-html="help_cg_step5"><strong>5.</strong> Activa la notificación por email.</p>
-                <p data-i18n-html="help_cg_step6"><strong>6.</strong> Listo — recibirás un email cuando BTC alcance tu precio.</p>
-                <p data-i18n="help_cg_note">Es un servicio externo y gratuito. No almacenamos tu información.</p>
-              </div>
-            </details>
-
-            <details>
-              <summary data-i18n="help_glossary_title">Glosario</summary>
-              <div class="acc-body">
-                <p data-i18n-html="help_g_btc"><strong>BTC:</strong> Bitcoin, la moneda digital descentralizada.</p>
-                <p data-i18n-html="help_g_sats"><strong>sats (satoshis):</strong> la unidad más pequeña de Bitcoin. 1 BTC = 100,000,000 sats.</p>
-                <p data-i18n-html="help_g_ln"><strong>Lightning Network:</strong> red de pagos instantáneos y baratos sobre Bitcoin.</p>
-                <p data-i18n-html="help_g_webln"><strong>WebLN:</strong> protocolo que conecta tu wallet Lightning con aplicaciones web.</p>
-                <p data-i18n-html="help_g_nostr"><strong>Nostr:</strong> protocolo descentralizado de identidad y mensajería.</p>
-                <p data-i18n-html="help_g_swr"><strong>SWR:</strong> Safe Withdrawal Rate — tasa segura de retiro (4% anual).</p>
-                <p data-i18n-html="help_g_inflation"><strong>Inflación:</strong> la pérdida de poder adquisitivo de una moneda con el tiempo.</p>
-                <p data-i18n-html="help_g_fedi"><strong>Fedi:</strong> plataforma comunitaria de Bitcoin con wallets y mini apps.</p>
-              </div>
-            </details>
-          </div>
-
-          <p class="modal-note" data-i18n="help_v2_note">En la versión 2 tendrás un asistente de chat para resolver tus dudas al instante.</p>
-        </div>
-      </div>
     </main>
 
-    <!-- Footer -->
     <footer>
-      <p><span data-i18n="footer_made">Hecho con ₿ para la comunidad</span> <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a></p>
-      <p class="small" data-i18n="footer_disclaimer">Los cálculos son proyecciones educativas, no asesoría financiera.</p>
+      <p>Hecho con ₿ para la comunidad <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a></p>
+      <p class="small">Los cálculos son proyecciones educativas, no asesoría financiera.</p>
+      <nav class="landing-footer-links" aria-label="Enlaces del sitio">
+        <a href="/">Inicio</a>
+        <a href="/brujula">Brújula</a>
+        <a href="/calc">Calculadora</a>
+      </nav>
     </footer>
-
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    (function () {
+      var THEME_KEY = 'btc_retirement_theme';
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
+        var moon = document.querySelector('#landing-theme-toggle .icon-theme-moon');
+        var sun = document.querySelector('#landing-theme-toggle .icon-theme-sun');
+        if (moon && sun) {
+          moon.classList.toggle('hidden', theme === 'dark');
+          sun.classList.toggle('hidden', theme !== 'dark');
+        }
+      }
+      try {
+        var saved = localStorage.getItem(THEME_KEY);
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+      } catch (_) {
+        applyTheme('dark');
+      }
+      var btn = document.getElementById('landing-theme-toggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          applyTheme(cur);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

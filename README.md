@@ -7,10 +7,11 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ## Estructura del proyecto
 
 ```
-├── landing.html    # Landing institucional (en producción: ruta /)
-├── brujula.html    # Embudo «Encuentra tu norte financiero» (ruta /brujula)
-├── index.html      # SPA calculadora (en producción: ruta /calc)
-├── vercel.json     # Rewrites /, /calc, /brujula + redirects legados (*.html → rutas limpias)
+├── index.html      # Landing institucional (en producción sirve exactamente la ruta /)
+├── landing.html    # Alias legacy → redirección y meta refresh al inicio /
+├── calc/index.html # SPA calculadora (producción: /calc y /calc/)
+├── brujula.html    # Página embudo «Encuentra tu norte financiero» (/brujula)
+├── vercel.json     # Redirect legados (/landing.html, /index.html → /); rewrites sólo /brujula
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── styles/         # Design system + landing.css
 ├── assets/         # logo-app.png (3D nav+hero), logo-192/512.png (PWA), logo.svg (favicon/tab vector)
@@ -112,9 +113,9 @@ Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMEN
 
 ## Probar localmente
 
-### Landing pública
+### Landing y páginas estáticas
 
-Abre los HTML por archivo: `landing.html` (institucional), `brujula.html`, `index.html` (calculadora). En **Vercel**, `vercel dev` y producción exponen rutas **`/`**, **`/brujula`** y **`/calc`** (véase § *Dominio personalizado* más abajo).
+Abre **`index.html`** (landing), **`calc/index.html`** (calculadora) o **`brujula.html`**. Rutas **`/`**, **`/calc`** y **`/brujula`** en producción o con **`npx vercel dev`** (lee `vercel.json`). Sin Vercel, usa las rutas archivo indicadas.
 
 ### Opción 1: Servidor simple con Python
 
@@ -132,12 +133,12 @@ cd "/mnt/c/Users/edgar/Calculadora de Retiro Bitcoin_Fedi catalogo"
 python3 -m http.server 8080
 ```
 
-Abre `http://localhost:8080/landing.html` o `…/index.html` (calc) o `…/brujula.html` según lo que quieras probar.
+Abre **`http://127.0.0.1:8080/index.html`** (landing), **`…/calc/index.html`** (calculadora) o **`…/brujula.html`**. Si abres sólo **`/`**, el listado depende del servidor (no equivale siempre al landing si no está configurado como índice).
 
 ### Opción 2: Live Server (VS Code)
 
 1. Instala la extensión **Live Server** en VS Code/Cursor
-2. Click derecho en `index.html` → **Open with Live Server**
+2. Click derecho en **`calc/index.html`** → **Open with Live Server** para el flujo cercano a producción (**`/calc`**), o en **`index.html`** para trabajar sólo landing.
 
 ### Opción 3: npx serve
 
@@ -174,7 +175,11 @@ Producción actual: **`https://retirobtc.mx`** (apex). Checklist cuando añadas 
 4. Mercado Pago → **URL de notificaciones**: `https://retirobtc.mx/api/mp-webhook`.
 5. **Fedi Mini App (catálogo):** usa la URL **`https://retirobtc.mx/calc`** (la SPA). **`https://retirobtc.mx`** es landing; **`https://retirobtc.mx/brujula`** embudo/educativo.
 
-**Rutas públicas (`vercel.json`):** `/` → `landing.html`, `/calc` → `index.html` (SPA), `/brujula` → `brujula.html`. Redirecciones 301: `/landing.html` → `/`, `/index.html` → `/calc`. En servidor estático sin rewrites (`python -m http.server`), sigue entrando por archivo: `landing.html`, `index.html`, `brujula.html`.
+**Rutas en producción (Vercel):** **`/`** sirve **`index.html`** del raíz (**landing**, no se usa rewrite porque Vercel resuelve `index.html` primero). **`/calc`** sirve **`calc/index.html`**. **`/brujula`** tiene rewrite explícito a **`brujula.html`**.
+
+**Redirecciones 301:** `/landing.html` → `/`; `/index.html` → `/`. El archivo **`landing.html`** sólo existe como salvavidas (**meta refresh**) y compatibilidad; el mensaje institucional vive en **`index.html`** en la raíz.
+
+En servidor estático plano (**`python -m http.server`**), navega archivo por archivo (véase arriba).
 
 Tras cambiar variables, **Redeploy** desde Vercel.
 

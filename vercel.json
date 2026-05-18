@@ -7,16 +7,13 @@
     },
     {
       "source": "/index.html",
-      "destination": "/calc",
+      "destination": "/",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/calc/", "destination": "/index.html" },
-    { "source": "/calc", "destination": "/index.html" },
     { "source": "/brujula/", "destination": "/brujula.html" },
-    { "source": "/brujula", "destination": "/brujula.html" },
-    { "source": "/", "destination": "/landing.html" }
+    { "source": "/brujula", "destination": "/brujula.html" }
   ],
   "headers": [
     {
