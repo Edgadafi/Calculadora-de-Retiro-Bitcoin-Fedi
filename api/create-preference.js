@@ -119,10 +119,10 @@ export default async function handler(req, res) {
       },
     ],
     payer: { email: payerEmail },
-    payment_methods: {
-      installments: 12,
-      default_installments: 1,
-    },
+    /**
+     * No personalizar installments aquí: en Checkout Pro México eso sólo regula tarjetas
+     * y puede interferir con rutas efectivo/OXXO (botón Pagar sin habilitar en revisión).
+     */
     binary_mode: false,
     external_reference: plan,
     back_urls: {

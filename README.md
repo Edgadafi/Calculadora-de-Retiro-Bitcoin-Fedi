@@ -76,6 +76,10 @@ Configura la **URL de notificaciones** en el panel de Mercado Pago apuntando a `
 
 Antes del redirect el modal pide **correo válido**: se envía como `payer.email` en la preferencia para que Checkout Pro pueda habilitar flujos que lo exigen (p. ej. **SPEI**). Si ahí igual no avanza **“Meses sin tarjeta” / financiamiento**, suele ser **monto mínimo** por producto Mercado Crédito o permisos de la cuenta (prueba temporalmente subiendo `MERCADOPAGO_PRICE_*_MXN`; el plan mensual por defecto en MXN puede quedar muy bajo para ese medio).
 
+**Pantalla en blanco o solo iconito de reCAPTCHA** en `mercadopago.com.mx/checkout/...`: el checkout de MP usa Google reCAPTCHA; **Brave Escudos**, bloqueadores, extensiones de privacidad o **ventana privada** suelen impedir cargar el desafío. Prueba Escudos **apagados** para `mercadopago.com.mx` (y permisos a `google.com` / contenido incrustado si el navegador lo pide), o el mismo flujo en **Chrome sin extensiones** y sin incógnito para descartar el bloqueo.
+
+**«Revisa tu pago», OXXO y «Pagar» gris**: baja hasta el final del formulario antes de clicar; suele aparecer una **casilla de términos** y/o hay que cerrar **reCAPTCHA**. **Brave Escudos** o extensiones pueden impedir que el JS habilite **Pagar**. Esta app ya **no manda opciones sólo-de-cuotas** en la preferencia (eso podía trabar rutas efectivo); **redespliega** con el último cambio antes de repetir la prueba.
+
 Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMENT_USE_MERCADOPAGO = false`.
 
 ## Funcionalidades
