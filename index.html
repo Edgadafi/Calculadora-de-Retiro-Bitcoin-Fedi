@@ -39,20 +39,20 @@
       <div class="br-nav-inner br-container">
         <a href="/" class="br-nav-brand logo br-row br-gap-2" style="text-decoration:none;color:inherit;align-items:center">
           <span class="nav-logo-wrap">
-            <img class="brand-mark-app" src="assets/logo-app.png" alt="Bitcoin Retiro, retirobtc.mx" width="1024" height="1024" decoding="async" />
+            <img class="brand-mark-app" src="assets/logo-app.png" alt="Bitcoin Retiro, retirobtc.mx" width="1024" height="1024" decoding="async" data-landing-i18n-alt="landing_brand_logo_alt" />
           </span>
-          <span class="br-nav-brand-text br-sr-only">Retiro Bitcoin</span>
+          <span class="br-nav-brand-text br-sr-only" data-landing-i18n="landing_brand_sr_only">Retiro Bitcoin</span>
         </a>
         <div class="header-actions br-row br-gap-2">
-          <label class="br-sr-only" for="landing-lang">Language</label>
-          <select id="landing-lang" class="lang-select br-select br-btn-sm" aria-label="Language">
+          <label class="br-sr-only" for="landing-lang" data-landing-i18n="landing_lang_sr_label">Idioma</label>
+          <select id="landing-lang" class="lang-select br-select br-btn-sm" data-landing-i18n-aria="landing_lang_aria" aria-label="Idioma">
             <option value="es">ES</option>
             <option value="en">EN</option>
             <option value="pt">PT</option>
             <option value="fr">FR</option>
           </select>
-          <a href="/calc" class="br-btn br-btn-ghost br-btn-sm">Calculadora</a>
-          <button type="button" id="landing-theme-toggle" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Cambiar tema">
+          <a href="/calc" class="br-btn br-btn-ghost br-btn-sm" data-landing-i18n="landing_nav_calc">Calculadora</a>
+          <button type="button" id="landing-theme-toggle" class="icon-btn br-btn br-btn-ghost br-btn-sm" data-landing-i18n-aria="landing_toggle_theme" aria-label="Cambiar tema">
             <svg class="icon-theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
@@ -67,59 +67,59 @@
 
     <main class="br-container landing-main">
       <section class="landing-hero" aria-labelledby="landing-h1">
-        <p class="landing-kicker">Calculadora de retiro</p>
+        <p class="landing-kicker" data-landing-i18n="landing_kicker">Calculadora de retiro</p>
         <div class="landing-hero-visual">
           <div class="landing-hero-logo-frame">
             <img class="landing-hero-logo" src="assets/logo-app.png" width="1024" height="1024" decoding="async" alt="" aria-hidden="true" />
           </div>
         </div>
-        <h1 id="landing-h1">Tu plan de retiro en <em>Bitcoin</em></h1>
-        <p class="lead">Proyecta ahorros iniciales, aportes y horizonte con una herramienta clara, orientada a la comunidad Bitcoin y uso en <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi.xyz</a>.</p>
-        <a href="/calc" class="br-btn br-btn-primary br-btn-lg">Abrir calculadora</a>
+        <h1 id="landing-h1" data-landing-i18n-html="landing_h1_html">Tu plan de retiro en <em>Bitcoin</em></h1>
+        <p class="lead" data-landing-i18n-html="landing_lead_html">Proyecta ahorros iniciales, aportes y horizonte con una herramienta clara, orientada a la comunidad Bitcoin y uso en <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi.xyz</a>.</p>
+        <a href="/calc" class="br-btn br-btn-primary br-btn-lg" data-landing-i18n="landing_cta_primary">Abrir calculadora</a>
       </section>
 
       <section class="landing-highlight-band br-stack br-stack-12" aria-labelledby="landing-features">
-        <h2 id="landing-features" class="landing-section-title">Qué puedes hacer</h2>
+        <h2 id="landing-features" class="landing-section-title" data-landing-i18n="landing_features_title">Qué puedes hacer</h2>
         <div class="landing-grid">
           <article class="br-card br-stack br-stack-4">
-            <h3 class="br-headline landing-card-heading">Proyección clara</h3>
-            <p class="br-body">Ahorro inicial, aporte periódico, años y rendimiento esperado en USD, MXN, BTC o sats.</p>
+            <h3 class="br-headline landing-card-heading" data-landing-i18n="landing_feat_1_title">Proyección clara</h3>
+            <p class="br-body" data-landing-i18n="landing_feat_1_body">Ahorro inicial, aporte periódico, años y rendimiento esperado en USD, MXN, BTC o sats.</p>
           </article>
           <article class="br-card br-stack br-stack-4">
-            <h3 class="br-headline landing-card-heading">Premium opcional</h3>
-            <p class="br-body">Tres escenarios, regla del 4&nbsp;% para retiro, planes cifrados y exportación PDF — pago por Mercado Pago (MXN) cuando esté activo.</p>
+            <h3 class="br-headline landing-card-heading" data-landing-i18n="landing_feat_2_title">Premium opcional</h3>
+            <p class="br-body" data-landing-i18n-html="landing_feat_2_body">Tres escenarios, regla del 4&nbsp;% para retiro, planes cifrados y exportación PDF — pago por Mercado Pago (MXN) cuando esté activo.</p>
           </article>
           <article class="br-card br-stack br-stack-4">
-            <h3 class="br-headline landing-card-heading">Tu dispositivo</h3>
-            <p class="br-body">Los planes se pueden guardar en el navegador; no necesitas cuenta en la herramienta para empezar a calcular.</p>
+            <h3 class="br-headline landing-card-heading" data-landing-i18n="landing_feat_3_title">Tu dispositivo</h3>
+            <p class="br-body" data-landing-i18n="landing_feat_3_body">Los planes se pueden guardar en el navegador; no necesitas cuenta en la herramienta para empezar a calcular.</p>
           </article>
         </div>
       </section>
 
       <section class="br-stack br-stack-10" aria-labelledby="landing-steps">
-        <h2 id="landing-steps" class="landing-section-title">En tres pasos</h2>
+        <h2 id="landing-steps" class="landing-section-title" data-landing-i18n="landing_steps_title">En tres pasos</h2>
         <div class="br-stack br-stack-6">
           <div class="br-card">
             <p class="landing-step-num">01</p>
-            <p class="br-headline">Abre la calculadora</p>
-            <p class="br-body">Introduce tus supuestos reales para ver curvas en el tiempo.</p>
+            <p class="br-headline" data-landing-i18n="landing_step_1_title">Abre la calculadora</p>
+            <p class="br-body" data-landing-i18n="landing_step_1_body">Introduce tus supuestos reales para ver curvas en el tiempo.</p>
           </div>
           <div class="br-card">
             <p class="landing-step-num">02</p>
-            <p class="br-headline">Ajusta y compara</p>
-            <p class="br-body">Cambia rendimiento y moneda; en Premium puedes comparar conservador contra agresivo.</p>
+            <p class="br-headline" data-landing-i18n="landing_step_2_title">Ajusta y compara</p>
+            <p class="br-body" data-landing-i18n="landing_step_2_body">Cambia rendimiento y moneda; en Premium puedes comparar conservador contra agresivo.</p>
           </div>
           <div class="br-card">
             <p class="landing-step-num">03</p>
-            <p class="br-headline">Documenta tu plan</p>
-            <p class="br-body">Comparte el resultado en texto o lleva tu reporte en PDF si tienes Premium activo.</p>
+            <p class="br-headline" data-landing-i18n="landing_step_3_title">Documenta tu plan</p>
+            <p class="br-body" data-landing-i18n="landing_step_3_body">Comparte el resultado en texto o lleva tu reporte en PDF si tienes Premium activo.</p>
           </div>
         </div>
         <div class="br-row br-gap-4" style="justify-content:center; flex-wrap:wrap">
-          <a href="/brujula" class="br-btn br-btn-ghost br-btn-lg">Tu brújula financiera</a>
-          <a href="/calc" class="br-btn br-btn-primary br-btn-lg">Ir a la calculadora</a>
+          <a href="/brujula" class="br-btn br-btn-ghost br-btn-lg" data-landing-i18n="landing_cta_brujula">Tu brújula financiera</a>
+          <a href="/calc" class="br-btn br-btn-primary br-btn-lg" data-landing-i18n="landing_cta_go_calc">Ir a la calculadora</a>
           <span class="br-body br-text-muted" style="align-self:center">/</span>
-          <a href="https://fedi.xyz" class="br-btn br-btn-ghost br-btn-lg" target="_blank" rel="noopener">Explorar Fedi</a>
+          <a href="https://fedi.xyz" class="br-btn br-btn-ghost br-btn-lg" target="_blank" rel="noopener" data-landing-i18n="landing_cta_explore_fedi">Explorar Fedi</a>
         </div>
       </section>
       <section class="br-stack br-stack-10" id="fundadores" aria-labelledby="landing-founders">
@@ -154,12 +154,12 @@
     </main>
 
     <footer>
-      <p>Hecho con ₿ para la comunidad <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a></p>
-      <p class="small">Los cálculos son proyecciones educativas, no asesoría financiera.</p>
-      <nav class="landing-footer-links" aria-label="Enlaces del sitio">
-        <a href="/">Inicio</a>
-        <a href="/brujula">Brújula</a>
-        <a href="/calc">Calculadora</a>
+      <p data-landing-i18n-html="landing_footer_credit_html">Hecho con ₿ para la comunidad <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a></p>
+      <p class="small" data-landing-i18n="landing_footer_disclaimer">Los cálculos son proyecciones educativas, no asesoría financiera.</p>
+      <nav class="landing-footer-links" aria-label="Enlaces del sitio" data-landing-i18n-aria="landing_footer_nav_aria">
+        <a href="/" data-landing-i18n="landing_footer_home">Inicio</a>
+        <a href="/brujula" data-landing-i18n="landing_footer_brujula">Brújula</a>
+        <a href="/calc" data-landing-i18n="landing_footer_calc">Calculadora</a>
       </nav>
     </footer>
   </div>
