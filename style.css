@@ -955,6 +955,31 @@ input[type="range"]::-moz-range-thumb {
   font-weight: 700;
 }
 
+.mp-email-row {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.mp-email-label {
+  display: block;
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.mp-email-row .input-restore-id,
+.mp-email-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mp-email-hint {
+  margin: 6px 0 0 !important;
+  text-align: left !important;
+  font-size: 0.76rem !important;
+  color: var(--text-muted) !important;
+}
+
 .premium-plans {
   display: flex;
   flex-direction: column;

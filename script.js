@@ -20,8 +20,7 @@
   const PAYMENT_API = '/api';
   /** true = Checkout Pro (Mercado Pago). false = Lightning (LNbits /api/create-invoice). */
   const PAYMENT_USE_MERCADOPAGO = true;
-
-  // ─── i18n Dictionary ───────────────────────────────────────
+  const MP_EMAIL_LS = 'btc_retirement_mp_email';
   const LANG = {
     es: {
       lang_label: 'Idioma',
@@ -86,6 +85,10 @@
       restore_id_placeholder: 'Ej. 1234567890',
       btn_restore_by_payment_id: 'Verificar pago',
       modal_payment_note: 'Pago seguro con Mercado Pago (tarjeta y otros medios)',
+      mp_email_label: 'Tu correo (para Mercado Pago)',
+      mp_email_placeholder: 'tu@email.com',
+      mp_email_hint: 'Mercado Pago lo usa para SPEI, comprobantes y algunos financiamientos (p. ej. meses sin tarjeta).',
+      toast_mp_email_required: 'Introduce un correo válido antes de ir al cobro.',
       help_title: '📖 Guía de usuario',
       help_calc_title: 'Cómo usar la calculadora',
       help_calc_initial: '<strong>Ahorro inicial:</strong> cuánto tienes hoy para empezar. Puedes ponerlo en USD, MXN, BTC o sats.',
@@ -271,6 +274,10 @@
       restore_id_placeholder: 'E.g. 1234567890',
       btn_restore_by_payment_id: 'Verify payment',
       modal_payment_note: 'Secure payment with Mercado Pago',
+      mp_email_label: 'Your email (for Mercado Pago)',
+      mp_email_placeholder: 'you@email.com',
+      mp_email_hint: 'Mercado Pago often needs this for bank transfer (SPEI), receipts, and some financing options.',
+      toast_mp_email_required: 'Please enter a valid email before checking out.',
       help_title: '📖 User Guide',
       help_calc_title: 'How to use the calculator',
       help_calc_initial: '<strong>Initial savings:</strong> how much you have today to start. You can enter it in USD, MXN, BTC or sats.',
@@ -456,6 +463,10 @@
       restore_id_placeholder: 'Ex. 1234567890',
       btn_restore_by_payment_id: 'Verificar pagamento',
       modal_payment_note: 'Pagamento com Mercado Pago',
+      mp_email_label: 'Seu email (Mercado Pago)',
+      mp_email_placeholder: 'voce@email.com',
+      mp_email_hint: 'O Mercado Pago costuma exigir para transferências bancárias, comprovantes e financiamentos.',
+      toast_mp_email_required: 'Digite um email válido antes de ir ao pagamento.',
       help_title: '📖 Guia do usuário',
       help_calc_title: 'Como usar a calculadora',
       help_calc_initial: '<strong>Poupança inicial:</strong> quanto você tem hoje para começar. Pode colocar em USD, MXN, BTC ou sats.',
@@ -641,6 +652,10 @@
       restore_id_placeholder: 'Ex. 1234567890',
       btn_restore_by_payment_id: 'Vérifier le paiement',
       modal_payment_note: 'Paiement avec Mercado Pago',
+      mp_email_label: 'Votre email (Mercado Pago)',
+      mp_email_placeholder: 'vous@email.com',
+      mp_email_hint: 'Souvent requis pour virements SPEI, reçus et certains financements.',
+      toast_mp_email_required: 'Veuillez saisir un email valide avant le paiement.',
       help_title: '📖 Guide utilisateur',
       help_calc_title: 'Comment utiliser la calculatrice',
       help_calc_initial: '<strong>Épargne initiale :</strong> combien vous avez aujourd\'hui pour commencer. Vous pouvez l\'indiquer en USD, MXN, BTC ou sats.',
@@ -841,6 +856,8 @@
     premiumPlans: $('#premium-plans'),
     premiumFeatures: $('.premium-features'),
     paymentFlow: $('#payment-flow'),
+    mpEmailRow: $('#mp-email-row'),
+    inputMpEmail: $('#input-mp-email'),
     priceMonthly: $('#price-monthly-sats'),
     priceLifetime: $('#price-lifetime-sats'),
     btnSave: $('#btn-save'),
@@ -894,6 +911,9 @@
     checkPremiumStatus();
     if (!PAYMENT_USE_MERCADOPAGO && dom.restoreByIdBlock) {
       dom.restoreByIdBlock.classList.add('hidden');
+    }
+    if (dom.mpEmailRow) {
+      dom.mpEmailRow.hidden = !PAYMENT_USE_MERCADOPAGO;
     }
     bindEvents();
     await fetchBTCPrice();
@@ -1083,16 +1103,32 @@
     }
   }
 
+  /** Valid email shape for Checkout Pro payer prefill (server also validates). */
+  function extractMpEmail() {
+    if (!dom.inputMpEmail) return '';
+    const s = dom.inputMpEmail.value.trim();
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s) ? s : '';
+  }
+
   async function handlePayment(amountUSD) {
     const type = amountUSD === MONTHLY_PRICE_USD ? 'monthly' : 'lifetime';
 
     if (PAYMENT_USE_MERCADOPAGO) {
       try {
+        const payerEmail = extractMpEmail();
+        if (!payerEmail) {
+          showToast(t('toast_mp_email_required'));
+          return;
+        }
+        try {
+          localStorage.setItem(MP_EMAIL_LS, payerEmail);
+        } catch (_) {}
+
         showPaymentUI('loading_mp');
         const resp = await fetch(`${PAYMENT_API}/create-preference`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan: type }),
+          body: JSON.stringify({ plan: type, payer_email: payerEmail }),
         });
         const data = await resp.json().catch(() => ({}));
         if (!resp.ok) {
@@ -1877,6 +1913,19 @@
     dom.modalHelp.addEventListener('click', (e) => {
       if (e.target === dom.modalHelp) closeHelpModal();
     });
+
+    if (PAYMENT_USE_MERCADOPAGO && dom.inputMpEmail) {
+      try {
+        const saved = localStorage.getItem(MP_EMAIL_LS);
+        if (saved && !dom.inputMpEmail.value.trim()) dom.inputMpEmail.value = saved;
+      } catch (_) {}
+      dom.inputMpEmail.addEventListener('blur', () => {
+        try {
+          const v = extractMpEmail();
+          if (v) localStorage.setItem(MP_EMAIL_LS, v);
+        } catch (_) {}
+      });
+    }
 
     dom.btnPayMonthly.addEventListener('click', () => handlePayment(MONTHLY_PRICE_USD));
     dom.btnPayLifetime.addEventListener('click', () => handlePayment(LIFETIME_PRICE_USD));

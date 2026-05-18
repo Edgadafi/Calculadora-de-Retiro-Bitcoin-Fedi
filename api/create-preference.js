@@ -43,6 +43,14 @@ function shouldPreferSandboxInitPoint(accessToken) {
   return accessToken.startsWith('TEST-');
 }
 
+/** Basic email sanity check for payer prefill (Checkout Pro / SPEI). */
+function normalizePayerEmail(raw) {
+  if (typeof raw !== 'string') return '';
+  const s = raw.trim().slice(0, 254);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)) return '';
+  return s;
+}
+
 function planItem(plan) {
   if (plan === 'monthly') {
     return {
@@ -77,9 +85,16 @@ export default async function handler(req, res) {
     });
   }
 
-  const { plan } = req.body || {};
+  const { plan, payer_email } = req.body || {};
   if (plan !== 'monthly' && plan !== 'lifetime') {
     return res.status(400).json({ error: 'Invalid plan. Use monthly or lifetime.' });
+  }
+
+  const payerEmail = normalizePayerEmail(typeof payer_email === 'string' ? payer_email : '');
+  if (!payerEmail) {
+    return res.status(400).json({
+      error: 'Provide a valid payer_email so Mercado Pago can unlock transfer and installment flows.',
+    });
   }
 
   const baseUrl = getBaseUrl(req);
@@ -103,6 +118,12 @@ export default async function handler(req, res) {
         unit_price: item.unit_price,
       },
     ],
+    payer: { email: payerEmail },
+    payment_methods: {
+      installments: 12,
+      default_installments: 1,
+    },
+    binary_mode: false,
     external_reference: plan,
     back_urls: {
       success: `${baseUrl}/`,

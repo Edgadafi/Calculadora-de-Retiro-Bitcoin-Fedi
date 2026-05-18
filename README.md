@@ -74,6 +74,8 @@ Variables recomendadas en Vercel:
 
 Configura la **URL de notificaciones** en el panel de Mercado Pago apuntando a `https://retirobtc.mx/api/mp-webhook` (opcional para registrar eventos; la activación inmediata usa la verificación al volver del checkout).
 
+Antes del redirect el modal pide **correo válido**: se envía como `payer.email` en la preferencia para que Checkout Pro pueda habilitar flujos que lo exigen (p. ej. **SPEI**). Si ahí igual no avanza **“Meses sin tarjeta” / financiamiento**, suele ser **monto mínimo** por producto Mercado Crédito o permisos de la cuenta (prueba temporalmente subiendo `MERCADOPAGO_PRICE_*_MXN`; el plan mensual por defecto en MXN puede quedar muy bajo para ese medio).
+
 Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMENT_USE_MERCADOPAGO = false`.
 
 ## Funcionalidades
