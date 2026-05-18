@@ -182,3 +182,98 @@
   line-height: 1.25;
 }
 
+/* ── Sección Fundadores ─────────────────────────────────── */
+.landing-founders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--br-sp-8);
+  width: 100%;
+  min-width: 0;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .landing-founders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.landing-founder-photo {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--br-r-lg);
+  background: var(--br-bg-raised);
+}
+
+.landing-founder-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── Brújula — Cuestionario ─────────────────────────────── */
+.opcion-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--br-border);
+  border-radius: var(--br-r-md);
+  padding: var(--br-sp-4) var(--br-sp-5);
+  cursor: pointer;
+  transition: border-color 150ms var(--br-ease), background 150ms var(--br-ease), color 150ms var(--br-ease);
+  font-family: var(--br-font-ui);
+  font-size: var(--br-text-base);
+  color: var(--br-text-primary);
+  background: var(--br-bg-ui);
+  line-height: 1.4;
+}
+
+.opcion-item:hover {
+  border-color: rgba(247, 147, 26, 0.4);
+  background: var(--br-orange-soft);
+}
+
+.opcion-item.seleccionada {
+  border-color: var(--br-orange);
+  background: var(--br-orange-soft);
+  color: var(--br-orange);
+  font-weight: 600;
+}
+
+.resultado-numero {
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-family: var(--br-font-data);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--br-text-primary);
+  margin: var(--br-sp-4) 0;
+}
+
+.brujula-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--br-sp-3);
+  margin-top: var(--br-sp-4);
+}
+
+.brujula-hero-tag {
+  font-family: var(--br-font-data);
+  font-size: var(--br-text-xs);
+  color: var(--br-text-muted);
+  background: var(--br-bg-ui);
+  border: 1px solid var(--br-border);
+  border-radius: var(--br-r-md);
+  padding: var(--br-sp-2) var(--br-sp-4);
+  letter-spacing: 0.05em;
+}
+
+.niveles-referencia {
+  margin-top: var(--br-sp-8);
+}
+
+#pantalla-resultado { display: none; }
+#pantalla-resultado.visible { display: block; }
+
