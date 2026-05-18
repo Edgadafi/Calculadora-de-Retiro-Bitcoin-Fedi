@@ -92,10 +92,21 @@
   );
 }
 
+/* Hijo flex: sin esto el grid se encoge al min-content (~tiras estrechas) y queda centrado dentro de la banda */
+.landing-highlight-band.br-stack {
+  align-items: stretch;
+}
+
 .landing-grid {
   display: grid;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   gap: var(--br-sp-6);
   grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
   align-items: stretch;
 }
 
@@ -114,6 +125,8 @@
 }
 
 .landing-grid .br-card {
+  width: 100%;
+  box-sizing: border-box;
   min-width: 0;
   box-shadow:
     var(--br-shadow-sm),

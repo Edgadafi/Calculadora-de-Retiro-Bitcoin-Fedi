@@ -68,6 +68,11 @@ body {
   padding-bottom: clamp(40px, 5vw, 52px);
 }
 
+/* Index / Brújula: layout público al ancho del DS (1080); 640px deja grids “min-content” muy estrechas */
+#app.app-shell-wide {
+  max-width: min(94vw, 1080px);
+}
+
 /* Design system (styles/bitcoin-retiro-design-system.css): capa de ruido bajo la UI */
 body::after {
   z-index: 1;
