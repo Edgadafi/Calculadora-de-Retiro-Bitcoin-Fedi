@@ -220,7 +220,7 @@ header.br-nav .tagline {
   font-size: 1.02rem;
 }
 
-/* Nav: logo-app 3D — zoom dentro de círculo para cortar borde navy del squircle */
+/* Nav: logo-app 3D — zoom para recortar el borde oscuro del PNG sin trazo perceptible */
 header.br-nav .nav-logo-zoom {
   width: 46px;
   height: 46px;
@@ -228,16 +228,14 @@ header.br-nav .nav-logo-zoom {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 14px rgba(var(--br-orange-rgb), 0.14);
 }
 
-/* Tema claro: máscara más suave + sombra ligera para integrar el squircle del PNG */
+/* Tema claro: funde el borde del PNG sobre fondo blanco sin inset (antes leía como contorno negro) */
 [data-theme='light'] header.br-nav .nav-logo-zoom {
-  -webkit-mask-image: radial-gradient(circle, #000 64%, transparent 92%);
-  mask-image: radial-gradient(circle, #000 64%, transparent 92%);
-  box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.07),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  -webkit-mask-image: radial-gradient(circle, #000 72%, transparent 100%);
+  mask-image: radial-gradient(circle, #000 72%, transparent 100%);
+  box-shadow: 0 2px 14px rgba(var(--br-orange-rgb), 0.1);
 }
 
 header.br-nav .nav-logo-zoom img.brand-mark-app {
@@ -248,8 +246,8 @@ header.br-nav .nav-logo-zoom img.brand-mark-app {
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: 50% 38%;
-  transform: translate(-50%, -50%) scale(1.82);
+  object-position: 50% 36%;
+  transform: translate(-50%, -50%) scale(2);
   border-radius: 0;
 }
 

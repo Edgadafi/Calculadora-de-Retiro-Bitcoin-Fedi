@@ -21,32 +21,26 @@
   margin: 0 0 var(--br-sp-8);
 }
 
-/* Igual que .nav-logo-zoom en style.css: recorta el borde oscuro del PNG mediante escala */
+/* Logo hero: mismo truco que nav — máscara circular en claro sólo dentro de viewport redondo;
+   Sin máscara “círculo sobre cuadrado redondeado” (generaba halo). Squircle sólo como recorte */
 .landing-logo-zoom {
   width: clamp(7rem, 26vw, 11rem);
   aspect-ratio: 1;
-  border-radius: clamp(22%, 26%, 28%);
+  border-radius: 50%;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
-  box-shadow:
-    0 8px 28px rgba(var(--br-orange-rgb), 0.12),
-    0 2px 10px rgba(var(--br-orange-rgb), 0.06);
+  box-shadow: 0 6px 24px rgba(var(--br-orange-rgb), 0.15), 0 2px 8px rgba(var(--br-orange-rgb), 0.08);
 }
 
 [data-theme='light'] .landing-logo-zoom {
-  -webkit-mask-image: radial-gradient(circle, #000 68%, transparent 94%);
-  mask-image: radial-gradient(circle, #000 68%, transparent 94%);
-  box-shadow:
-    0 6px 20px rgba(var(--br-orange-rgb), 0.08),
-    0 2px 8px rgba(var(--br-orange-rgb), 0.05);
+  -webkit-mask-image: radial-gradient(circle, #000 72%, transparent 100%);
+  mask-image: radial-gradient(circle, #000 72%, transparent 100%);
+  box-shadow: 0 8px 32px rgba(var(--br-orange-rgb), 0.12), 0 2px 10px rgba(var(--br-orange-rgb), 0.06);
 }
 
 html[data-theme='dark'] .landing-logo-zoom {
-  box-shadow:
-    0 10px 32px rgba(0, 0, 0, 0.28),
-    0 4px 0 rgba(247, 181, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 42px rgba(0, 0, 0, 0.35);
 }
 
 .landing-logo-zoom .landing-hero-logo {
@@ -58,8 +52,8 @@ html[data-theme='dark'] .landing-logo-zoom {
   max-width: none;
   aspect-ratio: auto;
   object-fit: cover;
-  object-position: 50% 38%;
-  transform: translate(-50%, -50%) scale(1.82);
+  object-position: 50% 36%;
+  transform: translate(-50%, -50%) scale(2);
   border-radius: 0;
   border: none;
   background: transparent;
