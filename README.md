@@ -7,8 +7,10 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ## Estructura del proyecto
 
 ```
-├── index.html      # SPA principal (calculadora)
-├── landing.html    # Página pública de marketing → enlace a la calculadora
+├── landing.html    # Landing institucional (en producción: ruta /)
+├── brujula.html    # Embudo «Encuentra tu norte financiero» (ruta /brujula)
+├── index.html      # SPA calculadora (en producción: ruta /calc)
+├── vercel.json     # Rewrites /, /calc, /brujula + redirects legados (*.html → rutas limpias)
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── styles/         # Design system + landing.css
 ├── assets/         # logo-app.png (3D nav+hero), logo-192/512.png (PWA), logo.svg (favicon/tab vector)
@@ -112,7 +114,7 @@ Para volver a **Lightning** en lugar de Mercado Pago, en `script.js` pon `PAYMEN
 
 ### Landing pública
 
-Abre `landing.html` en el navegador (misma raíz que `index.html`), por ejemplo con cualquiera de las opciones de abajo: `http://localhost:PORT/landing.html`. La calculadora sigue en `/` o `index.html`; el manifest PWA no cambia.
+Abre los HTML por archivo: `landing.html` (institucional), `brujula.html`, `index.html` (calculadora). En **Vercel**, `vercel dev` y producción exponen rutas **`/`**, **`/brujula`** y **`/calc`** (véase § *Dominio personalizado* más abajo).
 
 ### Opción 1: Servidor simple con Python
 
@@ -130,7 +132,7 @@ cd "/mnt/c/Users/edgar/Calculadora de Retiro Bitcoin_Fedi catalogo"
 python3 -m http.server 8080
 ```
 
-Abre http://localhost:8080 en tu navegador (landing: `/landing.html`).
+Abre `http://localhost:8080/landing.html` o `…/index.html` (calc) o `…/brujula.html` según lo que quieras probar.
 
 ### Opción 2: Live Server (VS Code)
 
@@ -170,7 +172,9 @@ Producción actual: **`https://retirobtc.mx`** (apex). Checklist cuando añadas 
 2. En el **registrar**, los registros **A/CNAME** que indique Vercel hasta estado **Valid** (SSL automático).
 3. Variables **Environment**: `APP_BASE_URL` = `https://retirobtc.mx` (sin barra final), alineado con el origen desde el que cargan los usuarios.
 4. Mercado Pago → **URL de notificaciones**: `https://retirobtc.mx/api/mp-webhook`.
-5. **Fedi catálogo** / enlaces públicos: `https://retirobtc.mx` (calculadora) y opcional **`https://retirobtc.mx/landing.html`** para marketing.
+5. **Fedi Mini App (catálogo):** usa la URL **`https://retirobtc.mx/calc`** (la SPA). **`https://retirobtc.mx`** es landing; **`https://retirobtc.mx/brujula`** embudo/educativo.
+
+**Rutas públicas (`vercel.json`):** `/` → `landing.html`, `/calc` → `index.html` (SPA), `/brujula` → `brujula.html`. Redirecciones 301: `/landing.html` → `/`, `/index.html` → `/calc`. En servidor estático sin rewrites (`python -m http.server`), sigue entrando por archivo: `landing.html`, `index.html`, `brujula.html`.
 
 Tras cambiar variables, **Redeploy** desde Vercel.
 
@@ -242,7 +246,7 @@ Para enviar tu Mini App al catálogo de Fedi:
 2. Ve a la [página de desarrolladores de Fedi](https://www.fedi.xyz/developers)
 3. Completa el formulario con:
    - **Nombre**: Calculadora de Retiro Bitcoin
-   - **URL**: `https://retirobtc.mx`
+   - **URL** (Mini App): `https://retirobtc.mx/calc`
    - **Descripción**: Planifica tu independencia financiera con Bitcoin. Proyecta tu retiro con ahorro periódico, múltiples escenarios y simulación de retiro.
    - **Categoría**: Finance / Tools
    - **Idiomas**: Español

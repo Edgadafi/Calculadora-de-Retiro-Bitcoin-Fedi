@@ -126,9 +126,9 @@ export default async function handler(req, res) {
     binary_mode: false,
     external_reference: plan,
     back_urls: {
-      success: `${baseUrl}/`,
-      failure: `${baseUrl}/`,
-      pending: `${baseUrl}/`,
+      success: `${baseUrl}/calc`,
+      failure: `${baseUrl}/calc`,
+      pending: `${baseUrl}/calc`,
     },
     auto_return: 'approved',
     notification_url: `${baseUrl}/api/mp-webhook`,

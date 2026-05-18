@@ -1,4 +1,23 @@
 {
+  "redirects": [
+    {
+      "source": "/landing.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/calc",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/calc/", "destination": "/index.html" },
+    { "source": "/calc", "destination": "/index.html" },
+    { "source": "/brujula/", "destination": "/brujula.html" },
+    { "source": "/brujula", "destination": "/brujula.html" },
+    { "source": "/", "destination": "/landing.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

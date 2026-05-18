@@ -14,7 +14,7 @@ Eres un frontend engineer experto integrando un nuevo design system a una calcul
 ### CONTEXTO DEL PROYECTO
 
 - **App:** Calculadora de Retiro con Bitcoin
-- **URL producción:** https://retirobtc.mx (landing opcional `/landing.html`)
+- **URL producción:** Landing `https://retirobtc.mx/`, calculadora `https://retirobtc.mx/calc`, brújula `https://retirobtc.mx/brujula`
 - **Stack:** [Cursor debe detectar el stack leyendo el repo — puede ser HTML/CSS/JS vanilla, o framework como Vite/React]
 - **Funcionalidades a preservar:** calculadora de proyección, premium con Lightning, multi-moneda, multi-idioma, comparación de escenarios, SWR 4%, exportar PDF, guardar plan
 
