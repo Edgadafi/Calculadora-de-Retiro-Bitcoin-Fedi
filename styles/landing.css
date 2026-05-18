@@ -8,6 +8,7 @@
 }
 
 /* Landing: nav usa .brand-mark-app (style.css); hero mantiene clases locales */
+.landing-hero {
   padding: var(--br-sp-12) 0 var(--br-sp-12);
   text-align: center;
   max-width: 52rem;
@@ -75,9 +76,12 @@
   );
   border: 1px solid var(--br-border);
   border-radius: var(--br-r-xl);
-  padding: var(--br-sp-8) var(--br-sp-6);
+  padding: var(--br-sp-10) clamp(var(--br-sp-6), 4vw, var(--br-sp-12));
   margin: var(--br-sp-10) auto;
   box-shadow: var(--br-shadow-md);
+  width: 100%;
+  max-width: min(1080px, 100%);
+  box-sizing: border-box;
 }
 
 [data-theme='light'] .landing-highlight-band {
@@ -91,19 +95,39 @@
 .landing-grid {
   display: grid;
   gap: var(--br-sp-6);
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
 }
 
-@media (min-width: 640px) {
+/* Evita tres columnas estrechas en tablet; sólo escritorio cómodo */
+@media (min-width: 680px) {
   .landing-grid {
-    grid-template-columns: repeat(3, 1fr);
+    gap: var(--br-sp-8);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 .landing-grid .br-card {
+  min-width: 0;
   box-shadow:
     var(--br-shadow-sm),
     0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='light'] .landing-grid .br-card {
+  box-shadow:
+    var(--br-shadow-sm),
+    0 0 0 1px rgba(10, 10, 30, 0.04);
+}
+
+.landing-grid .br-body {
+  line-height: 1.62;
 }
 
 .landing-step-num {
@@ -141,5 +165,7 @@
 }
 
 .landing-card-heading {
-  font-size: var(--br-text-xl);
+  font-size: clamp(var(--br-text-lg), 2.2vw, var(--br-text-xl));
+  line-height: 1.25;
 }
+

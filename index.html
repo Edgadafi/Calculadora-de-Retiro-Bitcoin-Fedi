@@ -126,34 +126,6 @@
     </footer>
   </div>
 
-  <script>
-    (function () {
-      var THEME_KEY = 'btc_retirement_theme';
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
-        var moon = document.querySelector('#landing-theme-toggle .icon-theme-moon');
-        var sun = document.querySelector('#landing-theme-toggle .icon-theme-sun');
-        if (moon && sun) {
-          moon.classList.toggle('hidden', theme === 'dark');
-          sun.classList.toggle('hidden', theme !== 'dark');
-        }
-      }
-      try {
-        var saved = localStorage.getItem(THEME_KEY);
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme(saved || (prefersDark ? 'dark' : 'light'));
-      } catch (_) {
-        applyTheme('dark');
-      }
-      var btn = document.getElementById('landing-theme-toggle');
-      if (btn) {
-        btn.addEventListener('click', function () {
-          var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-          applyTheme(cur);
-        });
-      }
-    })();
-  </script>
+  <script defer src="/landing-theme.js" data-theme-toggle="landing-theme-toggle"></script>
 </body>
 </html>
