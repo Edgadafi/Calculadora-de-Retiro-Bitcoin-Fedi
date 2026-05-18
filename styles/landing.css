@@ -7,6 +7,16 @@
   padding-bottom: var(--br-sp-16);
 }
 
+/* Sticky nav: espacio al hacer scroll hasta títulos / anclas */
+html:has(.landing-main) {
+  scroll-padding-top: 5.75rem;
+}
+
+/* Pasos → fundadores: separación entre secciones (sin depender sólo del gap interno) */
+#fundadores {
+  margin-top: var(--br-sp-10);
+}
+
 /* Landing: nav usa .brand-mark-app (style.css); hero mantiene clases locales */
 .landing-hero {
   padding: var(--br-sp-12) 0 var(--br-sp-12);
@@ -170,6 +180,7 @@ html[data-theme='dark'] .landing-hero-logo-frame {
   font-size: var(--br-text-2xl);
   font-weight: 600;
   margin: 0 0 var(--br-sp-8);
+  scroll-margin-top: 5.5rem;
   text-align: center;
 }
 

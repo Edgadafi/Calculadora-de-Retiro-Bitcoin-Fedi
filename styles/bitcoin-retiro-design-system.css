@@ -369,6 +369,8 @@ img, svg { display: block; max-width: 100%; }
 .br-stack-4  { gap: var(--br-sp-4); }
 .br-stack-6  { gap: var(--br-sp-6); }
 .br-stack-8  { gap: var(--br-sp-8); }
+.br-stack-10 { gap: var(--br-sp-10); }
+.br-stack-12 { gap: var(--br-sp-12); }
 
 /* Row horizontal */
 .br-row { display: flex; align-items: center; }

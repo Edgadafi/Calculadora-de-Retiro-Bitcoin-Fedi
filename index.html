@@ -44,6 +44,13 @@
           <span class="br-nav-brand-text br-sr-only">Retiro Bitcoin</span>
         </a>
         <div class="header-actions br-row br-gap-2">
+          <label class="br-sr-only" for="landing-lang">Language</label>
+          <select id="landing-lang" class="lang-select br-select br-btn-sm" aria-label="Language">
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+            <option value="pt">PT</option>
+            <option value="fr">FR</option>
+          </select>
           <a href="/calc" class="br-btn br-btn-ghost br-btn-sm">Calculadora</a>
           <button type="button" id="landing-theme-toggle" class="icon-btn br-btn br-btn-ghost br-btn-sm" aria-label="Cambiar tema">
             <svg class="icon-theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -116,28 +123,30 @@
         </div>
       </section>
       <section class="br-stack br-stack-10" id="fundadores" aria-labelledby="landing-founders">
-        <h2 id="landing-founders" class="landing-section-title">Quiénes están detrás</h2>
+        <h2 id="landing-founders" class="landing-section-title" data-landing-i18n="landing_founders_title">Quiénes están detrás</h2>
         <div class="landing-founders-grid">
           <article class="br-card br-stack br-stack-6">
             <div class="landing-founder-photo">
               <img src="assets/founder-edudamian.png"
+                   data-landing-i18n-alt="founder_edu_photo_alt"
                    alt="Eduardo Garcia — líder en experiencia del cliente y operaciones, Retiro Bitcoin"
                    loading="lazy" decoding="async" width="400" height="400" />
             </div>
             <div>
               <h3 class="br-headline">Eduardo Garcia</h3>
-              <p class="br-body">Customer Experience & Operations Leader | Fintech • Tech • Digital Transformation | 16+ años en operaciones críticas y atención al cliente.</p>
+              <p class="br-body" data-landing-i18n="founder_edu_bio">Líder en experiencia del cliente y operaciones | Fintech, tecnología y transformación digital | Más de 16 años en operaciones críticas y atención al cliente.</p>
             </div>
           </article>
           <article class="br-card br-stack br-stack-6">
             <div class="landing-founder-photo">
               <img src="assets/founder-edgadafi.png"
+                   data-landing-i18n-alt="founder_ed_photo_alt"
                    alt="Edgadafi RF — desarrollador con enfoque en DeFi, stablecoins y pagos on-chain para LATAM, Retiro Bitcoin"
                    loading="lazy" decoding="async" width="400" height="400" />
             </div>
             <div>
               <h3 class="br-headline">Edgadafi RF</h3>
-              <p class="br-body">Builder specialized on DeFi, Stablecoins & Onchain Payments (LATAM focus).</p>
+              <p class="br-body" data-landing-i18n="founder_ed_bio">Builder especializado en DeFi, stablecoins y pagos on-chain con enfoque en LATAM.</p>
             </div>
           </article>
         </div>
@@ -155,6 +164,7 @@
     </footer>
   </div>
 
+  <script defer src="/landing-i18n.js"></script>
   <script defer src="/landing-theme.js" data-theme-toggle="landing-theme-toggle"></script>
 </body>
 </html>
