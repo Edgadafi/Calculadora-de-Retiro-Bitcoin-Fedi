@@ -1,0 +1,37 @@
+---
+description: Contexto de producto y estudio de mercado — Calculadora Retiro Bitcoin (Fedi, México/LATAM 2026)
+alwaysApply: true
+---
+
+# Producto — Calculadora de Retiro Bitcoin
+
+Antes de proponer features, copy o cambios de UX, consulta `docs/product-brief.md`. Estudio completo: `docs/estudio-mercado-calculadora-retiro-bitcoin.md`.
+
+## Qué es
+Mini-app Fedi en `https://retirobtc.mx/calc` que proyecta retiro con Bitcoin (sats), custodia comunitaria Fedimint y soberanía frente al sistema AFORE. Landing `/`, embudo educativo `/brujula`.
+
+## Mercado y timing (2026)
+- México: desconfianza AFORE (Ley Infraestructura, ~30% en obra pública), rendimiento real ~5%, ahorro voluntario < 2%.
+- Personas prioritarias: retail BTC (DCA), informal/gig economy sin IMSS, luego privacy advocate y sindicalizado.
+- Diferenciadores: BTC puro, Guardianes/recuperación social, e-cash/Nostr, no custodia CEX.
+
+## Decisiones fijas (no contradecir sin confirmación)
+- Canal principal: Fedi Mini App; funciona standalone.
+- Freemium + Premium (Mercado Pago MXN + Lightning/WebLN).
+- Stack: HTML/CSS/JS vanilla; preservar cálculos, WebLN, Fedi SDK, i18n.
+- Proyección conservadora por defecto (15% BTC escenario base, no 82% histórico).
+- Default UX objetivo: proyección en MXN (Stable Balance) con ahorro en sats.
+
+## Prioridad de desarrollo
+1. **Must:** proyección DCA, escenarios, regla 4%, fiat+BTC, PDF premium, compartir.
+2. **Should:** comparador AFORE vs BTC, copy Guardianes, micro-ahorro Lightning, campaña "Tu AFORE Soberana", Nostr badges.
+3. **Could:** ahorro grupal, federaciones certificadas (Casa Satoshi), remesas → retiro.
+
+## Copy y UX
+- Poder adquisitivo y libertad, no hype especulativo.
+- Comparar con AFORE real (~5%), no prometer rendimientos históricos extremos.
+- Comunidad/recuperación > "auto-custodia solitaria".
+- Mobile-first, español primero, audiencia LATAM.
+
+## Alianzas GTM
+Casa Satoshi, White Paper House (Mérida), Maciej Cepnik / Bitcoin Latam Report, Nostr relays, Lightning micro-ahorro.

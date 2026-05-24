@@ -2,6 +2,16 @@
 
 Planifica tu independencia financiera con Bitcoin. Una Single Page Application (SPA) diseñada como Mini App para [Fedi.xyz](https://fedi.xyz) con soporte para pagos Lightning Network.
 
+### Documentación de producto
+
+| Documento | Uso |
+|-----------|-----|
+| [`docs/product-brief.md`](docs/product-brief.md) | Resumen operativo: personas, roadmap, KPIs, decisiones de producto |
+| [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
+| [`docs/cursor-prompt-design-system.md`](docs/cursor-prompt-design-system.md) | Prompt para integración del design system |
+
+La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.
+
 ---
 
 ## Estructura del proyecto
@@ -19,6 +29,8 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
 ├── api/            # Serverless: Mercado Pago (preferencia, verificación), LNbits, webhook MP
+├── docs/           # Estudio de mercado, product brief, prompts de diseño
+├── .cursor/rules/  # Reglas de contexto para Cursor (producto, etc.)
 ├── .env.example    # Plantilla de variables (copiar a .env.local)
 └── README.md       # Esta documentación
 ```
@@ -289,11 +301,14 @@ Los pagos se procesan vía Lightning Network usando WebLN.
 
 ## Estrategia de marketing (30 días)
 
+> Plan detallado, personas y campaña **«Tu AFORE Soberana»**: ver [`docs/product-brief.md`](docs/product-brief.md) (secciones 9–10).
+
 ### Semana 1: Lanzamiento
 - Publicar en Twitter/X con hashtags: #Bitcoin #Fedi #LightningNetwork #RetiroBTC
 - Post en comunidades de Telegram de Bitcoin LATAM
 - Enviar al catálogo de Fedi Mini Apps
 - Thread explicando el modelo freemium + Lightning
+- Narrativa Ley de Infraestructura 2026 / soberanía vs AFORE (ver estudio de mercado)
 
 ### Semana 2: Contenido educativo
 - Tutorial en video: "Cómo planificar tu retiro con Bitcoin en 5 minutos"

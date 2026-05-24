@@ -66,6 +66,16 @@ body {
   margin: 0 auto;
   padding: clamp(14px, 3.5vw, 22px);
   padding-bottom: clamp(40px, 5vw, 52px);
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+#app > header,
+#app > section,
+#app > footer {
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Index / Brújula: layout público al ancho del DS (1080); 640px deja grids “min-content” muy estrechas */
@@ -328,6 +338,15 @@ header.br-nav .header-actions .icon-btn.br-btn {
   margin-top: 4px;
 }
 
+/* Botones a ancho completo: permitir salto de línea en móvil (DS usa nowrap) */
+.br-btn.br-btn-full {
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
+}
+
 /* Campos DS en calculadora: targets táctiles y cifras más legibles */
 #calculator .br-input,
 #calculator .br-select {
@@ -397,6 +416,10 @@ input[type="range"].br-range::-moz-range-thumb {
   margin-bottom: 1.1rem;
   box-shadow: var(--shadow);
   transition: background var(--transition), border var(--transition);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-x: clip;
 }
 
 .card h2 {
@@ -672,9 +695,13 @@ input[type="range"]::-moz-range-thumb {
 /* Result cards */
 .result-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 1.15rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .result-item {
@@ -683,6 +710,10 @@ input[type="range"]::-moz-range-thumb {
   border-radius: var(--radius-sm);
   padding: 1.05rem;
   text-align: center;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .result-item.highlight {
@@ -698,13 +729,19 @@ input[type="range"]::-moz-range-thumb {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0.45rem;
+  line-height: 1.35;
+  overflow-wrap: break-word;
 }
 
 .result-value {
   display: block;
-  font-size: 1.55rem;
+  font-size: clamp(1rem, 4.2vw, 1.55rem);
   font-weight: 800;
   color: var(--text);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.2;
 }
 
 .result-value.accent {
@@ -822,9 +859,12 @@ input[type="range"]::-moz-range-thumb {
 /* Scenarios */
 .scenario-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 16px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .scenario-col {
@@ -833,6 +873,10 @@ input[type="range"]::-moz-range-thumb {
   border-radius: var(--radius-sm);
   padding: 14px 10px;
   text-align: center;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .scenario-col.featured {
@@ -861,6 +905,125 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
+}
+
+/* AFORE vs Bitcoin comparator */
+.afore-comparison {
+  margin: 1.35rem 0 1.15rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--border);
+}
+
+.afore-compare-heading {
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+.afore-comparison-lead {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+  line-height: 1.45;
+}
+
+.afore-diff-banner {
+  background: linear-gradient(135deg, rgba(240, 125, 56, 0.12), rgba(240, 125, 56, 0.04));
+  border: 1px solid rgba(240, 125, 56, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.9rem;
+  line-height: 1.45;
+}
+
+.afore-diff-banner--muted {
+  background: var(--input-bg);
+  border-color: var(--border);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.afore-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.afore-col {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.afore-col.featured {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(240, 125, 56, 0.08), transparent);
+}
+
+.afore-col h4 {
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+}
+
+.afore-rate {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.afore-stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+
+.afore-balance {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.afore-col.featured .afore-balance {
+  color: var(--accent);
+}
+
+.afore-real {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.afore-gain {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.afore-disclaimer {
+  margin-top: 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.chart-container--compact {
+  max-height: 220px;
 }
 
 /* Premium buttons */
@@ -1291,14 +1454,32 @@ footer .small {
   }
 
   .card {
-    padding: 18px;
+    padding: 16px 14px;
+  }
+
+  .result-cards {
+    gap: 8px;
+  }
+
+  .result-item {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .result-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25px;
   }
 
   .result-value {
-    font-size: 1.22rem;
+    font-size: clamp(0.9rem, 4.8vw, 1.15rem);
   }
 
   .scenario-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .afore-grid {
     grid-template-columns: 1fr;
     gap: 8px;
   }

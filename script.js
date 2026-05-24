@@ -10,6 +10,8 @@
   const BTC_PRICE_API = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,mxn';
   const SATS_PER_BTC = 100_000_000;
   const SWR_RATE = 0.04;
+  /** Rendimiento real histórico promedio del sistema AFORE (CONSAR, ~2026). */
+  const AFORE_REAL_RATE = 0.0502;
   const PREMIUM_KEY = 'btc_retirement_premium';
   const PLAN_KEY = 'btc_retirement_plan';
   const THEME_KEY = 'btc_retirement_theme';
@@ -47,6 +49,26 @@
       res_invested_label: 'Total invertido',
       res_gain_label: 'Ganancia neta',
       res_real_label: 'Poder adquisitivo real',
+      afore_compare_title: 'AFORE vs Bitcoin',
+      afore_compare_subtitle: 'Misma aportación e horizonte — distinto rendimiento y custodia.',
+      afore_col_afore: 'AFORE voluntario',
+      afore_col_btc: 'Tu plan en Bitcoin',
+      afore_rate_afore: '~5,02% real anual (promedio histórico CONSAR)',
+      afore_rate_btc: '{rate}% anual (tu proyección)',
+      afore_final_balance: 'Saldo final',
+      afore_real_power: 'Poder adquisitivo real',
+      afore_gain: 'Ganancia neta',
+      afore_diff_more: 'Con Bitcoin podrías tener {amount} más ({multiplier}×) que en AFORE voluntario.',
+      afore_diff_less: 'Con estos parámetros la proyección AFORE supera la tuya — revisa el rendimiento esperado de BTC.',
+      afore_diff_equal: 'Ambas proyecciones coinciden con estos parámetros.',
+      afore_disclaimer: 'AFORE: promedio real histórico del sistema (~5,02%). No incluye comisiones de tu administradora. Bitcoin: rendimiento que tú eliges; el pasado no garantiza resultados.',
+      chart_afore: 'AFORE voluntario',
+      chart_btc_plan: 'Plan Bitcoin',
+      help_afore_title: 'Comparador AFORE vs Bitcoin',
+      help_afore_desc: 'Compara tu plan de ahorro en Bitcoin contra una subcuenta de ahorro voluntario AFORE con el mismo monto inicial, aportes y años.',
+      help_afore_afore: '<strong>AFORE voluntario:</strong> usa el rendimiento real histórico promedio del sistema (~5,02% anual, fuente CONSAR).',
+      help_afore_btc: '<strong>Tu plan Bitcoin:</strong> usa el rendimiento anual que elegiste en la calculadora.',
+      help_afore_real: 'Si activaste inflación, ambas columnas muestran el poder adquisitivo real ajustado.',
       btn_share: 'Compartir resultado',
       btn_premium_cta: '⚡ Desbloquear Premium',
       aureo_title: '🇲🇽 Compra Bitcoin con pesos',
@@ -236,6 +258,26 @@
       res_invested_label: 'Total invested',
       res_gain_label: 'Net gain',
       res_real_label: 'Real purchasing power',
+      afore_compare_title: 'AFORE vs Bitcoin',
+      afore_compare_subtitle: 'Same contributions and horizon — different return and custody.',
+      afore_col_afore: 'Voluntary AFORE',
+      afore_col_btc: 'Your Bitcoin plan',
+      afore_rate_afore: '~5.02% real annual (CONSAR historical average)',
+      afore_rate_btc: '{rate}% annual (your projection)',
+      afore_final_balance: 'Final balance',
+      afore_real_power: 'Real purchasing power',
+      afore_gain: 'Net gain',
+      afore_diff_more: 'With Bitcoin you could have {amount} more ({multiplier}×) than voluntary AFORE.',
+      afore_diff_less: 'With these inputs AFORE beats your projection — review your expected BTC return.',
+      afore_diff_equal: 'Both projections match with these inputs.',
+      afore_disclaimer: 'AFORE: system historical real average (~5.02%). Excludes your administrator fees. Bitcoin: return you choose; past performance does not guarantee future results.',
+      chart_afore: 'Voluntary AFORE',
+      chart_btc_plan: 'Bitcoin plan',
+      help_afore_title: 'AFORE vs Bitcoin comparator',
+      help_afore_desc: 'Compare your Bitcoin savings plan against a voluntary AFORE sub-account with the same initial amount, contributions and years.',
+      help_afore_afore: '<strong>Voluntary AFORE:</strong> uses the system historical real average (~5.02% annual, CONSAR source).',
+      help_afore_btc: '<strong>Your Bitcoin plan:</strong> uses the annual return you selected in the calculator.',
+      help_afore_real: 'If inflation is enabled, both columns show inflation-adjusted purchasing power.',
       btn_share: 'Share result',
       btn_premium_cta: '⚡ Unlock Premium',
       aureo_title: '🇲🇽 Buy Bitcoin with pesos',
@@ -425,6 +467,26 @@
       res_invested_label: 'Total investido',
       res_gain_label: 'Ganho líquido',
       res_real_label: 'Poder de compra real',
+      afore_compare_title: 'AFORE vs Bitcoin',
+      afore_compare_subtitle: 'Mesma contribuição e horizonte — retorno e custódia diferentes.',
+      afore_col_afore: 'AFORE voluntário',
+      afore_col_btc: 'Seu plano em Bitcoin',
+      afore_rate_afore: '~5,02% real anual (média histórica CONSAR)',
+      afore_rate_btc: '{rate}% anual (sua projeção)',
+      afore_final_balance: 'Saldo final',
+      afore_real_power: 'Poder de compra real',
+      afore_gain: 'Ganho líquido',
+      afore_diff_more: 'Com Bitcoin você poderia ter {amount} a mais ({multiplier}×) que no AFORE voluntário.',
+      afore_diff_less: 'Com estes parâmetros o AFORE supera sua projeção — revise o retorno esperado do BTC.',
+      afore_diff_equal: 'Ambas as projeções coincidem com estes parâmetros.',
+      afore_disclaimer: 'AFORE: média real histórica do sistema (~5,02%). Não inclui taxas da administradora. Bitcoin: retorno que você escolhe; o passado não garante resultados futuros.',
+      chart_afore: 'AFORE voluntário',
+      chart_btc_plan: 'Plano Bitcoin',
+      help_afore_title: 'Comparador AFORE vs Bitcoin',
+      help_afore_desc: 'Compare seu plano de poupança em Bitcoin com uma subconta voluntária AFORE com o mesmo valor inicial, aportes e anos.',
+      help_afore_afore: '<strong>AFORE voluntário:</strong> usa a média real histórica do sistema (~5,02% ao ano, fonte CONSAR).',
+      help_afore_btc: '<strong>Seu plano Bitcoin:</strong> usa o retorno anual que você escolheu na calculadora.',
+      help_afore_real: 'Se a inflação estiver ativa, ambas as colunas mostram o poder de compra real ajustado.',
       btn_share: 'Compartilhar resultado',
       btn_premium_cta: '⚡ Desbloquear Premium',
       aureo_title: '🇲🇽 Compre Bitcoin com pesos',
@@ -614,6 +676,26 @@
       res_invested_label: 'Total investi',
       res_gain_label: 'Gain net',
       res_real_label: 'Pouvoir d\'achat réel',
+      afore_compare_title: 'AFORE vs Bitcoin',
+      afore_compare_subtitle: 'Même apport et horizon — rendement et garde différents.',
+      afore_col_afore: 'AFORE volontaire',
+      afore_col_btc: 'Votre plan Bitcoin',
+      afore_rate_afore: '~5,02 % réel annuel (moyenne historique CONSAR)',
+      afore_rate_btc: '{rate} % annuel (votre projection)',
+      afore_final_balance: 'Solde final',
+      afore_real_power: 'Pouvoir d\'achat réel',
+      afore_gain: 'Gain net',
+      afore_diff_more: 'Avec Bitcoin vous pourriez avoir {amount} de plus ({multiplier}×) qu\'en AFORE volontaire.',
+      afore_diff_less: 'Avec ces paramètres l\'AFORE dépasse votre projection — revoyez le rendement BTC attendu.',
+      afore_diff_equal: 'Les deux projections coïncident avec ces paramètres.',
+      afore_disclaimer: 'AFORE : moyenne réelle historique du système (~5,02 %). Hors frais de votre administrateur. Bitcoin : rendement choisi ; le passé ne garantit pas l\'avenir.',
+      chart_afore: 'AFORE volontaire',
+      chart_btc_plan: 'Plan Bitcoin',
+      help_afore_title: 'Comparateur AFORE vs Bitcoin',
+      help_afore_desc: 'Comparez votre plan d\'épargne Bitcoin à une sous-compte volontaire AFORE avec le même montant initial, apports et années.',
+      help_afore_afore: '<strong>AFORE volontaire :</strong> utilise la moyenne réelle historique du système (~5,02 % par an, source CONSAR).',
+      help_afore_btc: '<strong>Votre plan Bitcoin :</strong> utilise le rendement annuel que vous avez choisi dans la calculatrice.',
+      help_afore_real: 'Si l\'inflation est activée, les deux colonnes affichent le pouvoir d\'achat réel ajusté.',
       btn_share: 'Partager le résultat',
       btn_premium_cta: '⚡ Débloquer Premium',
       aureo_title: '🇲🇽 Achetez du Bitcoin avec des pesos',
@@ -826,6 +908,18 @@
     resGain: $('#res-gain'),
     resReal: $('#res-real'),
     resInflationBox: $('#res-inflation-box'),
+    aforeComparison: $('#afore-comparison'),
+    aforeDiffBanner: $('#afore-diff-banner'),
+    aforeRateAfore: $('#afore-rate-afore'),
+    aforeRateBtc: $('#afore-rate-btc'),
+    aforeBalanceAfore: $('#afore-balance-afore'),
+    aforeBalanceBtc: $('#afore-balance-btc'),
+    aforeRealAfore: $('#afore-real-afore'),
+    aforeRealBtc: $('#afore-real-btc'),
+    aforeGainAfore: $('#afore-gain-afore'),
+    aforeGainBtc: $('#afore-gain-btc'),
+    aforeRealLabels: $$('.afore-real-label'),
+    chartAforeBtc: $('#chart-afore-btc'),
     chartProjection: $('#chart-projection'),
     btnShare: $('#btn-share'),
     btnPremiumCta: $('#btn-premium-cta'),
@@ -884,6 +978,9 @@
     localStorage.setItem(LANG_KEY, lang);
     document.documentElement.lang = lang;
     applyLanguage();
+    if (dom.results && !dom.results.classList.contains('hidden')) {
+      calculate();
+    }
   }
 
   function applyLanguage() {
@@ -1496,6 +1593,7 @@
     }
 
     renderProjectionChart(snapshots, fiatMultiplier, displayCurrency);
+    renderAforeComparison(inputs, snapshots, fiatMultiplier, displayCurrency);
 
     dom.results.classList.remove('hidden');
     dom.results.classList.add('show');
@@ -1545,6 +1643,109 @@
             fill: false,
             tension: 0.3,
             pointRadius: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: {
+          legend: { labels: { color: textColor, font: { size: 12 } } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y, curr)}`,
+            },
+          },
+        },
+        scales: {
+          x: { ticks: { color: textColor, maxTicksLimit: 10 }, grid: { color: gridColor } },
+          y: { ticks: { color: textColor, callback: (v) => formatCompact(v, curr) }, grid: { color: gridColor } },
+        },
+      },
+    });
+  }
+
+  function renderAforeComparison(inputs, btcSnapshots, fiatMul, curr) {
+    if (!dom.aforeComparison) return;
+
+    const aforeSnaps = computeProjection(
+      inputs.initial,
+      inputs.monthlyContrib,
+      inputs.years,
+      AFORE_REAL_RATE,
+    );
+    const aforeLast = aforeSnaps[aforeSnaps.length - 1];
+    const btcLast = btcSnapshots[btcSnapshots.length - 1];
+
+    const aforeFiat = aforeLast.balance * fiatMul;
+    const btcFiat = btcLast.balance * fiatMul;
+    const diffFiat = btcFiat - aforeFiat;
+    const multiplier = aforeFiat > 0 ? btcFiat / aforeFiat : 0;
+
+    dom.aforeRateAfore.textContent = t('afore_rate_afore');
+    dom.aforeRateBtc.textContent = t('afore_rate_btc').replace('{rate}', (inputs.annualReturn * 100).toFixed(1));
+    dom.aforeBalanceAfore.textContent = formatCurrency(aforeFiat, curr);
+    dom.aforeBalanceBtc.textContent = formatCurrency(btcFiat, curr);
+    dom.aforeGainAfore.textContent = `+${formatCurrency(aforeLast.gains * fiatMul, curr)}`;
+    dom.aforeGainBtc.textContent = `+${formatCurrency(btcLast.gains * fiatMul, curr)}`;
+
+    const showReal = inputs.inflation > 0;
+    dom.aforeRealLabels.forEach((el) => el.classList.toggle('hidden', !showReal));
+    dom.aforeRealAfore.classList.toggle('hidden', !showReal);
+    dom.aforeRealBtc.classList.toggle('hidden', !showReal);
+
+    if (showReal) {
+      const inflationFactor = Math.pow(1 + inputs.inflation, inputs.years);
+      dom.aforeRealAfore.textContent = formatCurrency((aforeLast.balance / inflationFactor) * fiatMul, curr);
+      dom.aforeRealBtc.textContent = formatCurrency((btcLast.balance / inflationFactor) * fiatMul, curr);
+    }
+
+    if (diffFiat > 0.01) {
+      dom.aforeDiffBanner.textContent = t('afore_diff_more')
+        .replace('{amount}', formatCurrency(diffFiat, curr))
+        .replace('{multiplier}', multiplier.toFixed(1));
+      dom.aforeDiffBanner.classList.remove('afore-diff-banner--muted');
+    } else if (diffFiat < -0.01) {
+      dom.aforeDiffBanner.textContent = t('afore_diff_less');
+      dom.aforeDiffBanner.classList.add('afore-diff-banner--muted');
+    } else {
+      dom.aforeDiffBanner.textContent = t('afore_diff_equal');
+      dom.aforeDiffBanner.classList.add('afore-diff-banner--muted');
+    }
+
+    dom.aforeComparison.classList.remove('hidden');
+
+    if (state.charts.aforeComparison) state.charts.aforeComparison.destroy();
+
+    if (!dom.chartAforeBtc) return;
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+    const textColor = isDark ? '#888' : '#666';
+
+    state.charts.aforeComparison = new Chart(dom.chartAforeBtc, {
+      type: 'line',
+      data: {
+        labels: btcSnapshots.map((s) => `${t('chart_year')} ${s.year}`),
+        datasets: [
+          {
+            label: t('chart_afore'),
+            data: aforeSnaps.map((s) => Math.round(s.balance * fiatMul)),
+            borderColor: '#78909c',
+            backgroundColor: 'rgba(120, 144, 156, 0.08)',
+            fill: false,
+            tension: 0.3,
+            pointRadius: 1,
+          },
+          {
+            label: t('chart_btc_plan'),
+            data: btcSnapshots.map((s) => Math.round(s.balance * fiatMul)),
+            borderColor: '#F07D38',
+            backgroundColor: 'rgba(240, 125, 56, 0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 2,
           },
         ],
       },

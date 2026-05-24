@@ -174,6 +174,38 @@
           </div>
         </div>
 
+        <div id="afore-comparison" class="afore-comparison hidden">
+          <h3 class="afore-compare-heading br-headline" data-i18n="afore_compare_title">AFORE vs Bitcoin</h3>
+          <p class="afore-comparison-lead" data-i18n="afore_compare_subtitle">Misma aportación e horizonte — distinto rendimiento y custodia.</p>
+          <div class="afore-diff-banner" id="afore-diff-banner" role="status"></div>
+          <div class="afore-grid">
+            <div class="afore-col" id="afore-col-afore">
+              <h4 data-i18n="afore_col_afore">AFORE voluntario</h4>
+              <p class="afore-rate" id="afore-rate-afore"></p>
+              <p class="afore-stat-label" data-i18n="afore_final_balance">Saldo final</p>
+              <p class="afore-balance" id="afore-balance-afore">—</p>
+              <p class="afore-stat-label afore-real-label hidden" data-i18n="afore_real_power">Poder adquisitivo real</p>
+              <p class="afore-real hidden" id="afore-real-afore">—</p>
+              <p class="afore-stat-label" data-i18n="afore_gain">Ganancia neta</p>
+              <p class="afore-gain" id="afore-gain-afore">—</p>
+            </div>
+            <div class="afore-col featured" id="afore-col-btc">
+              <h4 data-i18n="afore_col_btc">Tu plan en Bitcoin</h4>
+              <p class="afore-rate" id="afore-rate-btc"></p>
+              <p class="afore-stat-label" data-i18n="afore_final_balance">Saldo final</p>
+              <p class="afore-balance" id="afore-balance-btc">—</p>
+              <p class="afore-stat-label afore-real-label hidden" data-i18n="afore_real_power">Poder adquisitivo real</p>
+              <p class="afore-real hidden" id="afore-real-btc">—</p>
+              <p class="afore-stat-label" data-i18n="afore_gain">Ganancia neta</p>
+              <p class="afore-gain" id="afore-gain-btc">—</p>
+            </div>
+          </div>
+          <div class="chart-container chart-container--compact">
+            <canvas id="chart-afore-btc"></canvas>
+          </div>
+          <p class="afore-disclaimer br-disclaimer" data-i18n="afore_disclaimer">AFORE: promedio real histórico del sistema (~5,02%). No incluye comisiones de tu administradora. Bitcoin: rendimiento que tú eliges; el pasado no garantiza resultados.</p>
+        </div>
+
         <div class="chart-container">
           <canvas id="chart-projection"></canvas>
         </div>
@@ -338,6 +370,16 @@
                 <p data-i18n-html="help_res_invested"><strong>Total invertido:</strong> cuánto dinero pusiste en total (ahorro inicial + todos tus aportes).</p>
                 <p data-i18n-html="help_res_gain"><strong>Ganancia neta:</strong> la diferencia entre lo que tendrías y lo que invertiste. En verde.</p>
                 <p data-i18n-html="help_res_real"><strong>Poder adquisitivo real:</strong> tu saldo ajustado por inflación — lo que realmente podrías comprar con ese dinero.</p>
+              </div>
+            </details>
+
+            <details>
+              <summary data-i18n="help_afore_title">Comparador AFORE vs Bitcoin</summary>
+              <div class="acc-body">
+                <p data-i18n="help_afore_desc">Compara tu plan de ahorro en Bitcoin contra una subcuenta de ahorro voluntario AFORE con el mismo monto inicial, aportes y años.</p>
+                <p data-i18n-html="help_afore_afore"><strong>AFORE voluntario:</strong> usa el rendimiento real histórico promedio del sistema (~5,02% anual, fuente CONSAR).</p>
+                <p data-i18n-html="help_afore_btc"><strong>Tu plan Bitcoin:</strong> usa el rendimiento anual que elegiste en la calculadora.</p>
+                <p data-i18n="help_afore_real">Si activaste inflación, ambas columnas muestran el poder adquisitivo real ajustado.</p>
               </div>
             </details>
 

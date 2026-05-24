@@ -90,7 +90,108 @@ html[data-theme='dark'] .landing-hero-logo-frame {
   font-size: var(--br-text-lg);
   color: var(--br-text-secondary);
   margin: 0 auto var(--br-sp-8);
-  max-width: 32rem;
+  max-width: 36rem;
+  line-height: 1.55;
+}
+
+.landing-campaign-kicker {
+  color: var(--br-orange);
+  letter-spacing: 0.16em;
+}
+
+.landing-hero-ctas {
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Campaña Tu AFORE Soberana */
+.landing-campaign-band {
+  background: linear-gradient(
+    155deg,
+    rgba(var(--br-orange-rgb), 0.1) 0%,
+    var(--br-brand-navy-soft) 45%,
+    transparent 100%
+  );
+  border: 1px solid rgba(var(--br-orange-rgb), 0.28);
+  border-radius: var(--br-r-xl);
+  padding: var(--br-sp-10) clamp(var(--br-sp-6), 4vw, var(--br-sp-12));
+  margin: var(--br-sp-8) auto var(--br-sp-10);
+  max-width: min(1080px, 100%);
+  box-sizing: border-box;
+  box-shadow: var(--br-shadow-md);
+}
+
+[data-theme='light'] .landing-campaign-band {
+  background: linear-gradient(
+    155deg,
+    rgba(var(--br-orange-rgb), 0.08) 0%,
+    rgba(30, 43, 88, 0.06) 50%,
+    transparent 100%
+  );
+}
+
+.landing-campaign-title {
+  margin-bottom: var(--br-sp-4);
+  text-align: center;
+}
+
+.landing-campaign-body,
+.landing-campaign-note {
+  text-align: center;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--br-text-secondary);
+  line-height: 1.55;
+}
+
+.landing-campaign-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--br-sp-4);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .landing-campaign-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--br-sp-6);
+  }
+}
+
+.landing-campaign-stat {
+  text-align: center;
+  padding: var(--br-sp-6) var(--br-sp-4);
+}
+
+.landing-campaign-stat--alert {
+  border-color: rgba(var(--br-orange-rgb), 0.45);
+  background: linear-gradient(180deg, rgba(var(--br-orange-rgb), 0.1), transparent);
+}
+
+.landing-campaign-stat-value {
+  font-family: var(--br-font-display);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: var(--br-orange);
+  margin: 0 0 var(--br-sp-2);
+  line-height: 1.1;
+}
+
+.landing-campaign-stat--alert .landing-campaign-stat-value {
+  color: var(--br-gold);
+}
+
+.landing-campaign-stat-label {
+  font-size: var(--br-text-sm);
+  margin: 0;
+  color: var(--br-text-muted);
+  line-height: 1.4;
+}
+
+.landing-campaign-cta-wrap {
+  display: flex;
+  justify-content: center;
 }
 
 .landing-highlight-band {
