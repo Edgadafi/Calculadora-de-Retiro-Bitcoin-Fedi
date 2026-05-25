@@ -281,7 +281,7 @@
         var consentimiento = document.getElementById('guia-consentimiento');
         if (!nombre || !nombre.value.trim()) { alert('Por favor ingresa tu nombre.'); return; }
         if (!correo || !correo.value.trim()) { alert('Por favor ingresa tu correo.'); return; }
-        if (!consentimiento || !consentimiento.checked) { alert('Acepta el aviso de privacidad para continuar.'); return; }
+        if (!consentimiento || !consentimiento.checked) { alert('Debes aceptar el Aviso de Privacidad Integral para continuar.'); return; }
         btnEnviar.textContent = 'Guía enviada — revisa tu correo';
         btnEnviar.disabled = true;
         if (overlay) setTimeout(function () { overlay.classList.remove('open'); }, 1800);

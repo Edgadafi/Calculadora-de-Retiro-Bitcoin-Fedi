@@ -13,7 +13,9 @@
   ],
   "rewrites": [
     { "source": "/brujula/", "destination": "/brujula.html" },
-    { "source": "/brujula", "destination": "/brujula.html" }
+    { "source": "/brujula", "destination": "/brujula.html" },
+    { "source": "/aviso-privacidad", "destination": "/aviso-privacidad.html" },
+    { "source": "/aviso-privacidad/", "destination": "/aviso-privacidad.html" }
   ],
   "headers": [
     {

@@ -320,6 +320,10 @@
             <input id="input-mp-email" type="email" autocomplete="email" maxlength="254" spellcheck="false" class="input-restore-id mp-email-input" data-i18n-placeholder="mp_email_placeholder" placeholder="" />
             <p class="mp-email-hint" data-i18n="mp_email_hint"></p>
           </div>
+          <label class="privacy-consent-row" for="input-mp-privacy-consent">
+            <input type="checkbox" id="input-mp-privacy-consent" />
+            <span class="privacy-consent-text" data-i18n-html="privacy_consent_checkout">He leído y acepto el <a href="/aviso-privacidad" target="_blank" rel="noopener">Aviso de Privacidad Integral</a> antes de realizar el pago.</span>
+          </label>
           <div id="premium-plans" class="premium-plans">
             <button id="btn-pay-monthly" class="btn-accent plan-btn">
               <span class="plan-price" data-i18n="plan_monthly">~$1 USD/mes</span>
@@ -477,6 +481,12 @@
     <footer>
       <p><span data-i18n="footer_made">Hecho con ₿ para la comunidad</span> <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a></p>
       <p class="small" data-i18n="footer_disclaimer">Los cálculos son proyecciones educativas, no asesoría financiera.</p>
+      <nav class="landing-footer-links" aria-label="Enlaces del sitio" data-i18n-aria="footer_nav_aria">
+        <a href="/" data-i18n="footer_home">Inicio</a>
+        <a href="/brujula" data-i18n="footer_brujula">Brújula</a>
+        <a href="/calc" data-i18n="footer_calc">Calculadora</a>
+        <a href="/aviso-privacidad" data-i18n="footer_privacy">Aviso de privacidad</a>
+      </nav>
     </footer>
 
   </div>

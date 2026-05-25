@@ -110,6 +110,8 @@
       mp_email_label: 'Tu correo (para Mercado Pago)',
       mp_email_placeholder: 'tu@email.com',
       mp_email_hint: 'Mercado Pago lo usa para SPEI, comprobantes y algunos financiamientos (p. ej. meses sin tarjeta).',
+      privacy_consent_checkout: 'He leído y acepto el <a href="/aviso-privacidad" target="_blank" rel="noopener">Aviso de Privacidad Integral</a> antes de realizar el pago.',
+      toast_privacy_required: 'Debes aceptar el Aviso de Privacidad Integral para continuar.',
       toast_mp_email_required: 'Introduce un correo válido antes de ir al cobro.',
       help_title: '📖 Guía de usuario',
       help_calc_title: 'Cómo usar la calculadora',
@@ -172,6 +174,11 @@
       help_v2_note: 'En la versión 2 tendrás un asistente de chat para resolver tus dudas al instante.',
       footer_made: 'Hecho con ₿ para la comunidad',
       footer_disclaimer: 'Los cálculos son proyecciones educativas, no asesoría financiera.',
+      footer_nav_aria: 'Enlaces del sitio',
+      footer_home: 'Inicio',
+      footer_brujula: 'Brújula',
+      footer_calc: 'Calculadora',
+      footer_privacy: 'Aviso de privacidad',
       return_info_toggle: '¿Qué rendimiento elegir?',
       return_info_4y: 'Últimos 4 años (2021–2025): ~30% anual',
       return_info_8y: 'Últimos 8 años (2017–2025): ~25% anual',
@@ -319,6 +326,8 @@
       mp_email_label: 'Your email (for Mercado Pago)',
       mp_email_placeholder: 'you@email.com',
       mp_email_hint: 'Mercado Pago often needs this for bank transfer (SPEI), receipts, and some financing options.',
+      privacy_consent_checkout: 'I have read and accept the <a href="/aviso-privacidad" target="_blank" rel="noopener">Integral Privacy Notice</a> before paying.',
+      toast_privacy_required: 'You must accept the Integral Privacy Notice to continue.',
       toast_mp_email_required: 'Please enter a valid email before checking out.',
       help_title: '📖 User Guide',
       help_calc_title: 'How to use the calculator',
@@ -381,6 +390,11 @@
       help_v2_note: 'In version 2 you\'ll have a chat assistant to answer your questions instantly.',
       footer_made: 'Made with ₿ for the',
       footer_disclaimer: 'Calculations are educational projections, not financial advice.',
+      footer_nav_aria: 'Site links',
+      footer_home: 'Home',
+      footer_brujula: 'Compass',
+      footer_calc: 'Calculator',
+      footer_privacy: 'Privacy notice',
       return_info_toggle: 'Which return to choose?',
       return_info_4y: 'Last 4 years (2021–2025): ~30% annual',
       return_info_8y: 'Last 8 years (2017–2025): ~25% annual',
@@ -528,6 +542,8 @@
       mp_email_label: 'Seu email (Mercado Pago)',
       mp_email_placeholder: 'voce@email.com',
       mp_email_hint: 'O Mercado Pago costuma exigir para transferências bancárias, comprovantes e financiamentos.',
+      privacy_consent_checkout: 'Li e aceito o <a href="/aviso-privacidad" target="_blank" rel="noopener">Aviso de Privacidade Integral</a> antes de pagar.',
+      toast_privacy_required: 'Você deve aceitar o Aviso de Privacidade Integral para continuar.',
       toast_mp_email_required: 'Digite um email válido antes de ir ao pagamento.',
       help_title: '📖 Guia do usuário',
       help_calc_title: 'Como usar a calculadora',
@@ -590,6 +606,11 @@
       help_v2_note: 'Na versão 2 terá um assistente de chat para resolver suas dúvidas instantaneamente.',
       footer_made: 'Feito com ₿ para a comunidade',
       footer_disclaimer: 'Os cálculos são projeções educacionais, não assessoria financeira.',
+      footer_nav_aria: 'Links do site',
+      footer_home: 'Início',
+      footer_brujula: 'Bússola',
+      footer_calc: 'Calculadora',
+      footer_privacy: 'Aviso de privacidade',
       return_info_toggle: 'Qual retorno escolher?',
       return_info_4y: 'Últimos 4 anos (2021–2025): ~30% anual',
       return_info_8y: 'Últimos 8 anos (2017–2025): ~25% anual',
@@ -737,6 +758,8 @@
       mp_email_label: 'Votre email (Mercado Pago)',
       mp_email_placeholder: 'vous@email.com',
       mp_email_hint: 'Souvent requis pour virements SPEI, reçus et certains financements.',
+      privacy_consent_checkout: 'J\'ai lu et j\'accepte l\'<a href="/aviso-privacidad" target="_blank" rel="noopener">Avis de confidentialité intégral</a> avant de payer.',
+      toast_privacy_required: 'Vous devez accepter l\'Avis de confidentialité intégral pour continuer.',
       toast_mp_email_required: 'Veuillez saisir un email valide avant le paiement.',
       help_title: '📖 Guide utilisateur',
       help_calc_title: 'Comment utiliser la calculatrice',
@@ -799,6 +822,11 @@
       help_v2_note: 'Dans la version 2, vous aurez un assistant chat pour résoudre vos questions instantanément.',
       footer_made: 'Fait avec ₿ pour la communauté',
       footer_disclaimer: 'Les calculs sont des projections éducatives, pas des conseils financiers.',
+      footer_nav_aria: 'Liens du site',
+      footer_home: 'Accueil',
+      footer_brujula: 'Boussole',
+      footer_calc: 'Calculatrice',
+      footer_privacy: 'Avis de confidentialité',
       return_info_toggle: 'Quel rendement choisir ?',
       return_info_4y: '4 dernières années (2021–2025) : ~30% annuel',
       return_info_8y: '8 dernières années (2017–2025) : ~25% annuel',
@@ -952,6 +980,7 @@
     paymentFlow: $('#payment-flow'),
     mpEmailRow: $('#mp-email-row'),
     inputMpEmail: $('#input-mp-email'),
+    inputMpPrivacyConsent: $('#input-mp-privacy-consent'),
     priceMonthly: $('#price-monthly-sats'),
     priceLifetime: $('#price-lifetime-sats'),
     btnSave: $('#btn-save'),
@@ -1209,6 +1238,11 @@
 
   async function handlePayment(amountUSD) {
     const type = amountUSD === MONTHLY_PRICE_USD ? 'monthly' : 'lifetime';
+
+    if (!dom.inputMpPrivacyConsent?.checked) {
+      showToast(t('toast_privacy_required'));
+      return;
+    }
 
     if (PAYMENT_USE_MERCADOPAGO) {
       try {

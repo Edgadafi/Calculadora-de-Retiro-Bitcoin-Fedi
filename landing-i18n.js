@@ -81,6 +81,7 @@
       landing_footer_home: 'Inicio',
       landing_footer_brujula: 'Brújula',
       landing_footer_calc: 'Calculadora',
+      landing_footer_privacy: 'Aviso de privacidad',
     },
     en: {
       landing_doc_title: 'Your Sovereign AFORE — Bitcoin Retirement Calculator',
@@ -155,6 +156,7 @@
       landing_footer_home: 'Home',
       landing_footer_brujula: 'Compass',
       landing_footer_calc: 'Calculator',
+      landing_footer_privacy: 'Privacy notice',
     },
     pt: {
       landing_doc_title: 'Sua AFORE Soberana — Calculadora de Aposentadoria Bitcoin',
@@ -229,6 +231,7 @@
       landing_footer_home: 'Início',
       landing_footer_brujula: 'Bússola',
       landing_footer_calc: 'Calculadora',
+      landing_footer_privacy: 'Aviso de privacidade',
     },
     fr: {
       landing_doc_title: 'Votre AFORE souveraine — Calculatrice retraite Bitcoin',
@@ -303,6 +306,7 @@
       landing_footer_home: 'Accueil',
       landing_footer_brujula: 'Boussole',
       landing_footer_calc: 'Calculatrice',
+      landing_footer_privacy: 'Avis de confidentialité',
     },
   };
 
