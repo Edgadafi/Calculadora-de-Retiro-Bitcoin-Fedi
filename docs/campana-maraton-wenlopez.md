@@ -13,6 +13,23 @@ Evento: [wenlopezn.com/maraton](https://wenlopezn.com/maraton) — 12 h en vivo,
 
 **Tiempo por producto:** ~15–20 min. Demo calc **≤3 min**.
 
+## Screenshots Fedi (producción)
+
+Capturas reales de `www.retirobtc.mx/calc` (tema oscuro, ES, viewport móvil 390×844). Regenerar:
+
+```bash
+npm install playwright --no-save
+node scripts/capture-fedi-screenshots.mjs
+```
+
+| Archivo | Contenido |
+|---------|-----------|
+| `assets/screenshots/fedi/calc-input-dark.png` | Formulario DCA (#calculator) |
+| `assets/screenshots/fedi/calc-result-dark.png` | Tu proyección + gráfica (#results) |
+| `assets/screenshots/fedi/calc-afore-dark.png` | Comparador AFORE vs Bitcoin (#afore-comparison) |
+
+Parámetros de captura: $500 inicial, $100/mes, 15 años, 15% retorno, USD.
+
 ## URLs con tracking
 
 | Uso | URL |
