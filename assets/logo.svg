@@ -1,39 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <clipPath id="roundedSquare">
-      <rect width="512" height="512" rx="90" ry="90"/>
-    </clipPath>
-  </defs>
+  <!-- Brújula v2 — fondo transparente (alias legacy; mismo ícono que logo-fedi-icon.svg) -->
 
-  <g clip-path="url(#roundedSquare)">
-    <!-- Fondo transparente: el nav y favicon se integran sobre claro/oscuro -->
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="#F07D38" stroke-width="6"/>
 
-    <!-- Bitcoin coin (main circle) -->
-    <circle cx="256" cy="248" r="140" fill="#e8920a"/>
-
-    <!-- Growth chart line across coin -->
-    <path d="M140 310 Q180 300 210 280 Q240 260 270 230 Q300 200 330 210 Q360 220 380 190"
-          fill="none" stroke="#1a2744" stroke-width="8" stroke-linecap="round"/>
-
-    <!-- Chart dots -->
-    <circle cx="175" cy="303" r="8" fill="#1a2744"/>
-    <circle cx="230" cy="268" r="8" fill="#1a2744"/>
-    <circle cx="290" cy="222" r="8" fill="#1a2744"/>
-    <circle cx="350" cy="205" r="8" fill="#1a2744"/>
-
-    <!-- Rocket body -->
-    <g transform="translate(256, 72)">
-      <!-- Rocket nose cone -->
-      <path d="M0 -35 L-14 0 L14 0 Z" fill="#e8920a"/>
-      <!-- Rocket body -->
-      <rect x="-14" y="0" width="28" height="36" rx="2" fill="#e8920a"/>
-      <!-- Rocket fins -->
-      <path d="M-14 28 L-24 40 L-14 36 Z" fill="#e8920a"/>
-      <path d="M14 28 L24 40 L14 36 Z" fill="#e8920a"/>
-      <!-- Rocket flame -->
-      <path d="M-8 36 Q0 50 8 36" fill="#ff6b1a"/>
-      <!-- Bitcoin B on rocket -->
-      <text x="0" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#1a2744">&#x20bf;</text>
-    </g>
+  <!-- Cardinal marks -->
+  <g stroke="#F07D38" stroke-width="4" stroke-linecap="round">
+    <line x1="256" y1="92" x2="256" y2="108"/>
+    <line x1="256" y1="404" x2="256" y2="420"/>
+    <line x1="92" y1="256" x2="108" y2="256"/>
+    <line x1="404" y1="256" x2="420" y2="256"/>
   </g>
+
+  <!-- North label -->
+  <text x="256" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#F07D38">N</text>
+
+  <!-- South needle -->
+  <path d="M256 168 L228 320 L256 300 L284 320 Z" fill="#4A5568"/>
+
+  <!-- North needle -->
+  <path d="M256 320 L228 168 L256 188 L284 168 Z" fill="#F07D38"/>
+
+  <!-- Center: Bitcoin symbol -->
+  <circle cx="256" cy="256" r="36" fill="#F07D38"/>
+  <text x="256" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="38" fill="#1E2B58">&#x20bf;</text>
 </svg>
