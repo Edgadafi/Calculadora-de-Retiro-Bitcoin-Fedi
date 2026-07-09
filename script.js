@@ -171,7 +171,7 @@
       help_g_swr: '<strong>SWR:</strong> Safe Withdrawal Rate — regla orientativa de retiros anuales sostenibles (clásicamente ~4%).',
       help_g_inflation: '<strong>Inflación:</strong> la pérdida de poder adquisitivo de una moneda con el tiempo.',
       help_g_fedi: '<strong>Fedi:</strong> plataforma comunitaria de Bitcoin con wallets y mini apps.',
-      help_v2_note: 'En la versión 2 tendrás un asistente de chat para resolver tus dudas al instante.',
+      help_v2_note: 'Usa el botón Rito (esquina inferior derecha) para resolver dudas al instante sobre la calculadora, Fedi y retiro en México.',
       footer_made: 'Hecho con ₿ para la comunidad',
       footer_disclaimer: 'Los cálculos son proyecciones educativas, no asesoría financiera.',
       footer_nav_aria: 'Enlaces del sitio',
@@ -387,7 +387,7 @@
       help_g_swr: '<strong>SWR:</strong> Safe Withdrawal Rate — rule of thumb for sustainable yearly withdrawals (often quoted around 4%).',
       help_g_inflation: '<strong>Inflation:</strong> the loss of purchasing power of a currency over time.',
       help_g_fedi: '<strong>Fedi:</strong> community Bitcoin platform with wallets and mini apps.',
-      help_v2_note: 'In version 2 you\'ll have a chat assistant to answer your questions instantly.',
+      help_v2_note: 'Use the Rito button (bottom-right) for instant help about the calculator, Fedi, and retirement planning in Mexico.',
       footer_made: 'Made with ₿ for the',
       footer_disclaimer: 'Calculations are educational projections, not financial advice.',
       footer_nav_aria: 'Site links',
@@ -603,7 +603,7 @@
       help_g_swr: '<strong>SWR:</strong> Safe Withdrawal Rate — orientação sobre retiradas anuais sustentáveis (na prática ~4% ao ano).',
       help_g_inflation: '<strong>Inflação:</strong> a perda de poder de compra de uma moeda ao longo do tempo.',
       help_g_fedi: '<strong>Fedi:</strong> plataforma comunitária de Bitcoin com wallets e mini apps.',
-      help_v2_note: 'Na versão 2 terá um assistente de chat para resolver suas dúvidas instantaneamente.',
+      help_v2_note: 'Use o botão Rito (canto inferior direito) para tirar dúvidas sobre a calculadora, Fedi e aposentadoria no México.',
       footer_made: 'Feito com ₿ para a comunidade',
       footer_disclaimer: 'Os cálculos são projeções educacionais, não assessoria financeira.',
       footer_nav_aria: 'Links do site',
@@ -819,7 +819,7 @@
       help_g_swr: '<strong>SWR :</strong> Safe Withdrawal Rate — principe indicatif de retraits annuels durables (souvent ~4 % par an).',
       help_g_inflation: '<strong>Inflation :</strong> la perte de pouvoir d\'achat d\'une monnaie au fil du temps.',
       help_g_fedi: '<strong>Fedi :</strong> plateforme communautaire Bitcoin avec wallets et mini apps.',
-      help_v2_note: 'Dans la version 2, vous aurez un assistant chat pour résoudre vos questions instantanément.',
+      help_v2_note: 'Utilisez le bouton Rito (en bas à droite) pour vos questions sur la calculatrice, Fedi et la retraite au Mexique.',
       footer_made: 'Fait avec ₿ pour la communauté',
       footer_disclaimer: 'Les calculs sont des projections éducatives, pas des conseils financiers.',
       footer_nav_aria: 'Liens du site',
@@ -1029,6 +1029,64 @@
   }
 
   // ─── Init ─────────────────────────────────────────────────
+  /** Lee query params para demo (maratón / embudo). */
+  function applyDemoParamsFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get('initial');
+    const contribution = params.get('contribution');
+    const years = params.get('years');
+    const ret = params.get('return');
+    const currency = params.get('currency');
+    const frequency = params.get('frequency');
+    let applied = false;
+
+    if (initial != null && initial !== '') {
+      dom.inputInitial.value = initial;
+      applied = true;
+    }
+    if (contribution != null && contribution !== '') {
+      dom.inputContribution.value = contribution;
+      applied = true;
+    }
+    if (years != null && years !== '') {
+      const y = Math.min(50, Math.max(1, Number(years) || 10));
+      dom.inputYears.value = String(y);
+      if (dom.yearsDisplay) dom.yearsDisplay.textContent = String(y);
+      applied = true;
+    }
+    if (ret != null && ret !== '') {
+      const r = Math.min(30, Math.max(3, Number(ret) || 10));
+      dom.inputReturn.value = String(r);
+      if (dom.returnDisplay) dom.returnDisplay.textContent = String(r);
+      applied = true;
+    }
+    if (currency && ['USD', 'MXN', 'BTC', 'sats'].includes(currency)) {
+      dom.inputCurrency.value = currency;
+      applied = true;
+    }
+    if (frequency && ['daily', 'weekly', 'monthly'].includes(frequency)) {
+      dom.inputFrequency.value = frequency;
+      applied = true;
+    }
+
+    const autoCalc = params.get('autocalc');
+    if (applied && autoCalc !== '0') {
+      return true;
+    }
+    return false;
+  }
+
+  /** URL de compartir con UTM si el usuario llegó desde campaña. */
+  function getShareLink() {
+    const params = new URLSearchParams(window.location.search);
+    const origin = params.get('utm_source');
+    const base = `${window.location.origin}/calc`;
+    if (origin === 'maraton-wenlopez') {
+      return `${base}?utm_source=share-maraton&utm_medium=share`;
+    }
+    return base;
+  }
+
   async function init() {
     loadLanguage();
     detectEnvironment();
@@ -1045,6 +1103,10 @@
     await fetchBTCPrice();
     updatePriceTags();
     updateAureoVisibility();
+    const shouldAutoCalc = applyDemoParamsFromUrl();
+    if (shouldAutoCalc) {
+      calculate();
+    }
   }
 
   // ─── Environment Detection ────────────────────────────────
@@ -1904,7 +1966,12 @@
     const btc = dom.resBtc.textContent;
     const fiat = dom.resFiat.textContent;
     const years = dom.inputYears.value;
-    const text = t('share_text').replace('{years}', years).replace('{btc}', btc).replace('{fiat}', fiat);
+    const link = getShareLink();
+    const text = t('share_text')
+      .replace('{years}', years)
+      .replace('{btc}', btc)
+      .replace('{fiat}', fiat)
+      .replace(/\[[^\]]+\]/, link);
 
     if (navigator.share) {
       navigator.share({ title: t('logo_text'), text }).catch(() => {});

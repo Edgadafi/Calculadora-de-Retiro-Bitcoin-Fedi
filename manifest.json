@@ -5,26 +5,32 @@
   "start_url": "/calc",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0d0d0d",
+  "background_color": "#1E2B58",
   "theme_color": "#F07D38",
   "orientation": "portrait",
   "lang": "es",
   "categories": ["finance", "utilities"],
   "icons": [
     {
-      "src": "assets/logo-192.png",
+      "src": "assets/logo-fedi-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/logo-512.png",
+      "src": "assets/logo-fedi-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/logo.svg",
+      "src": "assets/logo-fedi-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/logo-fedi-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

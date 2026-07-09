@@ -8,7 +8,8 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 |-----------|-----|
 | [`docs/product-brief.md`](docs/product-brief.md) | Resumen operativo: personas, roadmap, KPIs, decisiones de producto |
 | [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
-| [`docs/cursor-prompt-design-system.md`](docs/cursor-prompt-design-system.md) | Prompt para integración del design system |
+| [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
+| [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 
 La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.
 
@@ -24,12 +25,15 @@ La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/
 ├── vercel.json     # Redirect legados (/landing.html, /index.html → /); rewrites sólo /brujula
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── styles/         # Design system + landing.css
-├── assets/         # logo-app.png (3D nav+hero), logo-192/512.png (PWA), logo.svg (favicon/tab vector)
+├── assets/         # logo-app.png (banner nav), logo-fedi-*.png (ícono Fedi/PWA), logo.svg (favicon)
 ├── script.js       # Lógica: cálculos, gráficas, Fedi/WebLN, premium
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
 ├── api/            # Serverless: Mercado Pago (preferencia, verificación), LNbits, webhook MP
-├── docs/           # Estudio de mercado, product brief, prompts de diseño
+├── agents/         # Servicio Next.js: Rito, leads, RAG, cron DOF (deploy: agents.retirobtc.mx)
+├── agents-config.js # URL del servicio de agentes (prod vs local)
+├── rito-loader.js  # Carga widget Rito en landing, calc, brújula
+├── docs/           # Estudio de mercado, product brief, arquitectura agentes
 ├── .cursor/rules/  # Reglas de contexto para Cursor (producto, etc.)
 ├── .env.example    # Plantilla de variables (copiar a .env.local)
 └── README.md       # Esta documentación
@@ -264,11 +268,16 @@ Para enviar tu Mini App al catálogo de Fedi:
 3. Completa el formulario con:
    - **Nombre**: Calculadora de Retiro Bitcoin
    - **URL** (Mini App): `https://retirobtc.mx/calc`
+   - **Icono** (`iconUrl`): `https://retirobtc.mx/assets/logo-fedi-512.png` (cuadrado, brújula v2, fondo navy)
    - **Descripción**: Planifica tu independencia financiera con Bitcoin. Proyecta tu retiro con ahorro periódico, múltiples escenarios y simulación de retiro.
    - **Categoría**: Finance / Tools
    - **Idiomas**: Español
    - **Permisos requeridos**: `webln` (para pagos Premium)
-   - **Captura de pantalla**: Incluye screenshots de la app en modo oscuro y claro
+   - **Captura de pantalla**: Incluye screenshots de la app en modo oscuro y claro (`assets/screenshots/fedi/`)
+
+**Íconos en el repo:** el banner horizontal `logo-app.png` es para nav/landing; el **catálogo Fedi y PWA** usan `logo-fedi-512.png` (solo brújula). Regenerar con `python scripts/make-fedi-icon.py`.
+
+PR al catálogo oficial: ver [`docs/fedi-catalog-pr.md`](docs/fedi-catalog-pr.md).
 
 ### APIs de Fedi utilizadas
 
@@ -344,6 +353,20 @@ Los pagos se procesan vía Lightning Network usando WebLN.
 - **Identidad**: Nostr (NIP-07, NIP-78)
 - **Almacenamiento**: localStorage
 - **Precio BTC**: CoinGecko API (pública, sin API key)
+
+---
+
+## Agentes IA (Rito)
+
+El front estático integra **Rito** (chat 24/7) y captura de leads del formulario guía en `/brujula` vía el servicio en [`agents/`](agents/).
+
+| Componente | Descripción |
+|------------|-------------|
+| `agents-config.js` | URL prod (`https://agents.retirobtc.mx`) vs local (`http://localhost:3000`) |
+| `rito-loader.js` | Carga el widget desde el servicio de agentes |
+| `brujula-quiz.js` | `POST /api/leads` al enviar la guía |
+
+**Deploy:** proyecto Vercel separado con root `agents/`. Ver [`agents/README.md`](agents/README.md) y [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md).
 
 ---
 

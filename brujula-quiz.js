@@ -272,19 +272,56 @@
       });
     }
 
-    /* Enviar guía (stub — sin backend activo) */
+    /* Enviar guía → API agentes */
     var btnEnviar = document.getElementById('btn-enviar-guia');
     if (btnEnviar) {
       btnEnviar.addEventListener('click', function () {
         var nombre = document.getElementById('guia-nombre');
         var correo = document.getElementById('guia-correo');
         var consentimiento = document.getElementById('guia-consentimiento');
+        var bitcoin = document.getElementById('guia-bitcoin');
         if (!nombre || !nombre.value.trim()) { alert('Por favor ingresa tu nombre.'); return; }
         if (!correo || !correo.value.trim()) { alert('Por favor ingresa tu correo.'); return; }
         if (!consentimiento || !consentimiento.checked) { alert('Debes aceptar el Aviso de Privacidad Integral para continuar.'); return; }
-        btnEnviar.textContent = 'Guía enviada — revisa tu correo';
+
+        var agentsUrl = (typeof window !== 'undefined' && window.RETIROBTC_AGENTS_URL) || 'https://agents.retirobtc.mx';
+        var utm = {};
+        try {
+          var params = new URLSearchParams(window.location.search);
+          ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+            var v = params.get(k);
+            if (v) utm[k] = v;
+          });
+        } catch (e) { /* ignore */ }
+
         btnEnviar.disabled = true;
-        if (overlay) setTimeout(function () { overlay.classList.remove('open'); }, 1800);
+        btnEnviar.textContent = 'Enviando…';
+
+        fetch(agentsUrl.replace(/\/$/, '') + '/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: nombre.value.trim(),
+            email: correo.value.trim(),
+            bitcoinFamiliarity: bitcoin ? bitcoin.value : '',
+            source: 'brujula-guia',
+            consent: true,
+            utm: Object.keys(utm).length ? utm : undefined
+          })
+        })
+          .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+          .then(function (result) {
+            if (!result.ok) {
+              throw new Error((result.data && result.data.error) || 'No se pudo enviar la guía');
+            }
+            btnEnviar.textContent = 'Guía enviada — revisa tu correo';
+            if (overlay) setTimeout(function () { overlay.classList.remove('open'); }, 1800);
+          })
+          .catch(function (err) {
+            btnEnviar.disabled = false;
+            btnEnviar.textContent = 'Quiero recibir la guía gratis';
+            alert(err.message || 'Error al enviar. Intenta de nuevo.');
+          });
       });
     }
   }

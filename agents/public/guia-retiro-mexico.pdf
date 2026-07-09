@@ -1,0 +1,15 @@
+# Retiro BTC  Gu�a: Tu Retiro en M�xico
+
+Placeholder PDF. Reemplaza este archivo con la gu�a final en producci�n
+(`agents/public/guia-retiro-mexico.pdf`) o configura `GUIDE_PDF_URL` en Vercel.
+
+Contenido previsto (7 claves):
+1. Panorama del retiro en M�xico (AFORE, IMSS, ISSSTE)
+2. Rendimiento real vs nominal (~5,02% hist�rico AFORE)
+3. Inflaci�n y poder de compra
+4. Reforma infraestructura 2026 (30% obra p�blica)
+5. Bitcoin como herramienta de planeaci�n (no custodia retirobtc.mx)
+6. Fedi y mini-apps
+7. Pr�ximos pasos: Br�jula y Calculadora
+
+Visita https://retirobtc.mx/brujula y https://retirobtc.mx/calc

@@ -1,0 +1,7 @@
+{
+  "name": "Calculadora de Retiro Bitcoin",
+  "id": "retirobtc",
+  "url": "https://retirobtc.mx/calc",
+  "iconUrl": "https://retirobtc.mx/assets/logo-fedi-512.png",
+  "description": "Proyecta tu retiro en Bitcoin (sats). DCA, escenarios, regla 4%, comparador vs AFORE. Mini App para México/LATAM."
+}

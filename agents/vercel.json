@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/legal-monitor",
+      "schedule": "0 14 * * *"
+    }
+  ]
+}

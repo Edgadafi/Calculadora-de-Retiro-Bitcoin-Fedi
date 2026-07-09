@@ -182,3 +182,4 @@ Monetización secundaria futura: alianzas educativas (Casa Satoshi), federacione
 5. `content: sección Guardianes en brújula o help`
 6. `feat: Nostr badge compartible (sin PII)`
 7. `growth: UTM + tracking embudo brújula → calc → premium`
+8. ~~`infra: servicio agentes IA Vertical 1 (Rito, leads, RAG, monitor DOF)`~~ ✅ — ver [`docs/agentes-ia-arquitectura.md`](./agentes-ia-arquitectura.md)
