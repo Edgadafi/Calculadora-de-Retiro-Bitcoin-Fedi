@@ -7,7 +7,7 @@
  * MARCA visual v2 (logo 3D Feb 2026): navy ~#1E2B58, acento rocket ~#F07D38, oro BTC ~#F7B500
  * • UI: "Retiro Bitcoin" | titular extendido "Calculadora de Retiro Bitcoin"
  * • Nav: logo-app (PNG horizontal en lienzo cuadrado). Ícono Fedi/PWA: logo-fedi-*.png (brújula cuadrada).
- * • Favicon pestaña: logo.svg (legacy cohete) o logo-fedi-icon.svg según página.
+ * • Favicon pestaña: logo-fedi-icon.svg (brújula v2, navy). Apple touch: logo-fedi-512.png.
  *
  * STACK TIPOGRÁFICO (agregar en <head>):
  * <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">

@@ -25,7 +25,7 @@ La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/
 ├── vercel.json     # Redirect legados (/landing.html, /index.html → /); rewrites sólo /brujula
 ├── style.css       # Estilos (dark/light, mobile-first, brutalist-minimal)
 ├── styles/         # Design system + landing.css
-├── assets/         # logo-app.png (banner nav), logo-fedi-*.png (ícono Fedi/PWA), logo.svg (favicon)
+├── assets/         # logo-app.png (banner nav), logo-fedi-* (ícono Fedi/PWA/favicon), logo.svg (legacy cohete)
 ├── script.js       # Lógica: cálculos, gráficas, Fedi/WebLN, premium
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
