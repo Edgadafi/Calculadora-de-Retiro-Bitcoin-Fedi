@@ -7,3 +7,6 @@ node_modules/
 
 .vercel
 .env*.local
+
+# Cursor IDE (config local)
+.cursor/

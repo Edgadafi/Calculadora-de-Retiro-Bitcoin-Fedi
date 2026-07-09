@@ -8,7 +8,7 @@
 
 | Agente | Implementación |
 |--------|----------------|
-| **Rito** | Chat streaming OpenAI + RAG pgvector. Widget en landing, calc, brújula. |
+| **Rito** | Chat streaming Gemini Flash + RAG pgvector. Widget en landing, calc, brújula. |
 | **Captura leads** | `POST /api/leads` desde formulario guía `/brujula`. Resend + token guía PDF. |
 | **Investigador jurídico** | Cron diario DOF RSS → `legal_alerts` → revisión humana → ingest KB. |
 
@@ -59,7 +59,7 @@ flowchart TB
 |------|------------|
 | Front | HTML/JS estático (repo raíz) — **sin migrar a Next.js** |
 | Agentes | Next.js 16 App Router, TypeScript, Vercel AI SDK |
-| LLM | OpenAI gpt-4o-mini (chat), text-embedding-3-small (RAG) |
+| LLM | Gemini 2.0 Flash (chat), OpenAI text-embedding-3-small (RAG) |
 | DB | Supabase Postgres + pgvector |
 | Email | Resend |
 | Deploy | Dos proyectos Vercel: raíz + `agents/` |

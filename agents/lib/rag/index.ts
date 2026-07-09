@@ -5,6 +5,7 @@ import { isOpenAIConfigured, isSupabaseConfigured } from '@/lib/config';
 
 const CHUNK_SIZE = 900;
 const CHUNK_OVERLAP = 120;
+/** Embeddings RAG: OpenAI hasta re-indexar con modelo Gemini/Google. */
 const EMBEDDING_MODEL = 'text-embedding-3-small';
 
 export function chunkText(text: string, size = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {

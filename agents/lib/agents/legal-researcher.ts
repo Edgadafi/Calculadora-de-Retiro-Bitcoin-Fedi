@@ -1,9 +1,8 @@
 import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { LEGAL_KEYWORDS } from '@/lib/config';
+import { getRitoChatModel, isChatLlmConfigured } from '@/lib/ai/models';
+import { LEGAL_KEYWORDS, isSupabaseConfigured } from '@/lib/config';
 import { getSupabase } from '@/lib/db/supabase';
 import { ingestDocument } from '@/lib/rag';
-import { isOpenAIConfigured, isSupabaseConfigured } from '@/lib/config';
 
 export type DofItem = {
   title: string;
@@ -56,11 +55,11 @@ export function matchesLegalKeywords(text: string): string[] {
 }
 
 export async function summarizeLegalItem(item: DofItem): Promise<string> {
-  if (!isOpenAIConfigured()) {
+  if (!isChatLlmConfigured()) {
     return `${item.title}. ${item.description.slice(0, 500)}`;
   }
   const { text } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: getRitoChatModel(),
     prompt: `Resume en español (máx 200 palabras) la relevancia para ahorro para retiro, AFOREs, fintech o Bitcoin en México:
 
 Título: ${item.title}

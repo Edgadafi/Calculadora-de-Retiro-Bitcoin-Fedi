@@ -16,7 +16,7 @@ Servicio **Next.js 15 + TypeScript** desplegado en `agents.retirobtc.mx` (proyec
 ```bash
 cd agents
 cp .env.example .env.local
-# Rellenar OPENAI_API_KEY, SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET
+# Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rito), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET
 npm install
 npm run dev
 ```

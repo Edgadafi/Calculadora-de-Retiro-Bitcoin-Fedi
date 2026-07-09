@@ -1,9 +1,9 @@
-import { openai } from '@ai-sdk/openai';
 import { streamText, tool, stepCountIs } from 'ai';
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
+import { getRitoChatModel, isChatLlmConfigured } from '@/lib/ai/models';
 import { RITO_DISCLAIMER, RITO_SYSTEM_PROMPT, PRODUCT_LINKS } from '@/lib/agents/rito';
-import { RATE_LIMITS, isOpenAIConfigured, isSupabaseConfigured } from '@/lib/config';
+import { RATE_LIMITS, isSupabaseConfigured } from '@/lib/config';
 import { getSupabase } from '@/lib/db/supabase';
 import { sendEscalationEmail } from '@/lib/email/resend';
 import { assertAllowedOrigin, handleOptions, jsonWithCors } from '@/lib/http/cors';
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     return jsonWithCors(req, { error: 'Origin not allowed' }, { status: 403 });
   }
 
-  if (!isOpenAIConfigured()) {
+  if (!isChatLlmConfigured()) {
     return jsonWithCors(req, { error: 'Chat no disponible temporalmente' }, { status: 503 });
   }
 
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
   }
 
   const result = streamText({
-    model: openai('gpt-4o-mini'),
+    model: getRitoChatModel(),
     system: `${RITO_SYSTEM_PROMPT}\n\n--- CONTEXTO RAG ---\n${context}\n\n--- DISCLAIMER ---\n${RITO_DISCLAIMER}`,
     messages: messages.map((m) => ({ role: m.role, content: m.content })),
     stopWhen: stepCountIs(3),
