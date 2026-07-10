@@ -48,12 +48,19 @@ export function isSupabaseConfigured(): boolean {
 /** Modelo Gemini para Rito y resúmenes legales (override opcional). */
 export const RITO_CHAT_MODEL = process.env.RITO_CHAT_MODEL || 'gemini-2.0-flash';
 
+/** Ignora placeholders vacíos (`""`) que Vercel puede devolver como valor. */
+function isValidApiKey(value: string | undefined): boolean {
+  if (!value) return false;
+  const trimmed = value.trim().replace(/^["']|["']$/g, '');
+  return trimmed.length >= 8;
+}
+
 export function isGeminiConfigured(): boolean {
-  return Boolean(process.env.GOOGLE_GENERATIVE_AI_API_KEY);
+  return isValidApiKey(process.env.GOOGLE_GENERATIVE_AI_API_KEY);
 }
 
 export function isOpenAIConfigured(): boolean {
-  return Boolean(process.env.OPENAI_API_KEY);
+  return isValidApiKey(process.env.OPENAI_API_KEY);
 }
 
 export function isResendConfigured(): boolean {
