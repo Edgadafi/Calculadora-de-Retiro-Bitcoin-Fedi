@@ -1,11 +1,9 @@
-import { streamText, tool, stepCountIs } from 'ai';
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
-import { getRitoChatModel, isChatLlmConfigured } from '@/lib/ai/models';
-import { RITO_DISCLAIMER, RITO_SYSTEM_PROMPT, PRODUCT_LINKS } from '@/lib/agents/rito';
-import { RATE_LIMITS, isSupabaseConfigured } from '@/lib/config';
+import { generateRitoText, isChatLlmConfigured } from '@/lib/ai/models';
+import { RITO_DISCLAIMER, RITO_SYSTEM_PROMPT } from '@/lib/agents/rito';
+import { RATE_LIMITS, isGeminiConfigured, isOpenAIConfigured, isSupabaseConfigured, RITO_CHAT_MODEL } from '@/lib/config';
 import { getSupabase } from '@/lib/db/supabase';
-import { sendEscalationEmail } from '@/lib/email/resend';
 import { assertAllowedOrigin, handleOptions, jsonWithCors } from '@/lib/http/cors';
 import { getClientIp, hashIp, redactPii } from '@/lib/privacy/hash';
 import { checkRateLimit } from '@/lib/privacy/rate-limit';
@@ -23,6 +21,17 @@ const messageSchema = z.object({
   sessionKey: z.string().max(64).optional(),
 });
 
+export async function GET() {
+  return Response.json({
+    ok: true,
+    geminiConfigured: isGeminiConfigured(),
+    openaiConfigured: isOpenAIConfigured(),
+    chatConfigured: isChatLlmConfigured(),
+    model: RITO_CHAT_MODEL,
+    supabase: isSupabaseConfigured(),
+  });
+}
+
 export async function OPTIONS(req: NextRequest) {
   return handleOptions(req);
 }
@@ -38,6 +47,7 @@ export async function POST(req: NextRequest) {
     return jsonWithCors(req, { error: 'Chat no disponible temporalmente' }, { status: 503 });
   }
 
+  try {
   const ip = getClientIp(req);
   const ipHash = hashIp(ip);
   const rateBucket = `chat:ip:${ipHash ?? 'unknown'}`;
@@ -96,44 +106,13 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const result = streamText({
-    model: getRitoChatModel(),
-    system: `${RITO_SYSTEM_PROMPT}\n\n--- CONTEXTO RAG ---\n${context}\n\n--- DISCLAIMER ---\n${RITO_DISCLAIMER}`,
-    messages: messages.map((m) => ({ role: m.role, content: m.content })),
-    stopWhen: stepCountIs(3),
-    tools: {
-      searchKnowledgeBase: tool({
-        description: 'Busca en la base de conocimiento de retirobtc.mx',
-        inputSchema: z.object({ query: z.string() }),
-        execute: async ({ query }) => {
-          const results = await searchKnowledgeBase(query, 4);
-          return formatContext(results);
-        },
-      }),
-      escalateToHuman: tool({
-        description: 'Escala la conversación a un humano del equipo',
-        inputSchema: z.object({ reason: z.string() }),
-        execute: async ({ reason }) => {
-          await sendEscalationEmail({
-            sessionKey: sid,
-            userMessage: `${reason}\n\nÚltimo mensaje: ${lastUser.content.slice(0, 500)}`,
-          });
-          return 'Escalamiento registrado. El equipo puede contactarte en calculadora.retirobtc@gmail.com.';
-        },
-      }),
-      linkToCalculator: tool({
-        description: 'Enlace a la calculadora',
-        inputSchema: z.object({}),
-        execute: async () => PRODUCT_LINKS.calculator,
-      }),
-      linkToBrujula: tool({
-        description: 'Enlace a la brújula financiera',
-        inputSchema: z.object({}),
-        execute: async () => PRODUCT_LINKS.brujula,
-      }),
-    },
-    onFinish: async ({ text }) => {
-      if (!isSupabaseConfigured() || !text) return;
+  try {
+    const text = await generateRitoText({
+      system: `${RITO_SYSTEM_PROMPT}\n\n--- CONTEXTO RAG ---\n${context}\n\n--- DISCLAIMER ---\n${RITO_DISCLAIMER}`,
+      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    });
+
+    if (isSupabaseConfigured() && text) {
       try {
         const supabase = getSupabase();
         const { data: session } = await supabase
@@ -151,16 +130,34 @@ export async function POST(req: NextRequest) {
       } catch (e) {
         console.warn('[chat] persist assistant message failed', e);
       }
-    },
-  });
+    }
 
-  const origin = req.headers.get('origin');
-  return result.toTextStreamResponse({
-    headers: {
-      'Access-Control-Allow-Origin': origin && origin.length ? origin : '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      Vary: 'Origin',
-    },
-  });
+    const origin = req.headers.get('origin');
+    return new Response(text, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Access-Control-Allow-Origin': origin && origin.length ? origin : '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        Vary: 'Origin',
+      },
+    });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'Unknown chat error';
+    console.error('[chat] stream failed', message);
+    return jsonWithCors(
+      req,
+      {
+        error: 'Chat no disponible temporalmente',
+        code: 'chat_stream_failed',
+        detail: message.slice(0, 180),
+      },
+      { status: 503 }
+    );
+  }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'Unknown chat error';
+    console.error('[chat] request failed', message);
+    return jsonWithCors(req, { error: 'Chat no disponible temporalmente', code: 'chat_request_failed' }, { status: 503 });
+  }
 }

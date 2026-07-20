@@ -29,11 +29,16 @@ export function chunkText(text: string, size = CHUNK_SIZE, overlap = CHUNK_OVERL
 
 export async function createEmbedding(text: string): Promise<number[] | null> {
   if (!isOpenAIConfigured()) return null;
-  const { embedding } = await embed({
-    model: openai.embedding(EMBEDDING_MODEL),
-    value: text.slice(0, 8000),
-  });
-  return embedding;
+  try {
+    const { embedding } = await embed({
+      model: openai.embedding(EMBEDDING_MODEL),
+      value: text.slice(0, 8000),
+    });
+    return embedding;
+  } catch (e) {
+    console.warn('[rag] embedding failed', e);
+    return null;
+  }
 }
 
 export async function ingestDocument(params: {
