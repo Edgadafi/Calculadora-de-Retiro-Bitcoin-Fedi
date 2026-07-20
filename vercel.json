@@ -37,6 +37,24 @@
       ]
     },
     {
+      "source": "/assets/logo-fedi-192.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/logo-fedi-512.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/assets/logo.svg",
       "headers": [
         {

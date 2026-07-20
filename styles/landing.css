@@ -312,17 +312,13 @@ html[data-theme='dark'] .landing-hero-logo-frame {
 /* ── Sección Fundadores ─────────────────────────────────── */
 .landing-founders-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--br-sp-8);
   width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
   min-width: 0;
   align-items: start;
-}
-
-@media (max-width: 680px) {
-  .landing-founders-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .landing-founder-photo {

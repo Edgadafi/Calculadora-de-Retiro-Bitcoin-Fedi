@@ -65,15 +65,11 @@
       landing_cta_brujula: 'Tu brújula financiera',
       landing_cta_go_calc: 'Ir a la calculadora',
       landing_cta_explore_fedi: 'Explorar Fedi',
-      landing_founders_title: 'Quiénes están detrás',
-      founder_edu_bio:
-        'Líder en experiencia del cliente y operaciones | Fintech, tecnología y transformación digital | Más de 16 años en operaciones críticas y atención al cliente.',
+      landing_founders_title: 'Quién está detrás',
       founder_ed_photo_alt:
         'Edgadafi RF — desarrollador con enfoque en DeFi, stablecoins y pagos on-chain para LATAM, Retiro Bitcoin',
       founder_ed_bio:
         'Builder especializado en DeFi, stablecoins y pagos on-chain con enfoque en LATAM.',
-      founder_edu_photo_alt:
-        'Eduardo Garcia — líder en experiencia del cliente y operaciones, Retiro Bitcoin',
       landing_footer_credit_html:
         'Hecho con ₿ para la comunidad <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a>',
       landing_footer_disclaimer:
@@ -141,14 +137,10 @@
       landing_cta_go_calc: 'Go to calculator',
       landing_cta_explore_fedi: 'Explore Fedi',
       landing_founders_title: 'Who is behind this',
-      founder_edu_bio:
-        'Customer experience & operations leader | Fintech • tech • digital transformation | 16+ years in mission-critical ops and customer service.',
       founder_ed_photo_alt:
         'Edgadafi RF — builder focused on DeFi, stablecoins and on-chain payments (LATAM), Bitcoin Retirement',
       founder_ed_bio:
         'Developer focused on DeFi, stablecoins and on-chain payments (LATAM).',
-      founder_edu_photo_alt:
-        'Eduardo Garcia — customer experience and operations leader, Bitcoin Retirement',
       landing_footer_credit_html:
         'Made with ₿ for the <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a> community',
       landing_footer_disclaimer:
@@ -216,14 +208,10 @@
       landing_cta_go_calc: 'Ir para a calculadora',
       landing_cta_explore_fedi: 'Explorar Fedi',
       landing_founders_title: 'Quem está por trás',
-      founder_edu_bio:
-        'Líder de experiência do cliente e operações | Fintech, tecnologia e transformação digital | Mais de 16 anos em operações críticas e atendimento ao cliente.',
       founder_ed_photo_alt:
         'Edgadafi RF — desenvolvedor com foco em DeFi, stablecoins e pagamentos on-chain na América Latina, Retiro Bitcoin',
       founder_ed_bio:
         'Construtor especializado em DeFi, stablecoins e pagamentos on-chain (foco América Latina).',
-      founder_edu_photo_alt:
-        'Eduardo Garcia — líder de experiência do cliente e operações, Retiro Bitcoin',
       landing_footer_credit_html:
         'Feito com ₿ para a comunidade <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a>',
       landing_footer_disclaimer:
@@ -290,15 +278,11 @@
       landing_cta_brujula: 'Votre boussole financière',
       landing_cta_go_calc: 'Aller à la calculatrice',
       landing_cta_explore_fedi: 'Découvrir Fedi',
-      landing_founders_title: 'Qui sommes-nous',
-      founder_edu_bio:
-        'Chef expérience client et opérations | Fintech • tech • transformation numérique | Plus de 16 ans dans des opérations critiques et au service client.',
+      landing_founders_title: 'Qui est derrière',
       founder_ed_photo_alt:
         'Edgadafi RF — développeur axé sur la DeFi, les stablecoins et les paiements on-chain (LATAM), Retiro Bitcoin',
       founder_ed_bio:
         'Développeur spécialisé en DeFi, stablecoins et paiements on-chain (focus LATAM).',
-      founder_edu_photo_alt:
-        'Eduardo Garcia — responsable expérience client et opérations, Retiro Bitcoin',
       landing_footer_credit_html:
         'Fait avec ₿ pour la communauté <a href="https://fedi.xyz" target="_blank" rel="noopener">Fedi</a>',
       landing_footer_disclaimer:
