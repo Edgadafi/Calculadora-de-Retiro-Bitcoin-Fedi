@@ -34,10 +34,17 @@ export function verifyMercadoPagoSignature(req, dataId) {
 
   if (!ts || !v1) return { skipped: false, valid: false, reason: 'malformed_signature' };
 
-  // Mercado Pago normaliza el id a minúsculas en el manifiesto.
-  const id = String(dataId || '').toLowerCase();
-  const manifest = `id:${id};request-id:${requestId || ''};ts:${ts};`;
-  const expected = createHmac('sha256', secret).update(manifest).digest('hex');
+  /**
+   * Manifiesto según la plantilla de Mercado Pago. El id va en minúsculas, y los
+   * segmentos cuyo valor no llega se omiten por completo en lugar de quedar
+   * vacíos: dejarlos vacíos rechazaría firmas legítimas cuando no viene
+   * `x-request-id`, y perderíamos el registro de un cobro real.
+   */
+  const segments = [`id:${String(dataId || '').toLowerCase()};`];
+  if (typeof requestId === 'string' && requestId) segments.push(`request-id:${requestId};`);
+  segments.push(`ts:${ts};`);
+
+  const expected = createHmac('sha256', secret).update(segments.join('')).digest('hex');
 
   const a = Buffer.from(v1, 'utf8');
   const b = Buffer.from(expected, 'utf8');
