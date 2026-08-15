@@ -107,7 +107,7 @@ flowchart LR
 
 | Fase | Impacto en ingresos | Superficie de cambio | Dependencia externa |
 |------|---------------------|----------------------|---------------------|
-| P0 | Indirecto: habilita medir todo lo demás | 1 tabla + 2 endpoints existentes + 1 endpoint nuevo | Ninguna |
+| P0 ✅ | Indirecto: habilita medir todo lo demás | 1 tabla + 2 endpoints nuevos + 4 handlers de pago | Ninguna |
 | P1 | Alto: tráfico al embudo | 1 agente + 1 tabla + 1 panel admin | API de Buffer |
 | P2 | El más directo sobre Premium | 2 columnas + 1 agente + secuencia Resend | Ninguna |
 | P3 | Abre ingreso nuevo | Catálogo, checkout, agente de ventas | Inventario, logística, proveedor |
@@ -115,9 +115,11 @@ flowchart LR
 
 ---
 
-## 5. P0 — Medición de ingresos y atribución
+## 5. P0 — Medición de ingresos y atribución (implementada)
 
 **Objetivo:** que cada peso y cada sat quede registrado y atribuible a su origen.
+
+**Estado:** código en el repo. Falta la activación operativa, documentada al final de esta sección.
 
 ### Esquema
 
@@ -140,30 +142,69 @@ create table if not exists purchases (
 );
 ```
 
-El `unique (provider, external_id)` hace idempotente el webhook: Mercado Pago reintenta notificaciones y no debe duplicar filas.
+El `unique (provider, external_id)` hace idempotente la escritura, y eso importa en los dos rails: Mercado Pago reintenta notificaciones, y el cliente sondea `check-payment` cada 3 segundos mientras espera el pago Lightning.
+
+### Dónde vive la llave de Supabase
+
+El proyecto raíz **no** habla directo con la base. La llave de servicio queda sólo en `agents/`, y la raíz reenvía la compra ya confirmada a `POST /api/purchases` autenticándose con `INTERNAL_API_SECRET`.
+
+```mermaid
+flowchart LR
+  MP["Mercado Pago"] --> Webhook["api/mp-webhook.js"]
+  LN["LNbits"] --> Check["api/check-payment.js"]
+  Webhook --> Ingest["agents POST /api/purchases"]
+  Check --> Ingest
+  Ingest --> DB[("Supabase purchases")]
+  DB --> Report["agents GET /api/admin/revenue"]
+```
+
+Cuesta un salto de red, pero evita duplicar la llave de servicio en un segundo proyecto de Vercel.
 
 ### Cambios en el flujo de pago
 
-1. Generar un `correlation_id` en el cliente antes del checkout y pasarlo a [`api/create-preference.js`](../api/create-preference.js) dentro de `external_reference` junto al plan, en lugar de solo la cadena del plan.
-2. Persistir en [`api/mp-webhook.js`](../api/mp-webhook.js): validar el origen de la notificación, obtener el pago por id reutilizando la lógica de [`api/verify-mp-payment.js`](../api/verify-mp-payment.js) y hacer upsert en `purchases`.
-3. Persistir el lado Lightning al confirmar `paid` en [`api/check-payment.js`](../api/check-payment.js).
-4. Propagar UTM al checkout. Hoy solo [`brujula-quiz.js`](../brujula-quiz.js) los captura (L288–295) para el alta de lead; [`script.js`](../script.js) los usa solo para armar el enlace de compartir. Falta persistirlos en `sessionStorage` y adjuntarlos al pago.
+1. **Correlación.** [`script.js`](../script.js) genera un `correlation_id` estable por navegador y captura los UTM al iniciar, antes de que se limpien los parámetros de la URL. [`api/create-preference.js`](../api/create-preference.js) los manda a Mercado Pago en `external_reference` (`<plan>:<correlationId>`) y en `metadata`.
+2. **Retrocompatibilidad.** [`api/_lib/plan.js`](../api/_lib/plan.js) acepta también el formato antiguo (`monthly` a secas), para no romper checkouts creados antes del despliegue.
+3. **Mercado Pago.** [`api/mp-webhook.js`](../api/mp-webhook.js) reconsulta el pago por id con nuestro access token y registra la compra. Esa reconsulta es la que impide que un aviso forjado invente un cobro; la validación de firma HMAC es defensa adicional y se activa sólo si se configura `MERCADOPAGO_WEBHOOK_SECRET`.
+4. **Semántica de reintento.** El webhook responde 200 a lo que no hay que reintentar (avisos de otros recursos, pagos sin plan o moneda distinta de MXN) y 5xx sólo cuando un pago real no se pudo registrar. Así se evita un ciclo infinito de reintentos.
+5. **Lightning.** El plan se marca en el memo de la factura **desde el servidor** ([`api/_lib/plan-memo.js`](../api/_lib/plan-memo.js)); al confirmar el pago, [`api/check-payment.js`](../api/check-payment.js) lo lee de LNbits junto con el importe. El cliente nunca declara qué plan compró.
+6. **Redundancia.** [`api/verify-mp-payment.js`](../api/verify-mp-payment.js) también registra en el retorno del checkout, así la compra queda medida aunque la notificación no llegue.
+
+### Qué es dato del cliente y qué no
+
+El importe, el plan y el estado provienen siempre del proveedor de pago. Lo único que aporta el cliente es la atribución (`correlation_id` y UTM), que se sanea contra una lista blanca de claves y nunca influye en importes ni en el acceso a Premium.
 
 ### Reporte
 
-Endpoint `GET /api/admin/revenue` en `agents/`, siguiendo el patrón de autenticación por cabecera `x-admin-secret` de [`agents/app/api/admin/alerts/route.ts`](../agents/app/api/admin/alerts/route.ts):
+`GET /api/admin/revenue?days=30` en [`agents/app/api/admin/revenue/route.ts`](../agents/app/api/admin/revenue/route.ts), autenticado con la cabecera `x-admin-secret` igual que el panel de alertas:
 
-- MRR y ventas lifetime del periodo
+- MRR de suscripciones mensuales y desglose por plan
 - Ingreso por canal: Mercado Pago frente a Lightning
-- Conversión lead a Premium y por campaña UTM
+- Conversión lead a Premium, más el número de compras sin atribuir
+- Top de campañas por UTM
+
+MXN y sats se reportan **por separado**. No guardamos el tipo de cambio del momento del cobro, así que sumarlos produciría un total falso.
+
+La tasa de conversión es una aproximación, no una cohorte estricta: un lead captado antes de la ventana puede convertir dentro de ella. El endpoint lo documenta en su propia respuesta.
 
 ### Nota de privacidad
 
-`purchases` no debe guardar datos de tarjeta ni montos de ahorro personales del usuario, en línea con la política de Rito. Solo el importe cobrado, el plan y la atribución.
+`purchases` no guarda correo, datos de tarjeta ni montos de ahorro del usuario, en línea con la política de Rito. El correo del pagador se usa en memoria sólo para resolver el `lead_id` y no se persiste. Se almacena únicamente el importe cobrado, el plan y la atribución.
+
+### Activación operativa pendiente
+
+El código está en el repo, pero la medición no arranca hasta:
+
+1. Ejecutar el bloque `purchases` de [`agents/supabase/schema.sql`](../agents/supabase/schema.sql) en el SQL Editor de Supabase
+2. Generar un `INTERNAL_API_SECRET` de 24 caracteres o más y ponerlo **idéntico** en los dos proyectos de Vercel (raíz y `agents/`)
+3. Definir `AGENTS_BASE_URL` en el proyecto raíz, apuntando a `https://agents.retirobtc.mx`
+4. Opcional pero recomendado: `MERCADOPAGO_WEBHOOK_SECRET` desde Dashboard de Mercado Pago → Webhooks
+5. Considerar RLS en `purchases`: es una tabla financiera y sólo la llave de servicio debería leerla
+
+Mientras falten las variables, los cobros siguen funcionando con normalidad y el registro simplemente se omite con un aviso en el log. No hay riesgo de bloquear una venta.
 
 ### Criterio de cierre
 
-Un pago de prueba en cada rail aparece en `purchases`, y `/api/admin/revenue` reporta el total correcto.
+Un pago de prueba en cada rail aparece en `purchases` una sola vez, y `/api/admin/revenue` reporta el total correcto.
 
 ---
 
@@ -291,9 +332,9 @@ Los agentes de back-office manejan datos fiscales y financieros de la empresa. D
 
 ## 10. Recomendación de arranque
 
-**P0 y P1 en la misma tanda.**
+**P0 implementada; sigue P1.**
 
-P0 es la fase más pequeña de todo el roadmap y desbloquea la medición de las tres siguientes. P1 aprovecha que la cuenta de X de Rito ya está creada y sin contenido.
+P0 era la fase más pequeña de todo el roadmap y desbloquea la medición de las tres siguientes. Falta su activación operativa (schema y variables de entorno). P1 aprovecha que la cuenta de X de Rito ya está creada y sin contenido.
 
 P2 entra cuando haya suficiente historial de atribución para que el scoring se valide contra conversiones reales, no contra intuición.
 

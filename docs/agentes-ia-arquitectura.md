@@ -29,11 +29,21 @@
 - Facturación CFDI
 - Ambas en fase **P4** del [roadmap](./roadmap-agentico-ingresos.md#9-p4--contabilidad-y-facturación-vertical-3): dependen de que P0 registre transacciones.
 
-### Prerrequisito transversal — Medición de ingresos (P0)
+### Prerrequisito transversal — Medición de ingresos (P0 ✅)
 
-Los pagos Premium se cobran pero **no se persisten**: [`api/mp-webhook.js`](../api/mp-webhook.js) solo deja traza en log y [`api/check-payment.js`](../api/check-payment.js) devuelve `{ paid }` sin guardar. No existe tabla `purchases` ni correlación entre `leads` y una compra.
+Los pagos Premium ya se persisten en la tabla `purchases`, con atribución por UTM y vínculo opcional al lead que originó la compra. Sin esto, el scoring de Vertical 2 no tendría conversiones reales contra las que validarse y el agente contable de Vertical 3 no tendría fuente de datos.
 
-Esto bloquea el scoring de Vertical 2 (sin conversiones reales contra las que validar) y al agente contable de Vertical 3 (sin fuente de datos). Detalle y esquema propuesto en la [fase P0](./roadmap-agentico-ingresos.md#5-p0--medición-de-ingresos-y-atribución).
+| Pieza | Rol |
+|-------|-----|
+| [`api/mp-webhook.js`](../api/mp-webhook.js) | Reconsulta el pago por id con nuestro access token y registra la compra |
+| [`api/verify-mp-payment.js`](../api/verify-mp-payment.js) | Registro redundante en el retorno del checkout |
+| [`api/check-payment.js`](../api/check-payment.js) | Registra el cobro Lightning con plan e importe que reporta LNbits |
+| [`agents/app/api/purchases/route.ts`](../agents/app/api/purchases/route.ts) | Ingesta interna con secreto compartido y upsert idempotente |
+| [`agents/app/api/admin/revenue/route.ts`](../agents/app/api/admin/revenue/route.ts) | MRR, ingreso por canal, conversión lead a Premium |
+
+Decisión de arquitectura: la llave de servicio de Supabase vive **sólo** en el proyecto `agents/`. El proyecto raíz reenvía el hecho ya confirmado contra el proveedor mediante `INTERNAL_API_SECRET`, en lugar de tener acceso directo a la base.
+
+Detalle de la fase en [P0 del roadmap](./roadmap-agentico-ingresos.md#5-p0--medición-de-ingresos-y-atribución).
 
 ## Diagrama de flujo (MVP)
 
@@ -79,6 +89,9 @@ flowchart TB
 |------|-----|
 | [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) | Rito streaming |
 | [`agents/app/api/leads/route.ts`](../agents/app/api/leads/route.ts) | Captura leads |
+| [`agents/app/api/purchases/route.ts`](../agents/app/api/purchases/route.ts) | Ingesta de compras (P0) |
+| [`agents/app/api/admin/revenue/route.ts`](../agents/app/api/admin/revenue/route.ts) | Reporte de ingresos (P0) |
+| [`api/_lib/purchases.js`](../api/_lib/purchases.js) | Reenvío raíz → agentes |
 | [`agents/lib/agents/rito.ts`](../agents/lib/agents/rito.ts) | System prompt |
 | [`agents/lib/rag/`](../agents/lib/rag/) | Chunking, embeddings, búsqueda |
 | [`agents/public/widget/rito.js`](../agents/public/widget/rito.js) | Widget embed |

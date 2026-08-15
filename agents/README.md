@@ -11,12 +11,26 @@ Servicio **Next.js 15 + TypeScript** desplegado en `agents.retirobtc.mx` (proyec
 | **Investigador legal** | Cron `GET /api/cron/legal-monitor` |
 | **Admin alertas** | [`/admin/alerts`](app/admin/alerts/page.tsx) |
 
+## Medición de ingresos (fase P0)
+
+| Endpoint | Rol |
+|----------|-----|
+| `POST /api/purchases` | Ingesta interna de compras. Lo llama sólo el proyecto raíz con `X-Internal-Secret`; upsert idempotente por `(provider, external_id)`. |
+| `GET /api/admin/revenue?days=30` | Reporte con `X-Admin-Secret`: MRR, ingreso por canal, conversión lead a Premium y campañas. |
+
+MXN y sats se reportan por separado: no guardamos el tipo de cambio del momento del cobro, así que sumarlos daría un total falso.
+
+```bash
+curl -s "https://agents.retirobtc.mx/api/admin/revenue?days=30" \
+  -H "X-Admin-Secret: $ADMIN_SECRET"
+```
+
 ## Setup local
 
 ```bash
 cd agents
 cp .env.example .env.local
-# Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rito), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET
+# Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rito), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET, INTERNAL_API_SECRET
 npm install
 npm run dev
 ```
@@ -49,5 +63,7 @@ curl -X POST https://agents.retirobtc.mx/api/knowledge/ingest \
 - Rate limit: 20 msg/h chat, 3 leads/día/email
 - Alertas legales: revisión humana antes de RAG
 - PII redactada en logs de chat
+- Secretos (`ADMIN_SECRET`, `INTERNAL_API_SECRET`) comparados en tiempo constante
+- `purchases` no guarda correo ni dato de tarjeta: la atribución se resuelve vía `lead_id`
 
 Documentación completa: [`../docs/agentes-ia-arquitectura.md`](../docs/agentes-ia-arquitectura.md)
