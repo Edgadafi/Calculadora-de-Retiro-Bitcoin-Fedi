@@ -9,6 +9,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`docs/product-brief.md`](docs/product-brief.md) | Resumen operativo: personas, roadmap, KPIs, decisiones de producto |
 | [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
 | [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
+| [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 
 La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.

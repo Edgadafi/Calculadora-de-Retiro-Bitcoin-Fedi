@@ -1,6 +1,7 @@
 # Arquitectura — Ecosistema de Agentes IA retirobtc.mx
 
 > Vertical 1 implementada. Verticales 2 (Growth) y 3 (Back-Office) planificadas para fases posteriores.
+> Orden de construcción priorizado por impacto en ingresos: [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
 
 ## Organigrama
 
@@ -15,16 +16,24 @@
 ### Vertical 1.5 — Pendiente
 
 - Agente Generador de Contenido (TikTok/X/SEO) alimentado por alertas aprobadas.
+- Fase **P1** del [roadmap de ingresos](./roadmap-agentico-ingresos.md#6-p1--generador-de-contenido-vertical-15): publica vía Buffer, con revisión humana previa.
 
 ### Vertical 2 — Pendiente
 
-- Prospección/calificación de leads (scoring brújula + calc)
-- Ventas e-commerce (requiere tienda cold wallets)
+- Prospección/calificación de leads (scoring brújula + calc) → fase **P2** del [roadmap](./roadmap-agentico-ingresos.md#7-p2--prospección-y-calificación-vertical-2a).
+- Ventas e-commerce (requiere tienda cold wallets) → fase **P3** del [roadmap](./roadmap-agentico-ingresos.md#8-p3--tienda-y-agente-de-ventas-vertical-2b).
 
 ### Vertical 3 — Pendiente
 
 - Contabilidad multi-moneda (MXN + sats)
 - Facturación CFDI
+- Ambas en fase **P4** del [roadmap](./roadmap-agentico-ingresos.md#9-p4--contabilidad-y-facturación-vertical-3): dependen de que P0 registre transacciones.
+
+### Prerrequisito transversal — Medición de ingresos (P0)
+
+Los pagos Premium se cobran pero **no se persisten**: [`api/mp-webhook.js`](../api/mp-webhook.js) solo deja traza en log y [`api/check-payment.js`](../api/check-payment.js) devuelve `{ paid }` sin guardar. No existe tabla `purchases` ni correlación entre `leads` y una compra.
+
+Esto bloquea el scoring de Vertical 2 (sin conversiones reales contra las que validar) y al agente contable de Vertical 3 (sin fuente de datos). Detalle y esquema propuesto en la [fase P0](./roadmap-agentico-ingresos.md#5-p0--medición-de-ingresos-y-atribución).
 
 ## Diagrama de flujo (MVP)
 
@@ -110,3 +119,5 @@ Ver [`agents/.env.example`](../agents/.env.example).
 3. Configurar Resend con dominio verificado
 4. Seed KB desde admin
 5. Reemplazar placeholder PDF en `agents/public/guia-retiro-mexico.pdf`
+
+Una vez operativa Vertical 1, el siguiente paso es la fase P0 (medición de ingresos) del [roadmap de ingresos](./roadmap-agentico-ingresos.md#10-recomendación-de-arranque), no un agente nuevo.
