@@ -79,7 +79,7 @@ flowchart TB
 | Front | HTML/JS estático (repo raíz) — **sin migrar a Next.js** |
 | Agentes | Next.js 16 App Router, TypeScript, Vercel AI SDK |
 | LLM | Gemini 2.0 Flash (chat), OpenAI text-embedding-3-small (RAG) |
-| DB | Supabase Postgres + pgvector |
+| DB | Supabase Postgres + pgvector (esquema configurable con `SUPABASE_DB_SCHEMA`) |
 | Email | Resend |
 | Deploy | Dos proyectos Vercel: raíz + `agents/` |
 
@@ -113,6 +113,13 @@ flowchart TB
 - IP almacenada como hash SHA-256.
 - Mensajes de chat redactados (emails/números).
 - Retención chat: 90 días (configurable en Supabase policies).
+- Privilegios sólo para `service_role` y RLS activa en las nueve tablas: sin eso, el rol `anon` del esquema `public` podría leer leads, chats y compras con la llave anónima.
+
+## Costo de Supabase
+
+El plan gratuito da **2 proyectos activos por cuenta**, contados sobre todas las organizaciones donde seas Owner o Admin. Crear organizaciones nuevas no amplía el cupo; los proyectos pausados sí quedan fuera del conteo.
+
+Cuando los dos cupos ya están ocupados, este servicio no necesita un proyecto propio: `SUPABASE_DB_SCHEMA` permite alojar sus tablas en un esquema aparte dentro de un proyecto existente. Instrucciones en [`agents/README.md`](../agents/README.md#compartir-un-proyecto-en-el-plan-gratuito).
 
 ## Variables de entorno
 

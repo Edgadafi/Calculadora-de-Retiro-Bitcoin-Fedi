@@ -1,18 +1,32 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { isSupabaseConfigured } from '@/lib/config';
+import { createClient } from '@supabase/supabase-js';
+import { isSupabaseConfigured, SUPABASE_SCHEMA } from '@/lib/config';
 
-let client: SupabaseClient | null = null;
+function createServiceClient() {
+  return createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      auth: { persistSession: false, autoRefreshToken: false },
+      // Fija el esquema una sola vez: todo `.from()` y `.rpc()` del servicio lo hereda.
+      db: { schema: SUPABASE_SCHEMA },
+    }
+  );
+}
 
-export function getSupabase(): SupabaseClient {
+/**
+ * El tipo de `SupabaseClient` es genérico sobre el nombre del esquema, y aquí es
+ * dinámico, así que se deriva del constructor en lugar de anotarlo a mano.
+ */
+export type ServiceSupabaseClient = ReturnType<typeof createServiceClient>;
+
+let client: ServiceSupabaseClient | null = null;
+
+export function getSupabase(): ServiceSupabaseClient {
   if (!isSupabaseConfigured()) {
     throw new Error('Supabase is not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.');
   }
   if (!client) {
-    client = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      { auth: { persistSession: false, autoRefreshToken: false } }
-    );
+    client = createServiceClient();
   }
   return client;
 }

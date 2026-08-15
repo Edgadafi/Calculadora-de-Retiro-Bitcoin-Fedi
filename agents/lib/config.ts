@@ -45,6 +45,16 @@ export function isSupabaseConfigured(): boolean {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
+/**
+ * Esquema Postgres donde viven las tablas del servicio.
+ *
+ * Por defecto `public`, como en un proyecto Supabase dedicado. Si el proyecto se
+ * comparte con otra app (el plan gratuito permite 2 proyectos activos por cuenta),
+ * apuntar aquí a un esquema propio aísla las tablas sin pagar un proyecto extra.
+ * El esquema debe estar en Settings → API → Exposed schemas.
+ */
+export const SUPABASE_SCHEMA = (process.env.SUPABASE_DB_SCHEMA || 'public').trim() || 'public';
+
 /** Modelo Gemini para Rito y resúmenes legales (override opcional). */
 export const RITO_CHAT_MODEL = process.env.RITO_CHAT_MODEL || 'gemini-2.5-flash';
 

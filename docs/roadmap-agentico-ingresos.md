@@ -194,11 +194,12 @@ La tasa de conversión es una aproximación, no una cohorte estricta: un lead ca
 
 El código está en el repo, pero la medición no arranca hasta:
 
-1. Ejecutar el bloque `purchases` de [`agents/supabase/schema.sql`](../agents/supabase/schema.sql) en el SQL Editor de Supabase
+1. Ejecutar [`agents/supabase/schema.sql`](../agents/supabase/schema.sql) en el SQL Editor de Supabase. Si los 2 cupos del plan gratuito ya están ocupados, no hace falta un proyecto nuevo: el encabezado del script explica cómo alojar las tablas en un esquema propio dentro de un proyecto existente, y luego se declara con `SUPABASE_DB_SCHEMA`
 2. Generar un `INTERNAL_API_SECRET` de 24 caracteres o más y ponerlo **idéntico** en los dos proyectos de Vercel (raíz y `agents/`)
 3. Definir `AGENTS_BASE_URL` en el proyecto raíz, apuntando a `https://agents.retirobtc.mx`
 4. Opcional pero recomendado: `MERCADOPAGO_WEBHOOK_SECRET` desde Dashboard de Mercado Pago → Webhooks
-5. Considerar RLS en `purchases`: es una tabla financiera y sólo la llave de servicio debería leerla
+
+El script ya activa RLS sobre `purchases` y las demás tablas, y otorga privilegios sólo a `service_role`: es información financiera y de leads, y no debe quedar al alcance de la llave anónima.
 
 Mientras falten las variables, los cobros siguen funcionando con normalidad y el registro simplemente se omite con un aviso en el log. No hay riesgo de bloquear una venta.
 

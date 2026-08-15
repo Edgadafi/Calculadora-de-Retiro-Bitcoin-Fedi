@@ -1,7 +1,36 @@
 -- Retiro BTC — Agentes IA Vertical 1
 -- Ejecutar en Supabase SQL Editor (habilitar extensión vector)
+--
+-- ─────────────────────────────────────────────────────────────────────────────
+-- ESQUEMA DESTINO
+--
+-- Tal cual está, el script usa `public`: es lo correcto si el proyecto Supabase
+-- está dedicado a esta app.
+--
+-- Para compartir un proyecto con otra app (el plan gratuito da 2 proyectos
+-- activos por cuenta, no por organización), sustituye las DOS líneas marcadas
+-- con «ESQUEMA DESTINO» por estas, cambiando `retirobtc` si prefieres otro nombre:
+--
+--   (1 de 2)  create schema if not exists retirobtc;
+--             set search_path = retirobtc, extensions, public;
+--
+--   (2 de 2)  set search_path = retirobtc, extensions, public
+--
+-- Después añade el esquema en Settings → API → Exposed schemas y pon
+-- SUPABASE_DB_SCHEMA=retirobtc en las variables de entorno del servicio.
+--
+-- Por qué funciona: los CREATE sin calificar caen en el PRIMER esquema del
+-- search_path, así que las tablas quedan aisladas de las de la otra app aunque
+-- compartan nombre. `public` va al final sólo como respaldo para resolver el tipo
+-- `vector` si la extensión quedó instalada ahí en lugar de en `extensions`.
+-- ─────────────────────────────────────────────────────────────────────────────
 
-create extension if not exists vector;
+create schema if not exists extensions;
+create extension if not exists vector with schema extensions;
+
+-- ESQUEMA DESTINO (1 de 2)
+create schema if not exists public;
+set search_path = public, extensions;
 
 -- Leads (guía / eBook)
 create table if not exists leads (
@@ -89,6 +118,10 @@ returns table (
   similarity float
 )
 language sql stable
+-- ESQUEMA DESTINO (2 de 2). Fijar el search_path de la función evita que dependa
+-- del que traiga quien la llame, y es además la recomendación de Supabase para no
+-- dejar funciones con search_path mutable.
+set search_path = public, extensions
 as $$
   select
     kc.id,
@@ -153,3 +186,47 @@ create index if not exists purchases_created_at_idx on purchases (created_at des
 create index if not exists purchases_status_idx on purchases (status, created_at desc);
 create index if not exists purchases_lead_idx on purchases (lead_id);
 create index if not exists purchases_correlation_idx on purchases (correlation_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Permisos
+--
+-- Sólo la llave de servicio necesita acceso: el servicio de agentes nunca usa la
+-- llave anónima. No otorgar nada a `anon` deja estas tablas fuera del alcance del
+-- Data API público, que importa porque aquí hay correos de leads, mensajes de
+-- chat y montos cobrados.
+--
+-- Toma el esquema del search_path fijado arriba, así que no hay que editarlo.
+-- ─────────────────────────────────────────────────────────────────────────────
+do $$
+declare
+  target_schema text := current_schema();
+begin
+  execute format('grant usage on schema %I to service_role', target_schema);
+  execute format('grant all on all tables in schema %I to service_role', target_schema);
+  execute format('grant all on all routines in schema %I to service_role', target_schema);
+  execute format('grant all on all sequences in schema %I to service_role', target_schema);
+  execute format('alter default privileges in schema %I grant all on tables to service_role', target_schema);
+  execute format('alter default privileges in schema %I grant all on routines to service_role', target_schema);
+  execute format('alter default privileges in schema %I grant all on sequences to service_role', target_schema);
+end
+$$;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- RLS
+--
+-- Obligatorio si dejas las tablas en `public`: en Supabase el esquema `public`
+-- está expuesto al Data API y `anon` tiene privilegios por defecto, así que sin
+-- RLS cualquiera con la llave anónima podría leer leads, chats y compras.
+--
+-- Activarla no afecta al servicio: la llave de servicio omite RLS por diseño.
+-- Al no crear políticas, el acceso anónimo queda denegado.
+-- ─────────────────────────────────────────────────────────────────────────────
+alter table leads enable row level security;
+alter table consent_records enable row level security;
+alter table chat_sessions enable row level security;
+alter table chat_messages enable row level security;
+alter table knowledge_documents enable row level security;
+alter table knowledge_chunks enable row level security;
+alter table legal_alerts enable row level security;
+alter table rate_limit_buckets enable row level security;
+alter table purchases enable row level security;
