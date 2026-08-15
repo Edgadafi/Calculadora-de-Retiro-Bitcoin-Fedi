@@ -1,4 +1,6 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { sanitizeCorrelationId, sanitizeUtm } from './_lib/purchases.js';
+import { buildExternalReference } from './_lib/plan.js';
 
 const rateLimit = new Map();
 const RATE_WINDOW_MS = 60_000;
@@ -85,10 +87,17 @@ export default async function handler(req, res) {
     });
   }
 
-  const { plan, payer_email } = req.body || {};
+  const { plan, payer_email, correlation_id, utm } = req.body || {};
   if (plan !== 'monthly' && plan !== 'lifetime') {
     return res.status(400).json({ error: 'Invalid plan. Use monthly or lifetime.' });
   }
+
+  /**
+   * Atribución (fase P0). Son datos de marketing provenientes del cliente, así que
+   * se saneen y nunca se usan para decidir importes ni acceso: sólo para reportes.
+   */
+  const correlationId = sanitizeCorrelationId(correlation_id);
+  const utmParams = sanitizeUtm(utm);
 
   const payerEmail = normalizePayerEmail(typeof payer_email === 'string' ? payer_email : '');
   if (!payerEmail) {
@@ -124,7 +133,11 @@ export default async function handler(req, res) {
      * y puede interferir con rutas efectivo/OXXO (botón Pagar sin habilitar en revisión).
      */
     binary_mode: false,
-    external_reference: plan,
+    external_reference: buildExternalReference(plan, correlationId),
+    metadata: {
+      ...(correlationId ? { correlation_id: correlationId } : {}),
+      ...(utmParams || {}),
+    },
     back_urls: {
       success: `${baseUrl}/calc`,
       failure: `${baseUrl}/calc`,

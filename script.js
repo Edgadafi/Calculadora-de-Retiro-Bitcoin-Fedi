@@ -23,6 +23,8 @@
   /** true = Checkout Pro (Mercado Pago). false = Lightning (LNbits /api/create-invoice). */
   const PAYMENT_USE_MERCADOPAGO = true;
   const MP_EMAIL_LS = 'btc_retirement_mp_email';
+  const ATTRIBUTION_KEY = 'btc_retirement_attribution';
+  const CORRELATION_KEY = 'btc_retirement_correlation';
   const LANG = {
     es: {
       lang_label: 'Idioma',
@@ -1076,6 +1078,58 @@
     return false;
   }
 
+  // ─── Atribución de ingresos (fase P0) ───────────────────
+  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+  /**
+   * Guarda los UTM de la visita para que sobrevivan al redirect de Checkout Pro:
+   * al volver de Mercado Pago la URL ya no los trae.
+   */
+  function captureAttribution() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const utm = {};
+      UTM_KEYS.forEach((key) => {
+        const value = params.get(key);
+        if (value) utm[key] = value.slice(0, 200);
+      });
+      if (Object.keys(utm).length) {
+        localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(utm));
+      }
+    } catch (_) { /* modo privado o storage lleno: la atribución es opcional */ }
+  }
+
+  function getStoredUtm() {
+    try {
+      const raw = localStorage.getItem(ATTRIBUTION_KEY);
+      if (!raw) return undefined;
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === 'object' && Object.keys(parsed).length ? parsed : undefined;
+    } catch (_) {
+      return undefined;
+    }
+  }
+
+  /**
+   * Identificador estable del navegador para unir checkout y pago en los reportes.
+   * No identifica a la persona ni viaja a terceros: sólo acompaña al cobro.
+   */
+  function getCorrelationId() {
+    try {
+      const existing = localStorage.getItem(CORRELATION_KEY);
+      if (existing && /^[A-Za-z0-9_-]{8,64}$/.test(existing)) return existing;
+
+      const generated = (window.crypto && typeof window.crypto.randomUUID === 'function')
+        ? window.crypto.randomUUID().replace(/-/g, '')
+        : `c${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+
+      localStorage.setItem(CORRELATION_KEY, generated);
+      return generated;
+    } catch (_) {
+      return undefined;
+    }
+  }
+
   /** URL de compartir con UTM si el usuario llegó desde campaña. */
   function getShareLink() {
     const params = new URLSearchParams(window.location.search);
@@ -1091,6 +1145,8 @@
     loadLanguage();
     detectEnvironment();
     loadTheme();
+    // Antes de checkMercadoPagoReturn, que limpia los parámetros de la URL.
+    captureAttribution();
     await checkMercadoPagoReturn();
     checkPremiumStatus();
     if (!PAYMENT_USE_MERCADOPAGO && dom.restoreByIdBlock) {
@@ -1321,7 +1377,12 @@
         const resp = await fetch(`${PAYMENT_API}/create-preference`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan: type, payer_email: payerEmail }),
+          body: JSON.stringify({
+            plan: type,
+            payer_email: payerEmail,
+            correlation_id: getCorrelationId(),
+            utm: getStoredUtm(),
+          }),
         });
         const data = await resp.json().catch(() => ({}));
         if (!resp.ok) {
@@ -1478,7 +1539,12 @@
     const resp = await fetch(`${PAYMENT_API}/create-invoice`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: sats, memo }),
+      body: JSON.stringify({
+        amount: sats,
+        memo,
+        plan: type,
+        correlation_id: getCorrelationId(),
+      }),
     });
     if (!resp.ok) throw new Error('Invoice creation failed');
     return resp.json();
