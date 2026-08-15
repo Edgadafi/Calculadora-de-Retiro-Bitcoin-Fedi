@@ -185,6 +185,20 @@ Decisión tomada: **encolar en Buffer, no publicar directo en X**. Conserva revi
 
 Flujo: `draft` → revisión en admin → `queued` en Buffer → Buffer publica según calendario.
 
+Datos verificados (agosto 2026):
+
+- La API de Buffer está en disponibilidad general y se incluye en **todos los planes, incluido el gratuito**: 1 API key y 3,000 requests por 30 días, suficiente para unas piezas por semana
+- Lo que necesitamos es una **personal API key** de la cuenta propia. El registro de apps OAuth de terceros sigue restringido, pero eso solo aplicaría si terceros conectaran sus cuentas, que no es el caso
+- Buffer publica además un servidor MCP, alternativa a considerar frente a llamar la API directamente
+
+### Herramientas descartadas
+
+**RelateSocial de Namecheap** (~$9.88 USD/mes, suscripción cancelada por falta de fondos en agosto 2026). No se repone. Motivos:
+
+1. **No expone API pública.** Es un dashboard de uso manual, así que no puede recibir los borradores del agente: habría que copiar y pegar cada pieza, lo que anula el motivo de automatizar.
+2. **Duplica IA que ya existe.** Su asistente genera posts e imágenes, pero sin contexto del producto. El servicio en `agents/` ya usa Gemini con RAG sobre la base de conocimiento propia y el system prompt de Rito.
+3. **Riesgo de cumplimiento.** Una IA de marketing genérica no aplica las reglas de [`guia-marca-tono-claude.md`](./guia-marca-tono-claude.md): no inyecta el disclaimer ni evita el hype, que es justo lo prohibido al hablar de rendimientos.
+
 ### Reglas de contenido obligatorias
 
 Heredadas de [`guia-marca-tono-claude.md`](./guia-marca-tono-claude.md):
