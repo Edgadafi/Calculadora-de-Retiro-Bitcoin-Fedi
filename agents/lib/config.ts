@@ -66,3 +66,18 @@ export function isOpenAIConfigured(): boolean {
 export function isResendConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY);
 }
+
+/**
+ * Secreto compartido con el proyecto raíz para la ingesta de compras.
+ * Exige 24 caracteres o más: este endpoint escribe datos de ingresos.
+ */
+export function isInternalApiConfigured(): boolean {
+  const value = process.env.INTERNAL_API_SECRET?.trim();
+  return Boolean(value && value.length >= 24);
+}
+
+/** Precios de referencia para estimar MRR cuando el importe no viene del proveedor. */
+export const PREMIUM_PRICES_MXN = {
+  monthly: Number(process.env.MERCADOPAGO_PRICE_MONTHLY_MXN || 20),
+  lifetime: Number(process.env.MERCADOPAGO_PRICE_LIFETIME_MXN || 200),
+} as const;

@@ -2,11 +2,10 @@ import { NextRequest } from 'next/server';
 import { isSupabaseConfigured } from '@/lib/config';
 import { getSupabase, LegalAlertRow } from '@/lib/db/supabase';
 import { approveLegalAlert, rejectLegalAlert } from '@/lib/agents/legal-researcher';
+import { matchesSecret } from '@/lib/http/shared-secret';
 
 function assertAdmin(req: NextRequest): boolean {
-  const secret = process.env.ADMIN_SECRET;
-  if (!secret) return false;
-  return req.headers.get('x-admin-secret') === secret;
+  return matchesSecret(req.headers.get('x-admin-secret'), process.env.ADMIN_SECRET);
 }
 
 export async function GET(req: NextRequest) {

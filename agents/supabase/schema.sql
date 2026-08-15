@@ -126,3 +126,30 @@ create table if not exists rate_limit_buckets (
   count int not null default 0,
   window_start timestamptz not null default now()
 );
+
+-- Compras Premium (P0: medición de ingresos y atribución)
+-- El importe y el plan siempre provienen del proveedor de pago, nunca del cliente.
+-- No se guarda correo ni dato de tarjeta: la atribución se resuelve vía lead_id.
+create table if not exists purchases (
+  id uuid primary key default gen_random_uuid(),
+  provider text not null check (provider in ('mercadopago', 'lightning')),
+  external_id text not null,
+  plan text not null check (plan in ('monthly', 'lifetime')),
+  amount numeric(14, 2) not null check (amount >= 0),
+  currency text not null check (currency in ('MXN', 'SAT')),
+  status text not null check (status in ('approved', 'pending', 'rejected', 'refunded')),
+  correlation_id text,
+  lead_id uuid references leads (id) on delete set null,
+  utm jsonb,
+  paid_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  -- Idempotencia: Mercado Pago reintenta notificaciones y el cliente sondea
+  -- check-payment cada 3 s; ninguna repetición debe duplicar la fila.
+  constraint purchases_provider_external_id_key unique (provider, external_id)
+);
+
+create index if not exists purchases_created_at_idx on purchases (created_at desc);
+create index if not exists purchases_status_idx on purchases (status, created_at desc);
+create index if not exists purchases_lead_idx on purchases (lead_id);
+create index if not exists purchases_correlation_idx on purchases (correlation_id);

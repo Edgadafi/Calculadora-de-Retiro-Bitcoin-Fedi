@@ -29,6 +29,22 @@ export type LeadRow = {
   created_at: string;
 };
 
+export type PurchaseRow = {
+  id: string;
+  provider: 'mercadopago' | 'lightning';
+  external_id: string;
+  plan: 'monthly' | 'lifetime';
+  amount: number;
+  currency: 'MXN' | 'SAT';
+  status: 'approved' | 'pending' | 'rejected' | 'refunded';
+  correlation_id: string | null;
+  lead_id: string | null;
+  utm: Record<string, string> | null;
+  paid_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type LegalAlertRow = {
   id: string;
   title: string;
