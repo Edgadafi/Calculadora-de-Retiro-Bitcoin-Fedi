@@ -1,3 +1,6 @@
+import { sanitizeCorrelationId } from './_lib/purchases.js';
+import { buildPlanMemo } from './_lib/plan-memo.js';
+
 const LNBITS_URL = process.env.LNBITS_URL || 'https://legend.lnbits.com';
 const LNBITS_API_KEY = process.env.LNBITS_API_KEY || '';
 
@@ -27,11 +30,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { amount, memo } = req.body;
+    const { amount, memo, plan, correlation_id } = req.body;
 
     if (!amount || typeof amount !== 'number' || amount < 1 || amount > 1_000_000) {
       return res.status(400).json({ error: 'Invalid amount' });
     }
+
+    const validPlan = plan === 'monthly' || plan === 'lifetime' ? plan : null;
+    const correlationId = sanitizeCorrelationId(correlation_id);
+
+    /**
+     * El plan se marca en el memo desde el servidor (fase P0). Al confirmar el
+     * pago, `check-payment` lo lee de LNbits en lugar de confiar en el cliente,
+     * que podría declarar un plan que no compró.
+     */
+    const description = buildPlanMemo(
+      typeof memo === 'string' && memo.trim() ? memo.trim().slice(0, 100) : 'Calculadora Retiro BTC Premium',
+      validPlan
+    );
 
     const resp = await fetch(`${LNBITS_URL}/api/v1/payments`, {
       method: 'POST',
@@ -39,7 +55,15 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'X-Api-Key': LNBITS_API_KEY,
       },
-      body: JSON.stringify({ out: false, amount, memo: memo || 'Calculadora Retiro BTC Premium' }),
+      body: JSON.stringify({
+        out: false,
+        amount,
+        memo: description,
+        extra: {
+          ...(validPlan ? { plan: validPlan } : {}),
+          ...(correlationId ? { correlation_id: correlationId } : {}),
+        },
+      }),
     });
 
     if (!resp.ok) {

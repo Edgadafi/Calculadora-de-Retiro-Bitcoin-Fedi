@@ -1,0 +1,47 @@
+---
+description: Activa UI/UX Pro Max en trabajo de interfaz. La marca de retirobtc.mx manda sobre las paletas genéricas del skill.
+globs: **/*.{html,css,js}
+alwaysApply: false
+---
+
+# UI/UX Pro Max — cómo usarlo aquí
+
+Cuando el pedido sea diseñar, revisar o implementar interfaz (landing, calc, brújula, widget, banners, PWA), **lee primero** [`.cursor/skills/ui-ux-pro-max/SKILL.md`](../skills/ui-ux-pro-max/SKILL.md) y sigue su flujo. No improvises el sistema visual.
+
+## Cómo invocarlo
+
+Para una página o dirección visual nueva:
+
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<producto> <industria> <keywords>" --design-system -p "Retiro BTC"
+```
+
+Para un detalle (accesibilidad, tipografía, stack):
+
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<consulta>" --domain ux
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "responsive layout" --stack html-tailwind
+```
+
+El stack de este repo es **HTML + CSS + JS vanilla**. Usa `--stack html-tailwind` sólo como guía de layout/accesibilidad; **no introduzcas Tailwind ni React** salvo que el usuario lo pida.
+
+## La marca manda sobre el catálogo
+
+El motor recomienda paletas genéricas de “fintech/crypto” (oro + púrpura, Space Grotesk). **No las apliques.** Decisiones fijas de [`docs/guia-marca-tono-claude.md`](../../docs/guia-marca-tono-claude.md):
+
+| Token | Hex | Uso |
+|-------|-----|-----|
+| Navy | `#1E2B58` | Marca, ícono, overlays |
+| Naranja | `#F07D38` | CTAs, acentos |
+| Oro Bitcoin | `#F7B500` | Premium / Lightning, no como fondo |
+| Obsidiana | `#080810`–`#1C1C30` | UI dark |
+| Tipografía | Cormorant Garamond + Syne + DM Mono | Ya cargada en el sitio |
+
+Sí toma del skill: patrones de landing (Trust & Authority), checklist de accesibilidad, anti-patrones, y la regla de no usar emojis como íconos.
+
+## Anti-patrones que el skill y la marca coinciden en prohibir
+
+- Gradientes “AI purple/pink”, neón agresivo, cohetes, lambos
+- Hype especulativo o CTAs de urgencia falsa
+- Promesas de rendimiento
+- Emojis como íconos (usar SVG)

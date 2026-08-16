@@ -1,4 +1,6 @@
 import { MercadoPagoConfig, Payment } from 'mercadopago';
+import { recordPurchase, sanitizeUtm } from './_lib/purchases.js';
+import { parseExternalReference } from './_lib/plan.js';
 
 function getAccessToken() {
   return (
@@ -30,7 +32,6 @@ export default async function handler(req, res) {
     const data = await payment.get({ id });
 
     const status = data.status;
-    const externalReference = data.external_reference;
 
     if (status !== 'approved') {
       return res.status(400).json({
@@ -39,12 +40,34 @@ export default async function handler(req, res) {
       });
     }
 
-    if (externalReference !== 'monthly' && externalReference !== 'lifetime') {
+    // Acepta el formato nuevo `<plan>:<correlationId>` y el antiguo `<plan>`.
+    const { plan, correlationId } = parseExternalReference(data.external_reference);
+
+    if (!plan) {
       return res.status(400).json({ error: 'Invalid external_reference' });
     }
 
+    // Registro redundante con el webhook: el upsert es idempotente y así la
+    // compra queda medida aunque la notificación no haya llegado.
+    const amount = Number(data.transaction_amount);
+    if (String(data.currency_id || '').toUpperCase() === 'MXN' && Number.isFinite(amount)) {
+      const metadata = (data.metadata && typeof data.metadata === 'object') ? data.metadata : {};
+      await recordPurchase({
+        provider: 'mercadopago',
+        externalId: String(data.id),
+        plan,
+        amount,
+        currency: 'MXN',
+        status: 'approved',
+        correlationId: correlationId || undefined,
+        payerEmail: data?.payer?.email || undefined,
+        utm: sanitizeUtm(metadata),
+        paidAt: data.date_approved || data.date_created || undefined,
+      });
+    }
+
     return res.status(200).json({
-      plan: externalReference,
+      plan,
       payment_id: data.id,
       status: data.status,
     });
