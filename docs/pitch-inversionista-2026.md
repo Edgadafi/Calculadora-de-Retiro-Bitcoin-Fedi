@@ -7,22 +7,24 @@
 
 **Una frase:** México no confía en el AFORE; millones ahorran fuera del IMSS. `retirobtc.mx` es la interfaz para proyectar retiro en Bitcoin (sats) con custodia comunitaria, ya en producción, **sin custodiar fondos**.
 
-**Disclaimer:** la proyección a 12 meses es **ilustración bottom-up**. Hoy no hay cobros Premium reales en `purchases`. En sala se presenta el escenario **neutral como plan**, no el positivo como *guidance*.
+**Disclaimer:** la proyección a 12 meses es **ilustración bottom-up**. Hoy no hay cobros Premium reales en `purchases`. En sala: escenario **neutral = plan de operación**; **Berkus = plan de precio**. El positivo no es *guidance* ni base de valuación. Tipo de cambio ilustrativo: **18 MXN/USD**. No es un 409A.
 
 ---
 
-## 0. Completar antes de imprimir (5 min)
-
-Copia este bloque a la lámina 10. Sin monto e instrumento, no se imprime el ask.
+## 0. ASK (lámina 10)
 
 ```
 ASK
-Monto:           _______________ MXN / USD
-Instrumento:     [ ] equity  [ ] SAFE  [ ] revenue share  [ ] alianza / distribución (0 cash)
+Monto:           USD 30,000  (≈ 540,000 MXN)
+Instrumento:     SAFE post-money USD 600,000  (≈ 10.8 M MXN)
+Pre-money ref.:  USD 500,000  (≈ 9 M MXN) — Berkus, prod live, $0 revenue
+Dilución:        5%  (30 / 600)
 Uso primario:    GTM 90 días (campaña + contenido + talleres), no rewrite de producto
 Qué pedimos además del capital: intros Casa Satoshi / White Paper House / Fedi catalog
-Qué ofrecemos:   _______________
+Qué ofrecemos:   5% fully diluted (SAFE); updates mensuales de ingresos P0; no AUM
 ```
+
+Si el inversionista es solo red (0 cash): no cotizar valuación. Marca alianza / distribución y deja el SAFE para cuando P0 tenga un cobro real.
 
 ---
 
@@ -70,9 +72,12 @@ Precios: **20 MXN** mensual / **200 MXN** lifetime. Fee MP 3.5%. Tools 3,000 MXN
 
 El downside de caja es acotado (no hay nómina ni inventario). El upside no es subir precio: es conversión y mix lifetime.
 
-### Ask y riesgos
+### Ask, valuación y riesgos
 
-Ask: ver bloque de la sección 0. Uso: distribución 90 días, no un rewrite.
+- **Cheque:** USD 30,000 (≈ 540k MXN).
+- **Instrumento:** SAFE post-money **USD 600,000** → **5%**.
+- **Pre-money:** USD 500,000 (Berkus). Producto en producción, cero ingresos medidos. No se usa el escenario positivo para fijar precio.
+- **Uso:** GTM 90 días, no rewrite.
 
 Riesgos: volatilidad percibida (default 15% + proyección en MXN); adopción Fedi (el sitio funciona solo); regulación (no custodiamos); tráfico (P0 ya mide). No prometemos pensión ni rendimiento histórico extremo.
 
@@ -130,7 +135,9 @@ Campaña «Tu AFORE Soberana»; catálogo Fedi; un taller en federación piloto;
 
 ### Lámina 10 — Ask y cierre (45 s)
 
-Leer el bloque ASK. Cierre: *siguiente hito = primer cobro atribuido + 90 días de campaña.* Ofrecer follow-up técnico: repo + `GET /api/p0-status`.
+**Decir:** *Valuamos producto en producción, no AUM ni el escenario positivo. Pedimos 30k USD a 600k post (5%) para 90 días de campaña. El múltiplo sobre ingresos lo discutimos cuando P0 tenga cobros.*
+
+Leer el bloque ASK (sección 0). Cierre: *siguiente hito = primer cobro atribuido + 90 días de campaña.* Follow-up técnico: repo + `GET /api/p0-status`.
 
 ### Objeciones (3 min)
 
@@ -145,6 +152,8 @@ Leer el bloque ASK. Cierre: *siguiente hito = primer cobro atribuido + 90 días 
 **“¿Esto es legal / necesitan licencia?”** No custodiamos, no ejecutamos órdenes, no prometemos pensión. Somos herramienta de proyección + cobro de software Premium.
 
 **“El escenario positivo parece un hockey stick.”** No se presenta como guidance. El plan es el **neutral** (~322k MXN bruto / ~+179k op. en 12 meses, ilustrativo). El positivo muestra que el cuello es distribución y conversión, no costo de servir.
+
+**“¿Por qué 500k pre si no hay ingresos?”** Berkus de pre-revenue: idea + producto en prod. No es múltiplo de ventas (hoy son cero). Un forward 8–12× sobre 322k MXN del plan daría ~USD 140–220k *si* se cumple; por eso el cheque es GTM (30k), no un priced round caro. El positivo (~3.4 M MXN) no entra al precio de esta ronda.
 
 ### Checklist demo 90 s (si hay laptop)
 
@@ -324,11 +333,48 @@ Base M1: 6,000 visitas × 2.5% × 74 MXN = **11,100 MXN** brutos.
 
 ### Qué no entra al modelo
 
-AUM; take-rate de compra BTC (Aureo); Lightning en el P&L; merch / cold wallets (P3); CFDI (P4); ronda de equity; IVA del fee MP; nómina; renovaciones del plan mensual.
+AUM; take-rate de compra BTC (Aureo); Lightning en el P&L; merch / cold wallets (P3); CFDI (P4); ronda de equity; IVA del fee MP; nómina; renovaciones del plan mensual. La valuación (sección 5) es un método de ronda, no un renglón del P&L.
 
 ---
 
-## 5. Anexo: fuentes, fórmulas y lo que no se afirma
+## 5. Valuación (Berkus / SAFE)
+
+**Naturaleza:** referencia de ronda para ángel BTC-LATAM. **No** es 409A ni DCF. Tipo de cambio ilustrativo: **18 MXN/USD**. En sala: *neutral = plan de operación; Berkus = plan de precio.*
+
+Hoy no hay múltiplo sobre ingresos reales (`purchases` vacío). El escenario positivo **no** fija el precio.
+
+### Berkus (pre-revenue, USD)
+
+| Factor | Rango típico | Aquí | Por qué |
+|--------|--------------|------|---------|
+| Idea / timing 2026 | 50–250k | **100k** | Ventana AFORE; no somos exchange |
+| Producto en producción | 100–500k | **250k** | `/calc`, MP + Lightning, P0, Rito |
+| Equipo | 100–500k | **100k** | Founder-led; sin org comercial |
+| Relaciones estratégicas | 100–500k | **50k** | Casa Satoshi / Fedi: pipeline, no contrato |
+| Ventas / rollout | 100–500k | **0** | Cero cobros medidos |
+| **Pre-money** | | **USD 500,000** (≈ 9 M MXN) | |
+
+Piso (costo de rehacer el producto): ~USD 20–50k. No se usa como post-money.
+
+Forward 8–12× sobre el bruto **neutral** Y1 (322k MXN) ≈ USD 140–220k *si* se cumple el plan. Con cero cobros se descuenta; por eso el instrumento es **SAFE**, no un priced round caro. El positivo (~3.4 M MXN bruto) es la **próxima** conversación, no esta.
+
+### Términos de ronda
+
+| Campo | Valor |
+|--------|--------|
+| Pre-money | USD 500,000 |
+| SAFE post-money | USD 600,000 (≈ 10.8 M MXN) |
+| Cheque | USD 30,000 (≈ 540,000 MXN) |
+| Dilución | 5% (30 / 600) |
+| Uso | GTM 90 días (ads/contenido del plan neutral, talleres, buffer). No rewrite |
+
+Rangos si el inversionista empuja: post USD 400k + cheque 20k (5%); no subir de **USD 750k–900k post** sin un cobro real en P0.
+
+Si es alianza 0 cash: no cotizar; SAFE cuando exista el primer `purchases` aprobado.
+
+---
+
+## 6. Anexo: fuentes, fórmulas y lo que no se afirma
 
 ### Fuentes
 
@@ -341,6 +387,7 @@ AUM; take-rate de compra BTC (Aureo); Lightning en el P&L; merch / cold wallets 
 | Conversión 2–5% | KPI del product brief | El plan usa 2.5% |
 | Tracción 16 ago 2026 | Activación P0 en vivo | Cero filas reales en `purchases` |
 | Alianzas | Brief + estudio | Pipeline, no contratos firmados en este doc |
+| Valuación USD 500k / SAFE 600k / cheque 30k | Berkus sección 5; FX 18 MXN/USD ilustrativo | “Producto en prod, $0 revenue”; no 409A |
 
 Estudio completo: [`estudio-mercado-calculadora-retiro-bitcoin.md`](./estudio-mercado-calculadora-retiro-bitcoin.md). Producto: [`product-brief.md`](./product-brief.md). Medición: [`activar-p0-produccion.md`](./activar-p0-produccion.md).
 
@@ -360,6 +407,7 @@ Ver sección 4 para M1/M6/M12. Acumulados usados en el one-pager salen de sumar 
 - P0 de medición activa; Rito; dual rail MXN/sats.
 - Mercado TAM/SAM/SOM con fuente mayo 2026.
 - Tres escenarios **ilustrativos**.
+- Valuación Berkus / SAFE como **referencia de ronda**, no como valor de mercado auditado.
 
 ### Qué NO se afirma
 
@@ -368,10 +416,11 @@ Ver sección 4 para M1/M6/M12. Acumulados usados en el one-pager salen de sumar 
 - MRR, DAU, usuarios o ingresos actuales.
 - Que P0 ya tiene cobros reales.
 - DNS `agents.retirobtc.mx` (no usar).
-- El escenario positivo como *guidance* o forecast auditado.
+- El escenario positivo como *guidance*, forecast auditado **o base de valuación**.
 - Contratos cerrados con Casa Satoshi / Fedi / Aureo.
 - Comisión por compra de BTC.
 - Necesidad de plan Pro de Supabase o de despertar el proyecto iLATAM.
+- 409A, DCF o múltiplo sobre ingresos actuales (son cero).
 
 ### Follow-up de due diligence (si lo piden)
 
