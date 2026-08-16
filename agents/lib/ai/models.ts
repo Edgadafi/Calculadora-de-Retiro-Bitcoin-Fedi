@@ -1,6 +1,7 @@
 import { generateText } from 'ai';
 import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
+import { RITO_MAX_OUTPUT_TOKENS } from '@/lib/agents/rito';
 import { isGeminiConfigured, isOpenAIConfigured } from '@/lib/config';
 
 const RETIRED_GEMINI = /^(gemini-2\.0|gemini-1\.[05]|gemini-pro$|gemini-1\.0)/i;
@@ -31,6 +32,8 @@ export async function generateRitoText(params: {
           model: google(modelId),
           system: params.system,
           messages: params.messages,
+          maxOutputTokens: RITO_MAX_OUTPUT_TOKENS,
+          temperature: 0.7,
         });
         if (text?.trim()) return text;
       } catch (e) {
@@ -42,11 +45,13 @@ export async function generateRitoText(params: {
 
   if (isOpenAIConfigured()) {
     try {
-      const { text } = await generateText({
-        model: openai('gpt-4o-mini'),
-        system: params.system,
-        messages: params.messages,
-      });
+        const { text } = await generateText({
+          model: openai('gpt-4o-mini'),
+          system: params.system,
+          messages: params.messages,
+          maxOutputTokens: RITO_MAX_OUTPUT_TOKENS,
+          temperature: 0.7,
+        });
       if (text?.trim()) return text;
     } catch (e) {
       lastError = e;

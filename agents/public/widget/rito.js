@@ -34,9 +34,17 @@
     '#rito-header span{font-weight:400;color:#888;font-size:11px;display:block;margin-top:2px}' +
     '#rito-close{flex:0 0 auto;width:36px;height:36px;min-width:36px;min-height:36px;padding:0;border:none;border-radius:8px;background:transparent;color:#ccc;font-size:22px;line-height:1;cursor:pointer;touch-action:manipulation}' +
     '#rito-messages{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:10px}' +
-    '.rito-msg{max-width:90%;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.45;white-space:pre-wrap}' +
+    '.rito-msg{max-width:90%;padding:9px 12px;border-radius:12px;font-size:14px;line-height:1.5;white-space:pre-wrap}' +
     '.rito-msg.user{align-self:flex-end;background:#F07D38;color:#111}' +
     '.rito-msg.bot{align-self:flex-start;background:#252525;color:#eee}' +
+    '.rito-msg.bot.rito-rich{white-space:normal}' +
+    '.rito-msg.bot.rito-rich p{margin:0 0 0.55em}' +
+    '.rito-msg.bot.rito-rich p:last-child{margin-bottom:0}' +
+    '.rito-msg.bot.rito-rich ul,.rito-msg.bot.rito-rich ol{margin:0.2em 0 0.55em;padding-left:1.2em}' +
+    '.rito-msg.bot.rito-rich li{margin:0.2em 0}' +
+    '.rito-msg.bot.rito-rich strong{font-weight:700;color:#fff}' +
+    '.rito-msg.bot.rito-rich a{color:#F07D38;text-decoration:underline;word-break:break-word}' +
+    '.rito-msg.bot.rito-rich code{font-size:12px;background:#111;padding:1px 4px;border-radius:4px}' +
     '#rito-form{display:flex;align-items:stretch;border-top:1px solid #333;padding:8px;gap:8px}' +
     '#rito-input{flex:1;min-width:0;border:1px solid #444;background:#111;color:#eee;border-radius:8px;padding:8px 10px;font-size:16px;resize:none;height:40px}' +
     '#rito-send{background:#F07D38;border:none;border-radius:8px;padding:0 14px;min-width:44px;font-weight:600;cursor:pointer;color:#111;touch-action:manipulation}' +
@@ -55,7 +63,7 @@
     '<div id="rito-header"><div id="rito-header-copy">Rito · Soporte retirobtc.mx<span>Información educativa · no es asesoría legal/fiscal</span></div><button type="button" id="rito-close" aria-label="Cerrar chat">×</button></div>' +
     '<div id="rito-messages"></div>' +
     '<div id="rito-disclaimer">No compartas datos de pago ni montos personales.</div>' +
-    '<form id="rito-form"><textarea id="rito-input" placeholder="Pregunta sobre AFORE, Fedi, calculadora…" rows="1" autocomplete="off"></textarea><button type="submit" id="rito-send">→</button></form>' +
+    '<form id="rito-form"><textarea id="rito-input" placeholder="Escríbeme: AFORE, Fedi, calculadora…" rows="1" autocomplete="off"></textarea><button type="submit" id="rito-send">→</button></form>' +
     '</div>';
 
   document.head.appendChild(styles);
@@ -74,17 +82,126 @@
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     toggle.setAttribute('aria-label', open ? 'Cerrar chat Rito' : 'Abrir chat Rito');
     if (open && messages.length === 0) {
-      appendMsg(
-        'bot',
-        'Hola, soy Rito. Te ayudo con la calculadora, Fedi, AFORE y tu retiro en México. ¿En qué te apoyo?'
-      );
+      var greet =
+        'Hola, soy Rito. Si quieres, vemos tu retiro con Bitcoin: la calculadora, Fedi o cómo se compara con una AFORE.\n\n¿Por dónde empezamos?';
+      messages.push({ role: 'assistant', content: greet });
+      appendMsg('bot', greet);
+    }
+  }
+
+  function isSafeHttpUrl(url) {
+    return /^https?:\/\//i.test(url);
+  }
+
+  function makeLink(href, label) {
+    var a = document.createElement('a');
+    a.href = href;
+    a.textContent = label;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    return a;
+  }
+
+  function appendInline(parent, text) {
+    var re = /(\*\*([^*]+)\*\*|`([^`]+)`|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|(https?:\/\/[^\s<]+))/g;
+    var last = 0;
+    var m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) {
+        parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+      }
+      if (m[2]) {
+        var strong = document.createElement('strong');
+        strong.textContent = m[2];
+        parent.appendChild(strong);
+      } else if (m[3]) {
+        var code = document.createElement('code');
+        code.textContent = m[3];
+        parent.appendChild(code);
+      } else if (m[4] && m[5] && isSafeHttpUrl(m[5])) {
+        parent.appendChild(makeLink(m[5], m[4]));
+      } else if (m[6] && isSafeHttpUrl(m[6])) {
+        var rawUrl = m[6];
+        var trail = '';
+        while (/[),.;:!?]$/.test(rawUrl)) {
+          trail = rawUrl.slice(-1) + trail;
+          rawUrl = rawUrl.slice(0, -1);
+        }
+        if (isSafeHttpUrl(rawUrl)) {
+          parent.appendChild(makeLink(rawUrl, rawUrl));
+          if (trail) parent.appendChild(document.createTextNode(trail));
+        } else {
+          parent.appendChild(document.createTextNode(m[0]));
+        }
+      } else {
+        parent.appendChild(document.createTextNode(m[0]));
+      }
+      last = re.lastIndex;
+    }
+    if (last < text.length) {
+      parent.appendChild(document.createTextNode(text.slice(last)));
+    }
+  }
+
+  function isBullet(line) {
+    return /^\s*[-*•]\s+\S/.test(line);
+  }
+
+  function isOrdered(line) {
+    return /^\s*\d+[.)]\s+\S/.test(line);
+  }
+
+  function renderRich(el, text) {
+    el.textContent = '';
+    el.classList.add('rito-rich');
+    var blocks = String(text || '').replace(/\r\n/g, '\n').split(/\n{2,}/);
+    var i;
+    for (i = 0; i < blocks.length; i++) {
+      var block = blocks[i].trim();
+      if (!block) continue;
+      var lines = block.split('\n');
+      var nonempty = lines.filter(function (ln) {
+        return ln.trim();
+      });
+      if (nonempty.length && nonempty.every(isBullet)) {
+        var ul = document.createElement('ul');
+        nonempty.forEach(function (ln) {
+          var li = document.createElement('li');
+          appendInline(li, ln.replace(/^\s*[-*•]\s+/, ''));
+          ul.appendChild(li);
+        });
+        el.appendChild(ul);
+      } else if (nonempty.length && nonempty.every(isOrdered)) {
+        var ol = document.createElement('ol');
+        nonempty.forEach(function (ln) {
+          var li = document.createElement('li');
+          appendInline(li, ln.replace(/^\s*\d+[.)]\s+/, ''));
+          ol.appendChild(li);
+        });
+        el.appendChild(ol);
+      } else {
+        var p = document.createElement('p');
+        lines.forEach(function (ln, idx) {
+          if (idx) p.appendChild(document.createElement('br'));
+          appendInline(p, ln);
+        });
+        el.appendChild(p);
+      }
+    }
+    if (!el.childNodes.length) {
+      el.classList.remove('rito-rich');
+      el.textContent = text;
     }
   }
 
   function appendMsg(role, text) {
     var div = document.createElement('div');
     div.className = 'rito-msg ' + (role === 'user' ? 'user' : 'bot');
-    div.textContent = text;
+    if (role === 'user') {
+      div.textContent = text;
+    } else {
+      renderRich(div, text);
+    }
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
@@ -139,6 +256,8 @@
           return reader.read().then(function (result) {
             if (result.done) {
               messages.push({ role: 'assistant', content: full });
+              renderRich(botEl, full || '…');
+              messagesEl.scrollTop = messagesEl.scrollHeight;
               return;
             }
             full += decoder.decode(result.value, { stream: true });

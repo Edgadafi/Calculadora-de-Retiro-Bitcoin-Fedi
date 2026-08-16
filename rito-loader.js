@@ -13,7 +13,7 @@
     'https://retirobtc-agents.vercel.app';
   var base = url.replace(/\/$/, '');
   var s = document.createElement('script');
-  s.src = base + '/widget/rito.js';
+  s.src = base + '/widget/rito.js?v=texto-1';
   s.setAttribute('data-agents-url', base);
   s.defer = true;
   s.onerror = function () {

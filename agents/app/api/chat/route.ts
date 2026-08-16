@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { generateRitoText, isChatLlmConfigured } from '@/lib/ai/models';
-import { RITO_DISCLAIMER, RITO_SYSTEM_PROMPT } from '@/lib/agents/rito';
+import { polishRitoReply, RITO_SYSTEM_PROMPT } from '@/lib/agents/rito';
 import { RATE_LIMITS, isGeminiConfigured, isOpenAIConfigured, isSupabaseConfigured, RITO_CHAT_MODEL } from '@/lib/config';
 import { getSupabase } from '@/lib/db/supabase';
 import { assertAllowedOrigin, handleOptions, jsonWithCors } from '@/lib/http/cors';
@@ -107,10 +107,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const text = await generateRitoText({
-      system: `${RITO_SYSTEM_PROMPT}\n\n--- CONTEXTO RAG ---\n${context}\n\n--- DISCLAIMER ---\n${RITO_DISCLAIMER}`,
+    const raw = await generateRitoText({
+      system: `${RITO_SYSTEM_PROMPT}\n\n--- CONTEXTO RAG ---\n${context}`,
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
     });
+    const text = polishRitoReply(raw);
 
     if (isSupabaseConfigured() && text) {
       try {
