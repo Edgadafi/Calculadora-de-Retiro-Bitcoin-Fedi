@@ -34,6 +34,11 @@ export async function generateRitoText(params: {
           messages: params.messages,
           maxOutputTokens: RITO_MAX_OUTPUT_TOKENS,
           temperature: 0.7,
+          providerOptions: {
+            google: {
+              thinkingConfig: { thinkingBudget: 0 },
+            },
+          },
         });
         if (text?.trim()) return text;
       } catch (e) {

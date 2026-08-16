@@ -31,8 +31,11 @@ REGLAS
 export const RITO_DISCLAIMER =
   'Información educativa; no constituye asesoría financiera, fiscal ni legal. Consulta a un profesional certificado para decisiones personales.';
 
-/** Tope de tokens para que Rito no suelte ensayos en el widget móvil. */
-export const RITO_MAX_OUTPUT_TOKENS = 420;
+/**
+ * Tope de salida. Gemini 3.x descuenta el razonamiento interno de este presupuesto:
+ * 420 cortaba las frases a la mitad en producción. El prompt sigue pidiendo 2–5 oraciones.
+ */
+export const RITO_MAX_OUTPUT_TOKENS = 2048;
 
 export const PRODUCT_LINKS = {
   calculator: 'https://retirobtc.mx/calc',
