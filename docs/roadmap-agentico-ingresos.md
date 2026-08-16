@@ -3,7 +3,7 @@
 > Prioriza el orden de construcción de la organización agéntica según impacto en ingresos.
 > Arquitectura actual: [`agentes-ia-arquitectura.md`](./agentes-ia-arquitectura.md) · Producto: [`product-brief.md`](./product-brief.md) · Tono: [`guia-marca-tono-claude.md`](./guia-marca-tono-claude.md)
 >
-> Versión: 2026-08 · P0 implementada en código; activación operativa en [`activar-p0-produccion.md`](./activar-p0-produccion.md).
+> Versión: 2026-08 · P0 **viva en producción** (16 ago 2026). Siguiente: P1 contenido.
 
 ---
 
@@ -48,13 +48,14 @@ flowchart TB
 | **Rito** | 1 | [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) + RAG pgvector + widget en landing, calc y brújula |
 | **Investigador jurídico** | 1 | [`agents/app/api/cron/legal-monitor/route.ts`](../agents/app/api/cron/legal-monitor/route.ts) → `legal_alerts` → revisión humana en `/admin/alerts` |
 | **Captura de leads** | 1 | [`agents/app/api/leads/route.ts`](../agents/app/api/leads/route.ts) + Resend + token de guía |
-| **Cobro Premium** | — | [`api/create-preference.js`](../api/create-preference.js) (MXN) y [`api/create-invoice.js`](../api/create-invoice.js) (Lightning) |
+| **Cobro Premium + medición P0** | — | MP + Lightning; `purchases` en schema `retirobtc`; `POST /api/purchases` 200 con secreto |
+| **Generador de contenido** | 1.5 | [`agents/lib/agents/content-generator.ts`](../agents/lib/agents/content-generator.ts) + [`/admin/content`](../agents/app/admin/content/page.tsx) — falta SQL `content_drafts` y Buffer en prod |
 
 ### Pendiente
 
 | Agente | Vertical | Fase en este roadmap |
 |--------|----------|----------------------|
-| Generador de contenido | 1.5 | P1 |
+| Publicación Buffer en vivo | 1.5 | P1 (código listo; env + SQL) |
 | Prospección y calificación | 2a | P2 |
 | Ventas e-commerce | 2b | P3 |
 | Contabilidad multi-moneda | 3 | P4 |
@@ -62,30 +63,11 @@ flowchart TB
 
 ---
 
-## 3. Hallazgo que reordena la prioridad
+## 3. P0 ya no es el cuello
 
-**El cobro funciona, pero el ingreso no se registra en ningún lado.**
+Hasta agosto 2026 el cobro existía y el ingreso no se persistía. Eso se cerró: webhook MP con firma, `POST /api/purchases` idempotente y `GET /api/admin/revenue`. Sonda 16 ago 2026: escritura **200** contra schema `retirobtc`. Falta el primer cobro Premium *real* en `purchases` (la sonda de activación se borró).
 
-[`api/mp-webhook.js`](../api/mp-webhook.js) recibe la notificación de Mercado Pago, escribe un log y responde 200:
-
-```js
-console.info('[mp-webhook]', { method: req.method, query, bodyType: typeof body });
-return res.status(200).send('OK');
-```
-
-Los comentarios del propio archivo ya marcan la persistencia como evolución pendiente. En el lado Lightning, [`api/check-payment.js`](../api/check-payment.js) consulta LNbits y devuelve `{ paid }` sin guardar nada.
-
-Además, [`api/create-preference.js`](../api/create-preference.js) usa `external_reference: plan`, es decir solo la cadena `monthly` o `lifetime`. No hay identificador de correlación que permita unir un pago con el lead que lo originó.
-
-### Consecuencias
-
-- No existe tabla `purchases` en [`agents/supabase/schema.sql`](../agents/supabase/schema.sql)
-- El MRR no es medible sin entrar al panel de Mercado Pago
-- No se puede calcular el valor de un lead ni el retorno de una campaña con UTM
-- El agente contable de Vertical 3 no tendría fuente de datos propia
-- El agente de prospección de Vertical 2 no podría entrenar su scoring contra conversiones reales
-
-Por eso **la medición va antes que cualquier agente nuevo**: es el prerrequisito de P2, P3 y P4.
+P1 no espera ese cobro: convierte alertas legales aprobadas en tráfico. P2 sí necesita historial de atribución para validar scoring.
 
 ---
 
@@ -107,8 +89,8 @@ flowchart LR
 
 | Fase | Impacto en ingresos | Superficie de cambio | Dependencia externa |
 |------|---------------------|----------------------|---------------------|
-| P0 ✅ | Indirecto: habilita medir todo lo demás | 1 tabla + 2 endpoints nuevos + 4 handlers de pago | Ninguna |
-| P1 | Alto: tráfico al embudo | 1 agente + 1 tabla + 1 panel admin | API de Buffer |
+| P0 ✅ | Indirecto: habilita medir todo lo demás | Tabla `purchases` + ingesta + revenue | Hecho en prod 16 ago 2026 |
+| P1 | Alto: tráfico al embudo | Agente + `content_drafts` + `/admin/content` + Buffer | SQL en prod + API Buffer |
 | P2 | El más directo sobre Premium | 2 columnas + 1 agente + secuencia Resend | Ninguna |
 | P3 | Abre ingreso nuevo | Catálogo, checkout, agente de ventas | Inventario, logística, proveedor |
 | P4 | Nulo directo: reduce carga operativa | 2 agentes + integración PAC | PAC mexicano para timbrado |
@@ -119,7 +101,7 @@ flowchart LR
 
 **Objetivo:** que cada peso y cada sat quede registrado y atribuible a su origen.
 
-**Estado:** código en el repo. Falta la activación operativa, documentada al final de esta sección.
+**Estado:** código en `main` y **activación operativa hecha** el 16 ago 2026 (`POST /api/purchases` → 200; webhook MP fail-closed). El primer cobro Premium real aún no está en `purchases`.
 
 ### Esquema
 
@@ -190,23 +172,13 @@ La tasa de conversión es una aproximación, no una cohorte estricta: un lead ca
 
 `purchases` no guarda correo, datos de tarjeta ni montos de ahorro del usuario, en línea con la política de Rito. El correo del pagador se usa en memoria sólo para resolver el `lead_id` y no se persiste. Se almacena únicamente el importe cobrado, el plan y la atribución.
 
-### Activación operativa pendiente
+### Activación operativa
 
-El código está en el repo, pero la medición no arranca hasta los pasos de [`activar-p0-produccion.md`](./activar-p0-produccion.md). Resumen:
-
-1. Merge a `main` (prod hoy sigue en el webhook viejo: POST sin firma responde 200) y redeploy del proyecto `retirobtc-agents` — `/api/purchases` aún da 404 en vivo
-2. Ejecutar [`agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) si el resto del schema ya corre; si no, el script completo [`agents/supabase/schema.sql`](../agents/supabase/schema.sql). Si los 2 cupos del plan gratuito ya están ocupados, el encabezado explica cómo usar un esquema propio y `SUPABASE_DB_SCHEMA`
-3. Generar un `INTERNAL_API_SECRET` de 24 caracteres o más y ponerlo **idéntico** en los dos proyectos de Vercel (raíz y `agents/`)
-4. `AGENTS_BASE_URL` es opcional en Vercel: el default de producción es `https://retirobtc-agents.vercel.app` (`agents.retirobtc.mx` no tiene DNS)
-5. `MERCADOPAGO_WEBHOOK_SECRET` desde Dashboard de Mercado Pago → Webhooks. **Obligatorio en cualquier despliegue,** producción y preview por igual: sin él el webhook responde 503 y no registra cobros. Sólo se omite en local.
-
-El script ya activa RLS sobre `purchases` y las demás tablas, y otorga privilegios sólo a `service_role`: es información financiera y de leads, y no debe quedar al alcance de la llave anónima.
-
-Mientras falten las variables, los cobros siguen funcionando con normalidad y el registro simplemente se omite con un aviso en el log. No hay riesgo de bloquear una venta.
+Hecha el 16 ago 2026. Detalle histórico en [`activar-p0-produccion.md`](./activar-p0-produccion.md). No despertar iLATAM ni pagar Pro.
 
 ### Criterio de cierre
 
-Un pago de prueba en cada rail aparece en `purchases` una sola vez, y `/api/admin/revenue` reporta el total correcto.
+Un pago de prueba **real** en cada rail aparece en `purchases` una sola vez, y `/api/admin/revenue` reporta el total correcto. Infra lista; falta el cobro.
 
 ---
 
@@ -214,13 +186,14 @@ Un pago de prueba en cada rail aparece en `purchases` una sola vez, y `/api/admi
 
 **Objetivo:** convertir el trabajo del investigador jurídico en tráfico recurrente hacia `/brujula` y `/calc`.
 
-Es el eslabón que hoy más se nota ausente: la cuenta de X de Rito y el banner en `assets/rito-x-banner-1500x500.png` existen, pero nada los alimenta.
+**Estado:** código en esta fase. Falta correr [`agents/supabase/migrations/20260817_content_drafts.sql`](../agents/supabase/migrations/20260817_content_drafts.sql) en el schema `retirobtc` y poner `BUFFER_ACCESS_TOKEN` + `BUFFER_PROFILE_ID` en `retirobtc-agents`.
 
 ### Componentes
 
-- `agents/lib/agents/content-generator.ts`: consume `legal_alerts` con `status = 'approved'` y produce hilo de X, guion de 30 segundos para Reels y borrador SEO
-- Tabla `content_drafts`: `alert_id`, `channel`, `body`, `status` (`draft`, `queued`, `published`), `scheduled_for`
-- Panel de revisión en `agents/app/admin/content/`, reutilizando el patrón de `/admin/alerts`
+- [`agents/lib/agents/content-generator.ts`](../agents/lib/agents/content-generator.ts): a partir de una alerta `ingested` produce hilo X, guion Reels 30 s y borrador SEO. Inyecta disclaimer y **un** CTA con UTM (`rito-content`).
+- Tabla `content_drafts`: `alert_id`, `channel`, `body`, `status` (`draft`, `queued`, `published`, `rejected`).
+- Panel [`agents/app/admin/content/`](../agents/app/admin/content/page.tsx), mismo secreto que `/admin/alerts`.
+- Al **aprobar** una alerta legal se generan los tres borradores (si falla, la alerta igual entra a la KB; se puede Regenerar).
 
 ### Publicación vía Buffer
 
@@ -334,9 +307,7 @@ Los agentes de back-office manejan datos fiscales y financieros de la empresa. D
 
 ## 10. Recomendación de arranque
 
-**P0 implementada; sigue P1.**
-
-P0 era la fase más pequeña de todo el roadmap y desbloquea la medición de las tres siguientes. Falta su activación operativa (schema y variables de entorno). P1 aprovecha que la cuenta de X de Rito ya está creada y sin contenido.
+**P0 viva; sigue P1 en código.** Activación P1: SQL `content_drafts` + Buffer en el proyecto agentes. P2 cuando haya cobros reales para validar scoring.
 
 P2 entra cuando haya suficiente historial de atribución para que el scoring se valide contra conversiones reales, no contra intuición.
 

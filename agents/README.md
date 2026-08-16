@@ -10,6 +10,7 @@ Servicio **Next.js 15 + TypeScript** desplegado en `https://retirobtc-agents.ver
 | **Captura leads** | `POST /api/leads` |
 | **Investigador legal** | Cron `GET /api/cron/legal-monitor` |
 | **Admin alertas** | [`/admin/alerts`](app/admin/alerts/page.tsx) |
+| **Admin contenido (P1)** | [`/admin/content`](app/admin/content/page.tsx) — borradores X / Reels / SEO; encola en Buffer |
 
 ## Medición de ingresos (fase P0)
 
@@ -36,6 +37,7 @@ Activación en producción: [`../docs/activar-p0-produccion.md`](../docs/activar
 cd agents
 cp .env.example .env.local
 # Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rito), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET, INTERNAL_API_SECRET
+# P1 Buffer (opcional): BUFFER_ACCESS_TOKEN, BUFFER_PROFILE_ID
 npm install
 npm run dev
 ```
@@ -81,7 +83,8 @@ curl -X POST https://retirobtc-agents.vercel.app/api/knowledge/ingest \
 
 - CORS: solo `retirobtc.mx` y `*.fedi.xyz`
 - Rate limit: 20 msg/h chat, 3 leads/día/email
-- Alertas legales: revisión humana antes de RAG
+- Alertas legales: revisión humana antes de RAG; al aprobar se generan borradores P1
+- Contenido: Buffer opcional (`BUFFER_ACCESS_TOKEN`, `BUFFER_PROFILE_ID`); sin ellas Encolar responde 503
 - PII redactada en logs de chat
 - Secretos (`ADMIN_SECRET`, `INTERNAL_API_SECRET`) comparados en tiempo constante
 - `purchases` no guarda correo ni dato de tarjeta: la atribución se resuelve vía `lead_id`

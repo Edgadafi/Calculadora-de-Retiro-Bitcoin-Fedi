@@ -187,6 +187,27 @@ create index if not exists purchases_status_idx on purchases (status, created_at
 create index if not exists purchases_lead_idx on purchases (lead_id);
 create index if not exists purchases_correlation_idx on purchases (correlation_id);
 
+-- Borradores de contenido (P1: alerta legal aprobada → X / Reels / SEO)
+-- Un canal por alerta. La publicación sale por Buffer tras revisión humana.
+create table if not exists content_drafts (
+  id uuid primary key default gen_random_uuid(),
+  alert_id uuid references legal_alerts (id) on delete set null,
+  channel text not null check (channel in ('x_thread', 'reels_30s', 'seo')),
+  body text not null,
+  cta_url text,
+  status text not null default 'draft'
+    check (status in ('draft', 'queued', 'published', 'rejected')),
+  scheduled_for timestamptz,
+  buffer_update_id text,
+  error text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint content_drafts_alert_channel_key unique (alert_id, channel)
+);
+
+create index if not exists content_drafts_status_idx on content_drafts (status, created_at desc);
+create index if not exists content_drafts_alert_idx on content_drafts (alert_id);
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Permisos
 --
@@ -230,3 +251,4 @@ alter table knowledge_chunks enable row level security;
 alter table legal_alerts enable row level security;
 alter table rate_limit_buckets enable row level security;
 alter table purchases enable row level security;
+alter table content_drafts enable row level security;

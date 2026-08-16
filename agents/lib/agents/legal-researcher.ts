@@ -1,8 +1,9 @@
 import { generateText } from 'ai';
 import { getRitoChatModel, isChatLlmConfigured } from '@/lib/ai/models';
 import { LEGAL_KEYWORDS, isSupabaseConfigured } from '@/lib/config';
-import { getSupabase } from '@/lib/db/supabase';
+import { getSupabase, type LegalAlertRow } from '@/lib/db/supabase';
 import { ingestDocument } from '@/lib/rag';
+import { generateContentForAlert } from '@/lib/agents/content-generator';
 
 export type DofItem = {
   title: string;
@@ -139,6 +140,13 @@ export async function approveLegalAlert(alertId: string, reviewedBy: string): Pr
       reviewed_by: reviewedBy,
     })
     .eq('id', alertId);
+
+  try {
+    await generateContentForAlert(alert as LegalAlertRow);
+  } catch (err) {
+    // La alerta ya está en la KB; el panel /admin/content permite regenerar.
+    console.error('[legal] no se generaron borradores P1', err instanceof Error ? err.message : err);
+  }
 }
 
 export async function rejectLegalAlert(alertId: string, reviewedBy: string): Promise<void> {

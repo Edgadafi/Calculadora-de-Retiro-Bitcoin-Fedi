@@ -86,6 +86,13 @@ export function isInternalApiConfigured(): boolean {
   return Boolean(value && value.length >= 24);
 }
 
+/** Buffer: encolar piezas P1. Sin esto el panel genera borradores pero no publica. */
+export function isBufferConfigured(): boolean {
+  return Boolean(
+    process.env.BUFFER_ACCESS_TOKEN?.trim() && process.env.BUFFER_PROFILE_ID?.trim()
+  );
+}
+
 /** Precios de referencia para estimar MRR cuando el importe no viene del proveedor. */
 export const PREMIUM_PRICES_MXN = {
   monthly: Number(process.env.MERCADOPAGO_PRICE_MONTHLY_MXN || 20),
