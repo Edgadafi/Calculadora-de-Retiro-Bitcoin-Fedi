@@ -56,7 +56,7 @@ export function isSupabaseConfigured(): boolean {
 export const SUPABASE_SCHEMA = (process.env.SUPABASE_DB_SCHEMA || 'public').trim() || 'public';
 
 /** Modelo Gemini para Rito y resúmenes legales (override opcional). */
-export const RITO_CHAT_MODEL = process.env.RITO_CHAT_MODEL || 'gemini-2.5-flash';
+export const RITO_CHAT_MODEL = process.env.RITO_CHAT_MODEL || 'gemini-3.5-flash';
 
 /** Ignora placeholders vacíos (`""`) que Vercel puede devolver como valor. */
 function isValidApiKey(value: string | undefined): boolean {

@@ -117,7 +117,20 @@
       body: JSON.stringify({ messages: messages, sessionKey: SESSION_KEY }),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.status === 429 ? 'Límite de mensajes. Intenta más tarde.' : 'Error de chat');
+        if (!res.ok) {
+          return res.json().then(
+            function (body) {
+              var msg =
+                res.status === 429
+                  ? 'Límite de mensajes. Intenta más tarde.'
+                  : (body && body.error) || 'Error de chat';
+              throw new Error(msg);
+            },
+            function () {
+              throw new Error(res.status === 429 ? 'Límite de mensajes. Intenta más tarde.' : 'Error de chat');
+            }
+          );
+        }
         if (!res.body) throw new Error('Sin respuesta');
         var reader = res.body.getReader();
         var decoder = new TextDecoder();

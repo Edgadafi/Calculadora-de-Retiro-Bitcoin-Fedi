@@ -3,38 +3,63 @@ import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
 import { isGeminiConfigured, isOpenAIConfigured } from '@/lib/config';
 
-/** Modelos Gemini en orden de preferencia (free tier primero). */
+const RETIRED_GEMINI = /^(gemini-2\.0|gemini-1\.[05]|gemini-pro$|gemini-1\.0)/i;
+
+/**
+ * Modelos Gemini vigentes (ago 2026).
+ * gemini-2.0-flash / flash-lite se retiraron el 1 jun 2026; se omiten aunque
+ * RITO_CHAT_MODEL aún apunte a ellos en Vercel.
+ */
 export const RITO_CHAT_MODELS = [
-  process.env.RITO_CHAT_MODEL || 'gemini-2.5-flash',
+  process.env.RITO_CHAT_MODEL || 'gemini-3.5-flash',
+  'gemini-3.5-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
   'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-2.0-flash-lite',
-].filter((m, i, arr) => arr.indexOf(m) === i);
+].filter((m, i, arr) => arr.indexOf(m) === i && !RETIRED_GEMINI.test(m));
 
 export async function generateRitoText(params: {
   system: string;
   messages: { role: 'user' | 'assistant'; content: string }[];
 }): Promise<string> {
   let lastError: unknown;
-  for (const modelId of RITO_CHAT_MODELS) {
+
+  if (isGeminiConfigured()) {
+    for (const modelId of RITO_CHAT_MODELS) {
+      try {
+        const { text } = await generateText({
+          model: google(modelId),
+          system: params.system,
+          messages: params.messages,
+        });
+        if (text?.trim()) return text;
+      } catch (e) {
+        lastError = e;
+        console.warn(`[rito] model ${modelId} failed`, e instanceof Error ? e.message : e);
+      }
+    }
+  }
+
+  if (isOpenAIConfigured()) {
     try {
       const { text } = await generateText({
-        model: google(modelId),
+        model: openai('gpt-4o-mini'),
         system: params.system,
         messages: params.messages,
       });
       if (text?.trim()) return text;
     } catch (e) {
       lastError = e;
-      console.warn(`[rito] model ${modelId} failed`, e instanceof Error ? e.message : e);
+      console.warn('[rito] openai gpt-4o-mini failed', e instanceof Error ? e.message : e);
     }
   }
-  throw lastError instanceof Error ? lastError : new Error('All Gemini models failed');
+
+  throw lastError instanceof Error ? lastError : new Error('All chat models failed');
 }
 
 export function getRitoChatModel() {
   if (isGeminiConfigured()) {
-    return google(process.env.RITO_CHAT_MODEL || 'gemini-2.5-flash');
+    return google(process.env.RITO_CHAT_MODEL || 'gemini-3.5-flash');
   }
   if (isOpenAIConfigured()) {
     return openai('gpt-4o-mini');
