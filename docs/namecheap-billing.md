@@ -32,17 +32,18 @@ PayPal no sirve para auto-renew de dominios, solo tarjeta o Funds.
 
 ## Chequeo que sí falta
 
-En la captura del 16 ago 2026 la Mastercard •••• 3144 aparece como **DEFAULT FOR APPS**. Eso cubre el Marketplace (Relate y similares), **no** el auto-renew de `retirobtc.mx`.
+La Mastercard •••• 3144 como **DEFAULT FOR APPS** cubre el Marketplace, no el dominio. **EDIT** de esa fila no muestra auto-renew: Namecheap lo esconde en otro menú ([docs](https://www.namecheap.com/support/knowledgebase/article.aspx/10564/2207/can-i-set-up-automatic-billing-for-my-namecheap-services/)).
 
-Namecheap separa los defaults. Hay que marcar la misma tarjeta para renovaciones de dominio:
+1. Sal de “Manage Payment Methods” (página de Apps). Ve a **Profile → Billing → Payment Cards → Manage**:  
+   [ap.www.namecheap.com/profile/billing/PaymentCards](https://ap.www.namecheap.com/profile/billing/PaymentCards)
+2. En la 3144, **no pulses EDIT**. Pulsa la **flecha ▾ a la derecha de EDIT** → **Edit Defaults**
+3. Marca **Use for auto-renewal** → Save Changes
 
-1. En esa misma fila, flecha junto a **EDIT** → **Edit Defaults**
-2. Activa **Use for auto-renewal** (o el checkbox de servicios/dominios, no solo Apps)
-3. Guarda. La etiqueta debería pasar a algo como default para auto-renew / all services, no solo “FOR APPS”
+`EDIT` solo cambia nombre, apodo y “default for Apps”. Por eso no sale el checkbox.
 
-Si el default de dominios queda en Account Funds y el saldo sigue en $0, el cobro de mayo 2027 falla aunque Auto-Renew esté ON.
+Si esa flecha no existe o Edit Defaults no aparece: Domain List → Manage `retirobtc.mx` → en Auto Renewal, cambia el método de **Default** a la Mastercard 3144 (si el dropdown lo lista). No recargues Funds.
 
-No recargues Funds “por si acaso”: Relate se canceló precisamente porque el cobro iba al monedero vacío. La tarjeta como default de **auto-renew** es el arreglo. La tarjeta vence en may 2030, después de la renovación de 2027: en esa fecha no hay problema de caducidad.
+La tarjeta vence en may 2030, después de la renovación de 2027.
 
 ## Pedido de email (15 ago 2026) — compra terminada
 
