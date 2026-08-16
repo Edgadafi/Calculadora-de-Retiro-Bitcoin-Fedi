@@ -14,12 +14,16 @@
 
 Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabase: el MCP de Vercel no está autenticado y no hay `SUPABASE_SERVICE_ROLE_KEY` en el entorno. Los clics de abajo son tuyos.
 
-## 1. Redeploy de `retirobtc-agents`
+## 1. Deploy de `retirobtc-agents` desde `main` (no Redeploy)
 
-El proyecto raíz ya desplegó `main`. El de agentes es **otro** proyecto Vercel (root directory `agents/`) y no se enganchó al merge.
+El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no está enganchado a Git**: la lista de Deployments son `vercel deploy` de **julio** (`CnV42okuf`, etc.). **No les des Redeploy**: volverías a subir el código viejo, sin `/api/purchases`.
 
-1. Vercel → proyecto **retirobtc-agents** → Deployments → Production → **Redeploy** del commit `416d388` / `main`
-2. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
+1. En `retirobtc-agents` → **Settings → Git** (o pestaña **Connect**) → conecta `Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi`
+2. **Root Directory** = `agents`
+3. Production Branch = `main`
+4. Deployments → **Create Deployment** → branch `main` → Production  
+   (si Git no se puede conectar: en tu máquina `git checkout main && cd agents && npx vercel --prod`)
+5. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
 
 ## 2. Tabla `purchases` en Supabase
 
