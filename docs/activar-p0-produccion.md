@@ -48,15 +48,9 @@ where table_name in ('leads', 'purchases')
 order by 1, 2;
 ```
 
-- Si `leads` está en `public`: pega [`../agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) y Run. No toques env.
-- Si no hay `leads` en ninguno: en **uno** de los dos activos (el de `SUPABASE_URL`) crea esquema aislado (abajo). No despiertes iLATAM.
+Sonda 16 ago: **ninguno** de los dos activos tiene `leads`/`purchases`. Rito apunta al iLATAM pausado. No lo despiertes.
 
-```sql
-create schema if not exists retirobtc;
-set search_path = retirobtc, extensions, public;
-```
-
-Luego el SQL de `purchases` (la FK a `leads` exige que `retirobtc.leads` exista; si no, corre el `schema.sql` completo con las dos líneas «ESQUEMA DESTINO» apuntando a `retirobtc`). Settings → API → Exposed schemas → `retirobtc`. En Vercel agentes: `SUPABASE_DB_SCHEMA=retirobtc` (Production y Preview) y Redeploy.
+Camino Free: en **un** activo (recomendado: `elcanario.com.mx`) corre [`../agents/supabase/schema-shared-retirobtc.sql`](../agents/supabase/schema-shared-retirobtc.sql). Crea el esquema `retirobtc` y no toca `public` de esa app. Luego Exposed schemas + env (abajo).
 
 ## 3. Variables en Vercel (los dos proyectos)
 

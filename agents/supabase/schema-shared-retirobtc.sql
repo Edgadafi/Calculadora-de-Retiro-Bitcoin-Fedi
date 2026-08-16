@@ -1,3 +1,10 @@
+-- Retiro BTC — schema para compartir un proyecto Free (sin Pro).
+-- Pegar entero en SQL Editor de elcanario.com.mx O remesa-blink (uno solo).
+-- Crea el esquema `retirobtc` y no toca las tablas `public` de la otra app.
+-- Después: Settings → API → Exposed schemas → añadir retirobtc
+-- Vercel agentes: SUPABASE_URL + SERVICE_ROLE de ESE proyecto,
+-- SUPABASE_DB_SCHEMA=retirobtc, Redeploy.
+
 -- Retiro BTC — Agentes IA Vertical 1
 -- Ejecutar en Supabase SQL Editor (habilitar extensión vector)
 --
@@ -28,12 +35,9 @@
 create schema if not exists extensions;
 create extension if not exists vector with schema extensions;
 
--- ESQUEMA DESTINO (1 de 2)
--- Proyecto dedicado: deja public. Proyecto compartido (Free, 2 cupos):
---   create schema if not exists retirobtc;
---   set search_path = retirobtc, extensions, public;
-create schema if not exists public;
-set search_path = public, extensions;
+-- ESQUEMA DESTINO (1 de 2) — compartido
+create schema if not exists retirobtc;
+set search_path = retirobtc, extensions, public;
 
 -- Leads (guía / eBook)
 create table if not exists leads (
@@ -124,7 +128,7 @@ language sql stable
 -- ESQUEMA DESTINO (2 de 2). Fijar el search_path de la función evita que dependa
 -- del que traiga quien la llame, y es además la recomendación de Supabase para no
 -- dejar funciones con search_path mutable.
-set search_path = public, extensions
+set search_path = retirobtc, extensions, public
 as $$
   select
     kc.id,
