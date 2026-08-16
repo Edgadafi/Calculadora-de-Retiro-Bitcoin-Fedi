@@ -5,6 +5,22 @@
 > El dominio usa Namecheap BasicDNS, requisito del reenvío gratis.
 > Cobro del dominio: [`namecheap-billing.md`](./namecheap-billing.md) (Auto-Renew ON, Default → tarjeta; Funds en $0).
 
+## Pedido vivo (15 ago 2026, 20:55)
+
+| Campo | Valor |
+|-------|--------|
+| Order ID | **211252243** |
+| Producto | **Scale Email**, 1 mes, 5 mailboxes |
+| Cobrado | **$0.00** (método: Account Funds) |
+| Transaction ID | 256650766 |
+| Qué es | Trial de 30 días de Private Email Scale, no Email Forwarding |
+
+Namecheap trata el trial como compra. A ~**14 sep 2026** intenta renovar Scale (~**$71.88/año** de lista, o el mensual equivalente). MAILDEAL del primer año **no** aplica después de un trial. Este dominio ya no puede volver a probar Private Email.
+
+**Recomendación:** no pulses **CREATE MAILBOXES**. Cancela Scale en Domain List → Private Email **antes del 14 sep** y activa Email Forwarding (§5). No aceptes el trial de Shared Hosting que sale en esa misma confirmación.
+
+Si de verdad necesitas **enviar** como `@retirobtc.mx` esta semana: crea **un** buzón (`hola@`), apaga Auto-Renew del email, y baja a Launch ($14.88/año) al terminar el trial. Cinco buzones son para equipo; hoy sobran.
+
 ---
 
 ## 1. Qué viste en la página de planes
