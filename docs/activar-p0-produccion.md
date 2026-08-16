@@ -1,27 +1,25 @@
 # Activar P0 en producción
 
 > Medición de ingresos: cada cobro Premium (MXN o sats) queda en `purchases` y sale en `/api/admin/revenue`.
-> Sonda del 16 ago 2026. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
+> Sonda post-merge 16 ago 2026, 01:26 UTC. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
+> PR [#1](https://github.com/Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi/pull/1) merged (`416d388`).
 
-## Qué hay en vivo hoy (antes del merge)
+## Qué hay en vivo hoy (después del merge)
 
 | Pieza | Host | Estado |
 |-------|------|--------|
-| Front + APIs de pago | `https://www.retirobtc.mx` | Prod en `main` (`f20280c`). Webhook **viejo**: POST sin firma responde **200 OK**. No registra compras. |
-| Agentes (Rito, leads, alertas) | `https://retirobtc-agents.vercel.app` | Vivo. `/api/chat` y `/api/leads` responden. **`/api/purchases` y `/api/admin/revenue` dan 404** — P0 de agentes no está desplegado. |
+| Front + APIs de pago | `https://www.retirobtc.mx` | Prod en `416d388`. `GET /api/p0-status` → **503** `{ agentsUrl: true, mpToken: true, internalSecret: false, webhookSecret: false }`. Webhook sin firma → **503** (fail-closed; ya no 200). |
+| Agentes (Rito, leads, alertas) | `https://retirobtc-agents.vercel.app` | Chat/leads vivos. **`/api/purchases` y `/api/admin/p0-status` siguen en 404** — este proyecto no se redesplegó con el merge del catálogo. |
 | `agents.retirobtc.mx` | — | **Sin DNS.** No usarlo. |
-| Preview de este PR | `*.vercel.app` del catálogo | Código P0 del root sí, pero Vercel Authentication bloquea el webhook (401). |
 
 Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabase: el MCP de Vercel no está autenticado y no hay `SUPABASE_SERVICE_ROLE_KEY` en el entorno. Los clics de abajo son tuyos.
 
-## 1. Merge del PR a `main`
+## 1. Redeploy de `retirobtc-agents`
 
-El proyecto raíz despliega producción desde `main`. Sin merge, `www.retirobtc.mx` sigue sin registrar cobros.
+El proyecto raíz ya desplegó `main`. El de agentes es **otro** proyecto Vercel (root directory `agents/`) y no se enganchó al merge.
 
-El proyecto `retirobtc-agents` es **otro** proyecto Vercel (root directory `agents/`). El PR sólo dispara preview del catálogo. Después del merge:
-
-1. Vercel → proyecto **retirobtc-agents** → Deployments → **Redeploy** del commit de `main` (o Production Deployment si ya se enganchó solo)
-2. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401** (existe y pide secreto), no 404
+1. Vercel → proyecto **retirobtc-agents** → Deployments → Production → **Redeploy** del commit `416d388` / `main`
+2. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
 
 ## 2. Tabla `purchases` en Supabase
 
