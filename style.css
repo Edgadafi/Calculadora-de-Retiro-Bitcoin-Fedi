@@ -78,9 +78,14 @@ body {
   max-width: 100%;
 }
 
-/* Index / Brújula: layout público al ancho del DS (1080); 640px deja grids “min-content” muy estrechas */
+/* Landing / Brújula / Aviso: un solo eje horizontal (el .br-container).
+   Sin padding lateral en #app para que el logo del nav y el contenido compartan margen. */
 #app.app-shell-wide {
-  max-width: min(94vw, 1080px);
+  max-width: 1080px;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
 }
 
 /* Design system (styles/bitcoin-retiro-design-system.css): capa de ruido bajo la UI */
@@ -217,10 +222,23 @@ header.br-nav {
   padding: 0;
 }
 
-header.br-nav .br-container {
+/* Calculadora: el nav comparte el ancho de la tarjeta (.card), sin padding extra.
+   Landing/Brújula/Aviso: el .br-container del DS define el margen (no anularlo). */
+#app:not(.app-shell-wide) > header.br-nav .br-container {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
+}
+
+/* El logo se sienta sobre el canvas (sin barra blanca/oscura extra que
+   descuadra el lockup respecto a la tarjeta o la columna de contenido). */
+header.br-nav,
+[data-theme="light"] header.br-nav,
+html[data-theme="dark"] header.br-nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 header.br-nav .tagline {
@@ -277,19 +295,20 @@ header.br-nav .header-actions .icon-btn.br-btn {
 }
 
 [data-theme="light"] header.br-nav {
-  background: rgba(255, 255, 255, 0.88);
-  border-bottom-color: var(--border);
+  background: transparent;
+  border-bottom-color: transparent;
 }
 
 /* — Marca: lockup del logo (brújula SVG animada + wordmark), integrado al nav — */
 header.br-nav .brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   text-decoration: none;
   color: inherit;
   line-height: 1;
-  padding: 2px 2px;
+  padding: 0;
+  margin: 0;
   border-radius: var(--br-r-md);
 }
 
@@ -305,13 +324,13 @@ header.br-nav .brand-lockup:focus-visible {
 
 .brand-compass-svg {
   display: block;
-  width: clamp(38px, 8.5vw, 44px);
-  height: clamp(38px, 8.5vw, 44px);
-  filter: drop-shadow(0 3px 10px rgba(var(--br-orange-rgb), 0.22));
+  width: clamp(36px, 8.5vw, 42px);
+  height: clamp(36px, 8.5vw, 42px);
 }
 
+/* Disco transparente: la marca es el anillo + la aguja, no una caja navy pegada */
 .bc-disc {
-  fill: var(--br-brand-navy);
+  fill: transparent;
 }
 
 .bc-ring {
@@ -337,6 +356,14 @@ header.br-nav .brand-lockup:focus-visible {
   font-family: var(--br-font-ui, system-ui, sans-serif);
   font-weight: 700;
   font-size: 11px;
+}
+
+[data-theme="light"] .bc-south {
+  fill: #7A849C;
+}
+
+[data-theme="light"] .bc-btc {
+  fill: #1E2B58;
 }
 
 /* La aguja gira de forma constante (vaivén tipo brújula real) */

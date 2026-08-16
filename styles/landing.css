@@ -17,7 +17,7 @@ html:has(.landing-main) {
   margin-top: var(--br-sp-10);
 }
 
-/* Landing: nav usa .brand-mark-app (style.css); hero mantiene clases locales */
+/* Landing: nav usa .brand-lockup (style.css); hero usa .brand-hero */
 .landing-hero {
   padding: var(--br-sp-12) 0 var(--br-sp-12);
   text-align: center;
