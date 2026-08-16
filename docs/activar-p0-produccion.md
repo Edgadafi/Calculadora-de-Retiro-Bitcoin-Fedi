@@ -45,6 +45,16 @@ Dos cupos free ocupados: esquema propio + `SUPABASE_DB_SCHEMA` (encabezado del s
 
 ## 3. Variables en Vercel (los dos proyectos)
 
+En Settings → Environment Variables **no hay pestaña Production/Preview**. El entorno se lee **bajo el nombre** de cada fila (`Production and Preview`, o dos filas). Al crear una:
+
+1. **Add Environment Variable**
+2. Key / Value. Sensitive ON está bien
+3. Dropdown **Environments**: debe incluir **Production** y **Preview**. Si solo dice Preview, ábrelo y marca Production
+4. **Branch**: no toques “Select a Custom Preview Branch”. Vacío = todas las preview. Si eliges una rama, el secreto no llega a Production
+5. Save
+
+Una sola fila con “Production and Preview” (como `GOOGLE_GENERATIVE_AI_API_KEY`) es lo correcto. No dupliques como `OPENAI_API_KEY`.
+
 Genera un secreto de 24+ caracteres, una sola vez:
 
 ```bash
