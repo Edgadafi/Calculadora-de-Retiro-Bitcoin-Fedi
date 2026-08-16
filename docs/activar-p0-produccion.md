@@ -1,37 +1,68 @@
 # Activar P0 en producción
 
 > Medición de ingresos: cada cobro Premium (MXN o sats) queda en `purchases` y sale en `/api/admin/revenue`.
-> Sonda del 16 ago 2026. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
+> Sonda 16 ago 2026, 01:49 UTC. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
+> PR [#1](https://github.com/Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi/pull/1) merged (`416d388`).
 
-## Qué hay en vivo hoy (antes del merge)
+## Qué hay en vivo hoy
 
 | Pieza | Host | Estado |
 |-------|------|--------|
-| Front + APIs de pago | `https://www.retirobtc.mx` | Prod en `main` (`f20280c`). Webhook **viejo**: POST sin firma responde **200 OK**. No registra compras. |
-| Agentes (Rito, leads, alertas) | `https://retirobtc-agents.vercel.app` | Vivo. `/api/chat` y `/api/leads` responden. **`/api/purchases` y `/api/admin/revenue` dan 404** — P0 de agentes no está desplegado. |
+| Front + APIs de pago | `https://www.retirobtc.mx` | **P0 root ready.** `GET /api/p0-status` → 200, las cuatro banderas `true`. Webhook sin firma → **401 Invalid signature** (secreto vivo). |
+| Agentes | `https://retirobtc-agents.vercel.app` | Rutas P0 existen. `POST /api/purchases` con el secreto del catálogo → **401**: `INTERNAL_API_SECRET` no está vivo en agentes (falta variable o Redeploy). Tabla `purchases` pendiente. |
 | `agents.retirobtc.mx` | — | **Sin DNS.** No usarlo. |
-| Preview de este PR | `*.vercel.app` del catálogo | Código P0 del root sí, pero Vercel Authentication bloquea el webhook (401). |
 
 Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabase: el MCP de Vercel no está autenticado y no hay `SUPABASE_SERVICE_ROLE_KEY` en el entorno. Los clics de abajo son tuyos.
 
-## 1. Merge del PR a `main`
+## 1. Deploy de `retirobtc-agents` desde `main` — hecho
 
-El proyecto raíz despliega producción desde `main`. Sin merge, `www.retirobtc.mx` sigue sin registrar cobros.
+`POST https://retirobtc-agents.vercel.app/api/purchases` responde **401**. GitHub: environment `Production – retirobtc-agents` en `416d388`.
 
-El proyecto `retirobtc-agents` es **otro** proyecto Vercel (root directory `agents/`). El PR sólo dispara preview del catálogo. Después del merge:
+<details>
+<summary>Cómo se llegó (por si hay que repetirlo)</summary>
 
-1. Vercel → proyecto **retirobtc-agents** → Deployments → **Redeploy** del commit de `main` (o Production Deployment si ya se enganchó solo)
-2. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401** (existe y pide secreto), no 404
+El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no está enganchado a Git**: la lista de Deployments son `vercel deploy` de **julio** (`CnV42okuf`, etc.). **No les des Redeploy**: volverías a subir el código viejo, sin `/api/purchases`.
 
-## 2. Tabla `purchases` en Supabase
+1. En `retirobtc-agents` → **Settings → Git** (o pestaña **Connect**) → conecta `Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi`
+2. **Root Directory no está en Git ni en Deployments.** Ve a **Settings → General** (o **Build and Deployment**) → sección **Root Directory** → Edit → escribe `agents` → Save. Framework: Next.js.
+3. Production Branch = `main`
+4. **Después** de guardar Root Directory: Deployments → **Create Deployment** → `main` → Production. Si ya se disparó un deploy del repo entero, cancélalo: habría intentado buildar el catálogo, no `agents/`.
+5. El Preview `e56260c` (rama de docs) falló en 2 s: el comentario de Vercel en GitHub traía `"rootDirectory":null`, o sea buildó la raíz del repo como Next.js y no encontró `app/`. Production de julio **no** se tocó. No le des Redeploy a esa fila roja.
+6. Comprueba Root Directory otra vez (debe leer `agents`, no vacío ni `/agents`) y despliega **`main`**, no la rama `cursor/p0-post-merge-sonda-63ab`.
+7. Previews Ready (`0104d91`, `251d1d1`) con `rootDirectory: agents`. Sonda 01:45 UTC: `retirobtc-agents.vercel.app/api/purchases` **sigue 404** (`x-vercel-cache: HIT`, `last-modified: 14 ago`). GitHub no tiene environment Production de agentes hoy: el Promote no cambió el alias. Create Deployment → branch **`main`** → marcar Production.
+8. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
 
-Si Vertical 1 ya corre (leads, chat, alertas), no relances el schema completo. En SQL Editor pega [`../agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) y Run.
+Opcional: en Ignored Build Step → “Only build if there are changes in a folder” → `agents`, para no rebuildar Rito cuando solo cambia el front.
+</details>
 
-Si el proyecto está vacío, usa [`../agents/supabase/schema.sql`](../agents/supabase/schema.sql).
+## 2. Tabla `purchases` en Supabase (sin Pro)
 
-Dos cupos free ocupados: esquema propio + `SUPABASE_DB_SCHEMA` (encabezado del schema).
+Org **Shill Sarkeys**, plan Free: 2 activos (`elcanario.com.mx`, `remesa-blink`). **Retiro iLATAM** pausado no cuenta; reactivarlo pide Pro. No lo actives. No pagues.
+
+P0 usa el proyecto **donde ya corre Rito** (el de `SUPABASE_URL` en `retirobtc-agents`). En SQL Editor de cada activo:
+
+```sql
+select table_schema, table_name
+from information_schema.tables
+where table_name in ('leads', 'purchases')
+order by 1, 2;
+```
+
+Sonda 16 ago: **ninguno** de los dos activos tiene `leads`/`purchases`. Rito apunta al iLATAM pausado. No lo despiertes.
+
+Camino Free: en **un** activo (recomendado: `elcanario.com.mx`) corre [`../agents/supabase/schema-shared-retirobtc.sql`](../agents/supabase/schema-shared-retirobtc.sql). Crea el esquema `retirobtc` y no toca `public` de esa app. Luego Exposed schemas + env (abajo).
 
 ## 3. Variables en Vercel (los dos proyectos)
+
+En Settings → Environment Variables **no hay pestaña Production/Preview**. El entorno se lee **bajo el nombre** de cada fila (`Production and Preview`, o dos filas). Al crear una:
+
+1. **Add Environment Variable**
+2. Key / Value. Sensitive ON está bien
+3. Dropdown **Environments**: debe incluir **Production** y **Preview**. Si solo dice Preview, ábrelo y marca Production
+4. **Branch**: no toques “Select a Custom Preview Branch”. Vacío = todas las preview. Si eliges una rama, el secreto no llega a Production
+5. Save
+
+Una sola fila con “Production and Preview” (como `GOOGLE_GENERATIVE_AI_API_KEY`) es lo correcto. No dupliques como `OPENAI_API_KEY`.
 
 Genera un secreto de 24+ caracteres, una sola vez:
 
