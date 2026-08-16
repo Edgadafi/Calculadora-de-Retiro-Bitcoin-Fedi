@@ -22,6 +22,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <!-- Marca: wordmark (Cormorant serif + Syne bold) para el lockup del logo -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/bitcoin-retiro-design-system.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="styles/landing.css" />
@@ -32,11 +34,30 @@
   <div id="app" class="app-shell-wide">
     <header class="br-nav">
       <div class="br-nav-inner br-container">
-        <a href="/" class="br-nav-brand logo br-row br-gap-2" style="text-decoration:none;color:inherit;align-items:center">
-          <span class="nav-logo-wrap">
-            <img class="brand-mark-app" src="assets/logo-app.png" alt="Bitcoin Retiro, retirobtc.mx" width="1024" height="1024" decoding="async" />
+        <a href="/" class="br-nav-brand brand-lockup" aria-label="Bitcoin Retiro — retirobtc.mx">
+          <span class="brand-compass" aria-hidden="true">
+            <svg class="brand-compass-svg" viewBox="0 0 100 100" width="42" height="42" aria-hidden="true" focusable="false">
+              <circle class="bc-disc" cx="50" cy="50" r="49" />
+              <circle class="bc-ring" cx="50" cy="50" r="39" />
+              <g class="bc-ticks">
+                <line x1="50" y1="9" x2="50" y2="17" />
+                <line x1="50" y1="83" x2="50" y2="91" />
+                <line x1="9" y1="50" x2="17" y2="50" />
+                <line x1="83" y1="50" x2="91" y2="50" />
+              </g>
+              <g class="bc-needle">
+                <path class="bc-north" d="M50 23 L43.5 51 L50 46 L56.5 51 Z" />
+                <path class="bc-south" d="M50 77 L43.5 49 L50 54 L56.5 49 Z" />
+              </g>
+              <circle class="bc-hub" cx="50" cy="50" r="8.5" />
+              <text class="bc-btc" x="50" y="50" text-anchor="middle" dominant-baseline="central">&#x20bf;</text>
+            </svg>
           </span>
-          <span class="br-nav-brand-text br-sr-only">Retiro Bitcoin</span>
+          <span class="brand-word">
+            <span class="brand-word-top">Bitcoin</span>
+            <span class="brand-word-bot">Retiro</span>
+          </span>
+          <span class="br-sr-only">Retiro Bitcoin</span>
         </a>
         <div class="header-actions br-row br-gap-2">
           <a href="/" class="br-btn br-btn-ghost br-btn-sm">Inicio</a>
