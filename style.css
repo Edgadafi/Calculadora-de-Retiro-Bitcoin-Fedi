@@ -78,9 +78,14 @@ body {
   max-width: 100%;
 }
 
-/* Index / Brújula: layout público al ancho del DS (1080); 640px deja grids “min-content” muy estrechas */
+/* Landing / Brújula / Aviso: un solo eje horizontal (el .br-container).
+   Sin padding lateral en #app para que el logo del nav y el contenido compartan margen. */
 #app.app-shell-wide {
-  max-width: min(94vw, 1080px);
+  max-width: 1080px;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
 }
 
 /* Design system (styles/bitcoin-retiro-design-system.css): capa de ruido bajo la UI */
@@ -217,10 +222,23 @@ header.br-nav {
   padding: 0;
 }
 
-header.br-nav .br-container {
+/* Calculadora: el nav comparte el ancho de la tarjeta (.card), sin padding extra.
+   Landing/Brújula/Aviso: el .br-container del DS define el margen (no anularlo). */
+#app:not(.app-shell-wide) > header.br-nav .br-container {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
+}
+
+/* El logo se sienta sobre el canvas (sin barra blanca/oscura extra que
+   descuadra el lockup respecto a la tarjeta o la columna de contenido). */
+header.br-nav,
+[data-theme="light"] header.br-nav,
+html[data-theme="dark"] header.br-nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 header.br-nav .tagline {
@@ -277,8 +295,118 @@ header.br-nav .header-actions .icon-btn.br-btn {
 }
 
 [data-theme="light"] header.br-nav {
-  background: rgba(255, 255, 255, 0.88);
-  border-bottom-color: var(--border);
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+/* — Marca: lockup del logo (brújula SVG animada + wordmark), integrado al nav — */
+header.br-nav .brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--br-r-md);
+}
+
+header.br-nav .brand-lockup:focus-visible {
+  outline: 2px solid var(--br-orange);
+  outline-offset: 3px;
+}
+
+.brand-compass {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+
+.brand-compass-svg {
+  display: block;
+  width: clamp(36px, 8.5vw, 42px);
+  height: clamp(36px, 8.5vw, 42px);
+}
+
+/* Disco transparente: la marca es el anillo + la aguja, no una caja navy pegada */
+.bc-disc {
+  fill: transparent;
+}
+
+.bc-ring {
+  fill: none;
+  stroke: var(--br-orange);
+  stroke-width: 3;
+  opacity: 0.92;
+}
+
+.bc-ticks line {
+  stroke: var(--br-orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.bc-north { fill: var(--br-orange); }
+.bc-south { fill: #5b6479; }
+.bc-hub   { fill: var(--br-orange); }
+
+.bc-btc {
+  fill: var(--br-brand-navy);
+  font-family: var(--br-font-ui, system-ui, sans-serif);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+[data-theme="light"] .bc-south {
+  fill: #7A849C;
+}
+
+[data-theme="light"] .bc-btc {
+  fill: #1E2B58;
+}
+
+/* La aguja gira de forma constante (vaivén tipo brújula real) */
+.bc-needle {
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  animation: bc-sway 4.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes bc-sway {
+  0%, 100% { transform: rotate(-26deg); }
+  50%      { transform: rotate(26deg); }
+}
+
+/* Wordmark: "Bitcoin" serif + "Retiro" bold naranja, adaptado al tema */
+.brand-word {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.brand-word-top {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(0.98rem, 3.6vw, 1.12rem);
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  color: var(--text);
+}
+
+.brand-word-bot {
+  font-family: 'Syne', 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.06rem, 4vw, 1.24rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--br-orange);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-needle { animation: none; }
 }
 
 #calculator .br-row.br-gap-2 .br-input {
