@@ -67,9 +67,10 @@ html[data-theme='dark'] .landing-hero-logo-frame {
   font-family: var(--br-font-display);
   font-size: var(--br-text-hero);
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 1.05;
   margin: 0 0 var(--br-sp-4);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
 .landing-hero h1 em {

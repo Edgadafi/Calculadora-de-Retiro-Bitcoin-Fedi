@@ -9,8 +9,8 @@
  * • Nav: logo-app (PNG horizontal en lienzo cuadrado). Ícono Fedi/PWA: logo-fedi-*.png (brújula cuadrada).
  * • Favicon pestaña: logo-fedi-icon.svg (brújula v2, navy). Apple touch: logo-fedi-512.png.
  *
- * STACK TIPOGRÁFICO (agregar en <head>):
- * <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+ * STACK TIPOGRÁFICO (ui-ux-pro-max v2 + marca):
+ * <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
  *
  * ÍNDICE
  * 1. Tokens — variables base
@@ -76,10 +76,10 @@
   --br-blue:   #3498DB;
   --br-yellow: #F1C40F;
 
-  /* — Tipografía */
-  --br-font-display: 'Cormorant Garamond', Georgia, serif;
-  --br-font-ui:      'Syne', system-ui, sans-serif;
-  --br-font-data:    'DM Mono', 'Courier New', monospace;
+  /* — Tipografía (Swiss / web3 — ui-ux-pro-max) */
+  --br-font-display: 'Space Grotesk', system-ui, sans-serif;
+  --br-font-ui:      'Inter', system-ui, sans-serif;
+  --br-font-data:    'JetBrains Mono', 'DM Mono', ui-monospace, monospace;
 
   /* — Escala tipográfica */
   --br-text-xs:   0.625rem;   /* 10px — labels, microcopy */
@@ -204,32 +204,49 @@ img, svg { display: block; max-width: 100%; }
   border-radius: var(--br-r-sm);
 }
 
+a, button, [role="button"], select, summary, label[for],
+input[type="checkbox"], input[type="radio"], input[type="submit"] {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body::after { opacity: 0; }
+  .br-btn::before { content: none; }
+  .br-btn:active { transform: none; }
+}
+
 
 /* ============================================================
    3. TIPOGRAFÍA
    ============================================================ */
 
-/* Display — Cormorant Garamond */
+/* Display — Space Grotesk */
 .br-display {
   font-family: var(--br-font-display);
   font-size: var(--br-text-hero);
-  font-weight: 300;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--br-text-primary);
 }
 
 .br-display em {
-  font-style: italic;
-  color: var(--br-gold-light);
+  font-style: normal;
+  color: var(--br-gold);
 }
 
 /* Título de sección */
 .br-title {
   font-family: var(--br-font-display);
   font-size: var(--br-text-3xl);
-  font-weight: 300;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   line-height: 1.1;
   color: var(--br-text-primary);
 }
