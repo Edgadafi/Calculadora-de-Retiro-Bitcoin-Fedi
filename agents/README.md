@@ -1,6 +1,6 @@
 # Agentes IA — retirobtc.mx
 
-Servicio **Next.js 15 + TypeScript** desplegado en `agents.retirobtc.mx` (proyecto Vercel separado del front estático).
+Servicio **Next.js 15 + TypeScript** desplegado en `https://retirobtc-agents.vercel.app` (proyecto Vercel separado del front estático). `agents.retirobtc.mx` no tiene DNS.
 
 ## Vertical 1 (MVP)
 
@@ -21,9 +21,14 @@ Servicio **Next.js 15 + TypeScript** desplegado en `agents.retirobtc.mx` (proyec
 MXN y sats se reportan por separado: no guardamos el tipo de cambio del momento del cobro, así que sumarlos daría un total falso.
 
 ```bash
-curl -s "https://agents.retirobtc.mx/api/admin/revenue?days=30" \
+curl -s "https://retirobtc-agents.vercel.app/api/admin/p0-status" \
+  -H "X-Admin-Secret: $ADMIN_SECRET"
+
+curl -s "https://retirobtc-agents.vercel.app/api/admin/revenue?days=30" \
   -H "X-Admin-Secret: $ADMIN_SECRET"
 ```
+
+Activación en producción: [`../docs/activar-p0-produccion.md`](../docs/activar-p0-produccion.md).
 
 ## Setup local
 
@@ -59,7 +64,7 @@ Ventaja adicional: el script otorga privilegios **sólo a `service_role`**, nunc
 Indexar KB inicial: panel admin → «Re-indexar KB» o:
 
 ```bash
-curl -X POST https://agents.retirobtc.mx/api/knowledge/ingest \
+curl -X POST https://retirobtc-agents.vercel.app/api/knowledge/ingest \
   -H "Content-Type: application/json" \
   -H "X-Admin-Secret: $ADMIN_SECRET" \
   -d '{"action":"seed"}'
@@ -70,7 +75,7 @@ curl -X POST https://agents.retirobtc.mx/api/knowledge/ingest \
 1. Nuevo proyecto Vercel con **Root Directory** = `agents`
 2. Variables de entorno desde `.env.example`
 3. Cron configurado en [`vercel.json`](vercel.json) (14:00 UTC ≈ 08:00 CDMX)
-4. DNS: `agents.retirobtc.mx` → proyecto Vercel
+4. Host actual: `retirobtc-agents.vercel.app`. DNS `agents.retirobtc.mx` es opcional.
 
 ## Seguridad
 

@@ -10,6 +10,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
 | [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
 | [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
+| [`docs/activar-p0-produccion.md`](docs/activar-p0-produccion.md) | Activar medición de ingresos en prod (merge, SQL, secretos Vercel) |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 | [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) | Skill UI/UX Pro Max (Cursor). Se activa al pedir diseño o revisión de interfaz. |
 | [`docs/email-corporativo-namecheap.md`](docs/email-corporativo-namecheap.md) | Planes Private Email y arranque gratis con Email Forwarding (@retirobtc.mx) |
@@ -34,7 +35,7 @@ La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
 ├── api/            # Serverless: Mercado Pago (preferencia, verificación), LNbits, webhook MP
-├── agents/         # Servicio Next.js: Rito, leads, RAG, cron DOF (deploy: agents.retirobtc.mx)
+├── agents/         # Servicio Next.js: Rito, leads, RAG, cron DOF (deploy: retirobtc-agents.vercel.app)
 ├── agents-config.js # URL del servicio de agentes (prod vs local)
 ├── rito-loader.js  # Carga widget Rito en landing, calc, brújula
 ├── docs/           # Estudio de mercado, product brief, arquitectura agentes
@@ -366,7 +367,7 @@ El front estático integra **Rito** (chat 24/7) y captura de leads del formulari
 
 | Componente | Descripción |
 |------------|-------------|
-| `agents-config.js` | URL prod (`https://agents.retirobtc.mx`) vs local (`http://localhost:3000`) |
+| `agents-config.js` | URL prod (`https://retirobtc-agents.vercel.app`) vs local (`http://localhost:3000`) |
 | `rito-loader.js` | Carga el widget desde el servicio de agentes |
 | `brujula-quiz.js` | `POST /api/leads` al enviar la guía |
 

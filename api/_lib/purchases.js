@@ -8,13 +8,45 @@
 
 const REQUEST_TIMEOUT_MS = 8000;
 
+/**
+ * URL real del servicio en producción. `agents.retirobtc.mx` no tiene DNS;
+ * el front ya apunta a este host en `agents-config.js`.
+ */
+export const DEFAULT_AGENTS_BASE_URL = 'https://retirobtc-agents.vercel.app';
+
 function getAgentsBaseUrl() {
   const raw = process.env.AGENTS_BASE_URL || process.env.AGENTS_INTERNAL_URL || '';
-  return raw.trim().replace(/\/$/, '');
+  const trimmed = raw.trim().replace(/\/$/, '');
+  if (trimmed) return trimmed;
+  // En cualquier deploy de Vercel (prod y preview) usamos el host vivo.
+  // En local no adivinamos: sin variable el registro se omite a propósito.
+  if (process.env.VERCEL_ENV) return DEFAULT_AGENTS_BASE_URL;
+  return '';
 }
 
 function getInternalSecret() {
   return (process.env.INTERNAL_API_SECRET || '').trim();
+}
+
+/**
+ * Estado de la tubería de ingesta, sin filtrar secretos.
+ * Lo usa GET /api/p0-status para verificar la activación en prod.
+ */
+export function getP0IngestStatus() {
+  const agentsUrl = getAgentsBaseUrl();
+  const secret = getInternalSecret();
+  const webhookSecret = (process.env.MERCADOPAGO_WEBHOOK_SECRET || '').trim();
+  const mpToken = Boolean(
+    (process.env.MERCADOPAGO_ACCESS_TOKEN || process.env.MERCADOPAGO_ACCESS_TOKEN_TEST || '').trim()
+  );
+
+  return {
+    agentsUrlConfigured: Boolean(agentsUrl),
+    internalSecretConfigured: secret.length >= 24,
+    webhookSecretConfigured: Boolean(webhookSecret),
+    mercadoPagoTokenConfigured: mpToken,
+    ready: Boolean(agentsUrl) && secret.length >= 24 && Boolean(webhookSecret) && mpToken,
+  };
 }
 
 /** Sólo se propagan claves UTM conocidas, con longitud acotada. */

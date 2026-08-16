@@ -3,7 +3,7 @@
 > Prioriza el orden de construcción de la organización agéntica según impacto en ingresos.
 > Arquitectura actual: [`agentes-ia-arquitectura.md`](./agentes-ia-arquitectura.md) · Producto: [`product-brief.md`](./product-brief.md) · Tono: [`guia-marca-tono-claude.md`](./guia-marca-tono-claude.md)
 >
-> Versión: 2026-08 · Sin cambios de código todavía: este documento define el orden, no la implementación.
+> Versión: 2026-08 · P0 implementada en código; activación operativa en [`activar-p0-produccion.md`](./activar-p0-produccion.md).
 
 ---
 
@@ -192,12 +192,13 @@ La tasa de conversión es una aproximación, no una cohorte estricta: un lead ca
 
 ### Activación operativa pendiente
 
-El código está en el repo, pero la medición no arranca hasta:
+El código está en el repo, pero la medición no arranca hasta los pasos de [`activar-p0-produccion.md`](./activar-p0-produccion.md). Resumen:
 
-1. Ejecutar [`agents/supabase/schema.sql`](../agents/supabase/schema.sql) en el SQL Editor de Supabase. Si los 2 cupos del plan gratuito ya están ocupados, no hace falta un proyecto nuevo: el encabezado del script explica cómo alojar las tablas en un esquema propio dentro de un proyecto existente, y luego se declara con `SUPABASE_DB_SCHEMA`
-2. Generar un `INTERNAL_API_SECRET` de 24 caracteres o más y ponerlo **idéntico** en los dos proyectos de Vercel (raíz y `agents/`)
-3. Definir `AGENTS_BASE_URL` en el proyecto raíz, apuntando a `https://agents.retirobtc.mx`
-4. `MERCADOPAGO_WEBHOOK_SECRET` desde Dashboard de Mercado Pago → Webhooks. **Obligatorio en cualquier despliegue,** producción y preview por igual: sin él el webhook responde 503 y no registra cobros, porque quedaría sin autenticar y cada petición costaría una consulta a la API de Mercado Pago más una escritura. Las URL de preview son públicas y comparten variables con producción salvo que se acoten, así que ahí también se exige. Sólo se omite en local.
+1. Merge a `main` (prod hoy sigue en el webhook viejo: POST sin firma responde 200) y redeploy del proyecto `retirobtc-agents` — `/api/purchases` aún da 404 en vivo
+2. Ejecutar [`agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) si el resto del schema ya corre; si no, el script completo [`agents/supabase/schema.sql`](../agents/supabase/schema.sql). Si los 2 cupos del plan gratuito ya están ocupados, el encabezado explica cómo usar un esquema propio y `SUPABASE_DB_SCHEMA`
+3. Generar un `INTERNAL_API_SECRET` de 24 caracteres o más y ponerlo **idéntico** en los dos proyectos de Vercel (raíz y `agents/`)
+4. `AGENTS_BASE_URL` es opcional en Vercel: el default de producción es `https://retirobtc-agents.vercel.app` (`agents.retirobtc.mx` no tiene DNS)
+5. `MERCADOPAGO_WEBHOOK_SECRET` desde Dashboard de Mercado Pago → Webhooks. **Obligatorio en cualquier despliegue,** producción y preview por igual: sin él el webhook responde 503 y no registra cobros. Sólo se omite en local.
 
 El script ya activa RLS sobre `purchases` y las demás tablas, y otorga privilegios sólo a `service_role`: es información financiera y de leads, y no debe quedar al alcance de la llave anónima.
 

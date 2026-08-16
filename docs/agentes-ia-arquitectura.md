@@ -134,10 +134,8 @@ Ver [`agents/.env.example`](../agents/.env.example).
 
 ## Próximos pasos operativos
 
-1. Crear proyecto Supabase y ejecutar `schema.sql`
-2. Desplegar `agents/` en Vercel con subdominio `agents.retirobtc.mx`
+1. Activar P0 en producción: [`activar-p0-produccion.md`](./activar-p0-produccion.md)
+2. El servicio vive en `https://retirobtc-agents.vercel.app` (`agents.retirobtc.mx` no tiene DNS)
 3. Configurar Resend con dominio verificado
 4. Seed KB desde admin
 5. Reemplazar placeholder PDF en `agents/public/guia-retiro-mexico.pdf`
-
-Una vez operativa Vertical 1, el siguiente paso es la fase P0 (medición de ingresos) del [roadmap de ingresos](./roadmap-agentico-ingresos.md#10-recomendación-de-arranque), no un agente nuevo.
