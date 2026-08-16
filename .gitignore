@@ -8,6 +8,10 @@ node_modules/
 .vercel
 .env*.local
 
+# Pitch inversionista / ASK / valuación: repo público. No versionar.
+docs/privado/
+docs/*CONFIDENCIAL*
+
 # Cursor IDE (config local). Las skills y reglas del repo sí se versionan.
 .cursor/*
 !.cursor/rules/
