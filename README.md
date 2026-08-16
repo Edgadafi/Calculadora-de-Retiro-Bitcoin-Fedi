@@ -12,6 +12,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 | [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) | Skill UI/UX Pro Max (Cursor). Se activa al pedir diseño o revisión de interfaz. |
+| [`docs/email-corporativo-namecheap.md`](docs/email-corporativo-namecheap.md) | Planes Private Email y arranque gratis con Email Forwarding (@retirobtc.mx) |
 
 La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.
 
