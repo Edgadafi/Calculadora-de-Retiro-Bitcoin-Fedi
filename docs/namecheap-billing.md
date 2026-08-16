@@ -43,14 +43,14 @@ No pulses Save (no hay nada editable). Cancel. No agregues una segunda tarjeta �
 
 La tarjeta vence en may 2030, después de esa renovación.
 
-El Auto-Renew de **Scale Email** es otro switch (Private Email → OFF). No lo mezcles con este.
+El Auto-Renew de **Scale Email** ya está **OFF** (vence 16 sep). No lo mezcles con el del dominio.
 
 ## Pedido de email (15 ago 2026) — compra terminada
 
-Order **211252243**: Scale Email 1 mes, 5 buzones, **$0.00** a Funds. Recibo `namecheap-order-211252243.pdf`. Decisión: usar el trial (Private Email), no forwarding. **Auto-Renew del email OFF** o ~14 sep cobra ~$71.88/año. El Auto-Renew del **dominio** es otro switch. Detalle en [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
+Order **211252243**: Scale Email, ACTIVE, vence **16 sep 2026**. **Auto-Renew OFF** (confirmado en Email Subscriptions). Recibo `namecheap-order-211252243.pdf`. El Auto-Renew del **dominio** (mayo 2027, tarjeta 3144) es otro switch y sigue ON. Detalle en [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
 
 ## Qué no reactivar
 
 - RelateSocial (~$9.88/mes): sin API, duplica Gemini, no aplica la guía de marca. Ver [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
 - Shared Hosting “FREE 30 days” (banner del checkout de email): mismo patrón que Relate.
-- Private Email Scale: trial activo (pedido 211252243). Auto-Renew del **email** OFF; el 14 sep decide Launch o cancelar. Ver [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
+- Private Email Scale: ACTIVE, Auto-Renew **OFF**, vence 16 sep 2026. Ese día Launch o cancelar. Ver [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).

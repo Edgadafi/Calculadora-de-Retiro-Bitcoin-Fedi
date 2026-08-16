@@ -14,9 +14,9 @@
 | Transaction ID | 256650766 |
 | Decisión | Seguir con Private Email Scale (trial 30 días). El forwarding gratis **no** convive. |
 
-Namecheap trata el trial como compra. ~**14 sep 2026** intenta renovar Scale (~**$71.88/año**). MAILDEAL no aplica después del trial. Este dominio ya no puede volver a probar Private Email.
+Namecheap trata el trial como compra. MAILDEAL no aplica después del trial. Este dominio ya no puede volver a probar Private Email. Con Auto-Renew OFF no hay cobro el 16 sep: el plan simplemente caduca.
 
-**Antes de crear buzones:** Product List / Private Email → Scale de `retirobtc.mx` → **Auto-Renew OFF**. Si no, septiembre cobra aunque Funds sigan en $0 (pasa a la tarjeta). No aceptes el trial de Shared Hosting del checkout.
+**Auto-Renew del email: OFF** (confirmado 16 ago 2026 en Product List → Email Subscriptions). Vence **16 sep 2026**; no se cobra solo. Ese día: Launch (~$14.88/año) o cancelar y pasar a forwarding. No aceptes Shared Hosting.
 
 En trial el almacén baja (~200 MB) y no hay auto-forward: cada alias tiene que ser un **buzón real**.
 
@@ -132,11 +132,13 @@ Si más adelante contratas Private Email, hay que **apagar** estos forwarders: l
 
 ---
 
-## 6. Cuándo sí pagar
+## 6. Qué hacer el 14 sep 2026
 
-Subir a **Launch** ($11.88 el primer año, $14.88 al renovar) solo cuando haga falta **enviar** como `@retirobtc.mx` (facturas, nurture de P2, o “Enviar como” en Gmail). Un mailbox alcanza; Expand/Scale son para equipo, no para hoy.
+El trial Scale ya está comprado. Opciones:
 
-No actives el trial “por probar”: consume la única prueba del dominio, limita el almacenamiento y te deja sin forwarding. Si a los 30 días Account Funds sigue en cero, se cancela igual que RelateSocial.
+- **Bajar a Launch** (~$14.88/año) si quieres seguir enviando como `@retirobtc.mx` con un solo buzón (`hola@`).
+- **Cancelar** y pasar a Email Forwarding (§5) si solo necesitas recibir.
+- No dejes Scale con Auto-Renew ON: ~$71.88/año para 5 buzones que hoy no usas.
 
 ---
 
