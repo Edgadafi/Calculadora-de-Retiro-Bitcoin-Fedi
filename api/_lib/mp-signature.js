@@ -3,23 +3,40 @@ import { createHmac, timingSafeEqual } from 'crypto';
 /**
  * Validación de la firma de notificaciones de Mercado Pago.
  *
- * Es defensa contra notificaciones basura: la protección real contra ingresos
- * falsos es que el webhook vuelve a consultar el pago por id con nuestro propio
- * access token, así que un aviso forjado no puede inventar un cobro.
+ * Cumple dos funciones. La primera es autenticar el aviso: sin ella el endpoint
+ * queda abierto y cada petición cuesta una consulta a la API de Mercado Pago, así
+ * que en producción se falla cerrado si falta el secreto. La segunda es defensa en
+ * profundidad frente a avisos forjados, aunque de eso ya se encarga el webhook al
+ * reconsultar el pago por id con nuestro propio access token.
  *
- * Si `MERCADOPAGO_WEBHOOK_SECRET` no está configurado, la validación se omite
- * para no romper instalaciones existentes.
+ * Fuera de producción se omite para no estorbar en local y en preview.
  */
 
-/** @returns {{skipped: boolean, valid: boolean, reason?: string}} */
+/** Vercel define VERCEL_ENV en cada despliegue; preview no se trata como producción. */
+function isProduction() {
+  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === 'production';
+  return process.env.NODE_ENV === 'production';
+}
+
+/**
+ * @returns {{valid: boolean, configured: boolean, skipped: boolean, reason?: string}}
+ *   `configured: false` distingue nuestra falta de configuración de una firma
+ *   inválida, para poder responder con códigos distintos.
+ */
 export function verifyMercadoPagoSignature(req, dataId) {
   const secret = (process.env.MERCADOPAGO_WEBHOOK_SECRET || '').trim();
-  if (!secret) return { skipped: true, valid: true };
+
+  if (!secret) {
+    if (isProduction()) {
+      return { valid: false, configured: false, skipped: false, reason: 'secret_not_configured' };
+    }
+    return { valid: true, configured: false, skipped: true };
+  }
 
   const signature = req.headers['x-signature'];
   const requestId = req.headers['x-request-id'];
   if (typeof signature !== 'string' || !signature) {
-    return { skipped: false, valid: false, reason: 'missing_signature' };
+    return { valid: false, configured: true, skipped: false, reason: 'missing_signature' };
   }
 
   let ts = '';
@@ -32,13 +49,20 @@ export function verifyMercadoPagoSignature(req, dataId) {
     if (key === 'v1') v1 = value || '';
   }
 
-  if (!ts || !v1) return { skipped: false, valid: false, reason: 'malformed_signature' };
+  if (!ts || !v1 || !/^\d+$/.test(ts)) {
+    return { valid: false, configured: true, skipped: false, reason: 'malformed_signature' };
+  }
 
   /**
    * Manifiesto según la plantilla de Mercado Pago. El id va en minúsculas, y los
    * segmentos cuyo valor no llega se omiten por completo en lugar de quedar
    * vacíos: dejarlos vacíos rechazaría firmas legítimas cuando no viene
    * `x-request-id`, y perderíamos el registro de un cobro real.
+   *
+   * No se acota la antigüedad del `ts`: Mercado Pago reintenta una notificación
+   * durante horas y no está garantizado que refresque la firma en cada intento,
+   * así que una ventana estricta descartaría reintentos legítimos. El reenvío de
+   * un aviso capturado sólo produce un upsert idempotente.
    */
   const segments = [`id:${String(dataId || '').toLowerCase()};`];
   if (typeof requestId === 'string' && requestId) segments.push(`request-id:${requestId};`);
@@ -48,11 +72,14 @@ export function verifyMercadoPagoSignature(req, dataId) {
 
   const a = Buffer.from(v1, 'utf8');
   const b = Buffer.from(expected, 'utf8');
-  if (a.length !== b.length) return { skipped: false, valid: false, reason: 'signature_mismatch' };
+  if (a.length !== b.length) {
+    return { valid: false, configured: true, skipped: false, reason: 'signature_mismatch' };
+  }
 
   return {
-    skipped: false,
     valid: timingSafeEqual(a, b),
+    configured: true,
+    skipped: false,
     reason: 'signature_mismatch',
   };
 }

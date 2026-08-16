@@ -26,6 +26,28 @@ function getAccessToken() {
   );
 }
 
+/**
+ * Límite por IP, holgado a propósito. Mercado Pago notifica desde un rango
+ * acotado de direcciones, así que un límite estrecho descartaría avisos legítimos
+ * en una ráfaga; con el volumen de ventas de este producto, 60 por minuto sobra.
+ * Como en los demás endpoints de pago, el contador vive en la instancia
+ * serverless: acota abuso, no es una cuota exacta.
+ */
+const rateLimit = new Map();
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 60;
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+  if (!entry || now - entry.start > RATE_WINDOW_MS) {
+    rateLimit.set(ip, { start: now, count: 1 });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_MAX;
+}
+
 /** Extrae el id del pago de las variantes de formato que envía Mercado Pago. */
 function extractPaymentId(req) {
   const query = req.query || {};
@@ -73,6 +95,14 @@ export default async function handler(req, res) {
     return res.status(405).send('Method Not Allowed');
   }
 
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress
+    || 'unknown';
+  if (isRateLimited(ip)) {
+    // 429 sin cuerpo: Mercado Pago reintentará, y el abuso no llega a la API de MP.
+    return res.status(429).send('Too Many Requests');
+  }
+
   const paymentId = extractPaymentId(req);
 
   try {
@@ -88,8 +118,22 @@ export default async function handler(req, res) {
     return res.status(200).send('OK');
   }
 
+  /**
+   * La validación va antes de consultar a Mercado Pago: así una petición sin firma
+   * válida nunca cuesta una llamada a su API. Sin secreto configurado en
+   * producción se falla cerrado, porque el endpoint quedaría abierto.
+   */
   const signature = verifyMercadoPagoSignature(req, paymentId);
   if (!signature.valid) {
+    if (!signature.configured) {
+      console.error(
+        '[mp-webhook] falta MERCADOPAGO_WEBHOOK_SECRET en producción: no se registran cobros. '
+        + 'Configúralo en Mercado Pago → Webhooks y en las variables del proyecto.'
+      );
+      // 503 y no 401: es configuración nuestra, y así Mercado Pago reintenta
+      // y los avisos pueden registrarse en cuanto se defina el secreto.
+      return res.status(503).send('Webhook secret not configured');
+    }
     console.warn('[mp-webhook] firma inválida', signature.reason);
     return res.status(401).send('Invalid signature');
   }
