@@ -9,9 +9,10 @@
 | Estado | ACTIVE |
 | Vigencia | 17 may 2026 → **17 may 2027** |
 | Auto-Renew | ON |
-| Método de Auto Renewal | **Default** |
-| Payment methods | Tarjeta guardada |
-| Account Funds | **$0.00** |
+| Método de Auto Renewal (dominio) | **Default** |
+| Payment methods | Mastercard •••• 3144, vence may 2030, ACTIVE |
+| Default de esa tarjeta | **DEFAULT FOR APPS** (Marketplace). Falta confirmarla para auto-renew de dominios. |
+| Account Funds | **$0.00**, ACTIVE |
 | Privacidad WHOIS | ON, también con Auto-Renew |
 | Nameservers | Namecheap BasicDNS |
 
@@ -31,9 +32,17 @@ PayPal no sirve para auto-renew de dominios, solo tarjeta o Funds.
 
 ## Chequeo que sí falta
 
-En **Profile → Billing → Payment Cards → Manage → Edit Defaults**, confirma que la tarjeta tiene la **estrella** de default para auto-renew. Si el default fuera Account Funds y no hay tarjeta marcada, con saldo $0 el cobro de 2027 fallaría aunque Auto-Renew esté ON.
+En la captura del 16 ago 2026 la Mastercard •••• 3144 aparece como **DEFAULT FOR APPS**. Eso cubre el Marketplace (Relate y similares), **no** el auto-renew de `retirobtc.mx`.
 
-No recargues Funds “por si acaso”: Relate se canceló precisamente porque el cobro iba al monedero vacío. La tarjeta como default es el arreglo correcto.
+Namecheap separa los defaults. Hay que marcar la misma tarjeta para renovaciones de dominio:
+
+1. En esa misma fila, flecha junto a **EDIT** → **Edit Defaults**
+2. Activa **Use for auto-renewal** (o el checkbox de servicios/dominios, no solo Apps)
+3. Guarda. La etiqueta debería pasar a algo como default para auto-renew / all services, no solo “FOR APPS”
+
+Si el default de dominios queda en Account Funds y el saldo sigue en $0, el cobro de mayo 2027 falla aunque Auto-Renew esté ON.
+
+No recargues Funds “por si acaso”: Relate se canceló precisamente porque el cobro iba al monedero vacío. La tarjeta como default de **auto-renew** es el arreglo. La tarjeta vence en may 2030, después de la renovación de 2027: en esa fecha no hay problema de caducidad.
 
 ## Qué no reactivar
 
