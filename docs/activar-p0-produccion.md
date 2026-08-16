@@ -8,8 +8,8 @@
 
 | Pieza | Host | Estado |
 |-------|------|--------|
-| Front + APIs de pago | `https://www.retirobtc.mx` | Prod `416d388`. `p0-status` → **503**: faltan `INTERNAL_API_SECRET` y `MERCADOPAGO_WEBHOOK_SECRET`. Token MP OK. Webhook sin firma → 503. |
-| Agentes | `https://retirobtc-agents.vercel.app` | Production `416d388` (01:48 UTC). `POST /api/purchases` → **401 Unauthorized**. Chat/leads OK. Falta secreto interno + tabla `purchases`. |
+| Front + APIs de pago | `https://www.retirobtc.mx` | **P0 root ready.** `GET /api/p0-status` → 200, las cuatro banderas `true`. Webhook sin firma → **401 Invalid signature** (secreto vivo). |
+| Agentes | `https://retirobtc-agents.vercel.app` | Rutas P0 existen. `POST /api/purchases` con el secreto del catálogo → **401**: `INTERNAL_API_SECRET` no está vivo en agentes (falta variable o Redeploy). Tabla `purchases` pendiente. |
 | `agents.retirobtc.mx` | — | **Sin DNS.** No usarlo. |
 
 Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabase: el MCP de Vercel no está autenticado y no hay `SUPABASE_SERVICE_ROLE_KEY` en el entorno. Los clics de abajo son tuyos.
