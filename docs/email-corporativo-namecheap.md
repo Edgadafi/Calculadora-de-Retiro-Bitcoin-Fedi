@@ -35,6 +35,8 @@ En trial el almacén baja (~200 MB) y no hay auto-forward: cada alias tiene que 
 
 No crees `noreply@`: eso lo opera Resend. Contraseña distinta por buzón; no la subas al repo.
 
+Namecheap **rechaza** espacio, `\`, `&`, `+` y `'`. El `&` de la clave de `rito@` se tuvo que quitar. Para el resto usa solo `A–Z a–z 0–9 # ! @ $ % ^ * ( ) _ = -`.
+
 4. Webmail: [https://privateemail.com](https://privateemail.com). Login = dirección completa + la clave que pusiste.
 5. Prueba: escribe a `hola@` **desde otro correo** (no desde Gmail de destino). Responde desde el webmail para verificar envío.
 6. Opcional después: Gmail → Cuentas → “Enviar como” `hola@` con SMTP `mail.privateemail.com` (465/587). El trial a veces limita forwarding; el SMTP sí suele funcionar.
@@ -132,7 +134,7 @@ Si más adelante contratas Private Email, hay que **apagar** estos forwarders: l
 
 ---
 
-## 6. Qué hacer el 14 sep 2026
+## 6. Qué hacer el 16 sep 2026
 
 El trial Scale ya está comprado. Opciones:
 
