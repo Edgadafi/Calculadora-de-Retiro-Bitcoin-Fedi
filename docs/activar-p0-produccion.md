@@ -1,20 +1,25 @@
 # Activar P0 en producción
 
 > Medición de ingresos: cada cobro Premium (MXN o sats) queda en `purchases` y sale en `/api/admin/revenue`.
-> Sonda post-merge 16 ago 2026, 01:26 UTC. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
+> Sonda 16 ago 2026, 01:49 UTC. Complementa [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
 > PR [#1](https://github.com/Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi/pull/1) merged (`416d388`).
 
-## Qué hay en vivo hoy (después del merge)
+## Qué hay en vivo hoy
 
 | Pieza | Host | Estado |
 |-------|------|--------|
-| Front + APIs de pago | `https://www.retirobtc.mx` | Prod en `416d388`. `GET /api/p0-status` → **503** `{ agentsUrl: true, mpToken: true, internalSecret: false, webhookSecret: false }`. Webhook sin firma → **503** (fail-closed; ya no 200). |
-| Agentes (Rito, leads, alertas) | `https://retirobtc-agents.vercel.app` | Chat/leads vivos. **`/api/purchases` y `/api/admin/p0-status` siguen en 404** — este proyecto no se redesplegó con el merge del catálogo. |
+| Front + APIs de pago | `https://www.retirobtc.mx` | Prod `416d388`. `p0-status` → **503**: faltan `INTERNAL_API_SECRET` y `MERCADOPAGO_WEBHOOK_SECRET`. Token MP OK. Webhook sin firma → 503. |
+| Agentes | `https://retirobtc-agents.vercel.app` | Production `416d388` (01:48 UTC). `POST /api/purchases` → **401 Unauthorized**. Chat/leads OK. Falta secreto interno + tabla `purchases`. |
 | `agents.retirobtc.mx` | — | **Sin DNS.** No usarlo. |
 
 Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabase: el MCP de Vercel no está autenticado y no hay `SUPABASE_SERVICE_ROLE_KEY` en el entorno. Los clics de abajo son tuyos.
 
-## 1. Deploy de `retirobtc-agents` desde `main` (no Redeploy)
+## 1. Deploy de `retirobtc-agents` desde `main` — hecho
+
+`POST https://retirobtc-agents.vercel.app/api/purchases` responde **401**. GitHub: environment `Production – retirobtc-agents` en `416d388`.
+
+<details>
+<summary>Cómo se llegó (por si hay que repetirlo)</summary>
 
 El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no está enganchado a Git**: la lista de Deployments son `vercel deploy` de **julio** (`CnV42okuf`, etc.). **No les des Redeploy**: volverías a subir el código viejo, sin `/api/purchases`.
 
@@ -24,10 +29,11 @@ El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no
 4. **Después** de guardar Root Directory: Deployments → **Create Deployment** → `main` → Production. Si ya se disparó un deploy del repo entero, cancélalo: habría intentado buildar el catálogo, no `agents/`.
 5. El Preview `e56260c` (rama de docs) falló en 2 s: el comentario de Vercel en GitHub traía `"rootDirectory":null`, o sea buildó la raíz del repo como Next.js y no encontró `app/`. Production de julio **no** se tocó. No le des Redeploy a esa fila roja.
 6. Comprueba Root Directory otra vez (debe leer `agents`, no vacío ni `/agents`) y despliega **`main`**, no la rama `cursor/p0-post-merge-sonda-63ab`.
-7. Preview `0104d91` quedó **Ready** con `rootDirectory: agents` (URL `retirobtc-agents-git-cursor-p0-post-m-4ad792-…`). El host de producción `retirobtc-agents.vercel.app` **sigue en 404**: aún sirve el CLI de julio. En la fila Ready (ojo Preview) → **⋯ → Promote to Production**, o Create Deployment de `main`.
+7. Previews Ready (`0104d91`, `251d1d1`) con `rootDirectory: agents`. Sonda 01:45 UTC: `retirobtc-agents.vercel.app/api/purchases` **sigue 404** (`x-vercel-cache: HIT`, `last-modified: 14 ago`). GitHub no tiene environment Production de agentes hoy: el Promote no cambió el alias. Create Deployment → branch **`main`** → marcar Production.
 8. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
 
 Opcional: en Ignored Build Step → “Only build if there are changes in a folder” → `agents`, para no rebuildar Rito cuando solo cambia el front.
+</details>
 
 ## 2. Tabla `purchases` en Supabase
 
