@@ -24,7 +24,8 @@ El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no
 4. **Después** de guardar Root Directory: Deployments → **Create Deployment** → `main` → Production. Si ya se disparó un deploy del repo entero, cancélalo: habría intentado buildar el catálogo, no `agents/`.
 5. El Preview `e56260c` (rama de docs) falló en 2 s: el comentario de Vercel en GitHub traía `"rootDirectory":null`, o sea buildó la raíz del repo como Next.js y no encontró `app/`. Production de julio **no** se tocó. No le des Redeploy a esa fila roja.
 6. Comprueba Root Directory otra vez (debe leer `agents`, no vacío ni `/agents`) y despliega **`main`**, no la rama `cursor/p0-post-merge-sonda-63ab`.
-7. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
+7. Preview `0104d91` quedó **Ready** con `rootDirectory: agents` (URL `retirobtc-agents-git-cursor-p0-post-m-4ad792-…`). El host de producción `retirobtc-agents.vercel.app` **sigue en 404**: aún sirve el CLI de julio. En la fila Ready (ojo Preview) → **⋯ → Promote to Production**, o Create Deployment de `main`.
+8. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
 
 Opcional: en Ignored Build Step → “Only build if there are changes in a folder” → `agents`, para no rebuildar Rito cuando solo cambia el front.
 
