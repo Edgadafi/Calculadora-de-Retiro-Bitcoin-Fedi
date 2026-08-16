@@ -120,14 +120,15 @@ export default async function handler(req, res) {
 
   /**
    * La validación va antes de consultar a Mercado Pago: así una petición sin firma
-   * válida nunca cuesta una llamada a su API. Sin secreto configurado en
-   * producción se falla cerrado, porque el endpoint quedaría abierto.
+   * válida nunca cuesta una llamada a su API ni una escritura. Sin secreto
+   * configurado en cualquier despliegue se falla cerrado, porque el endpoint
+   * quedaría abierto; en local se omite.
    */
   const signature = verifyMercadoPagoSignature(req, paymentId);
   if (!signature.valid) {
     if (!signature.configured) {
       console.error(
-        '[mp-webhook] falta MERCADOPAGO_WEBHOOK_SECRET en producción: no se registran cobros. '
+        '[mp-webhook] falta MERCADOPAGO_WEBHOOK_SECRET: no se registran cobros. '
         + 'Configúralo en Mercado Pago → Webhooks y en las variables del proyecto.'
       );
       // 503 y no 401: es configuración nuestra, y así Mercado Pago reintenta

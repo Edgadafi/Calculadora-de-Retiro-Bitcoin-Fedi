@@ -4,17 +4,21 @@ import { createHmac, timingSafeEqual } from 'crypto';
  * Validación de la firma de notificaciones de Mercado Pago.
  *
  * Cumple dos funciones. La primera es autenticar el aviso: sin ella el endpoint
- * queda abierto y cada petición cuesta una consulta a la API de Mercado Pago, así
- * que en producción se falla cerrado si falta el secreto. La segunda es defensa en
- * profundidad frente a avisos forjados, aunque de eso ya se encarga el webhook al
- * reconsultar el pago por id con nuestro propio access token.
- *
- * Fuera de producción se omite para no estorbar en local y en preview.
+ * queda abierto, y cada petición cuesta una consulta a la API de Mercado Pago más
+ * una escritura en la base. La segunda es defensa en profundidad frente a avisos
+ * forjados, aunque de eso ya se encarga el webhook al reconsultar el pago por id
+ * con nuestro propio access token.
  */
 
-/** Vercel define VERCEL_ENV en cada despliegue; preview no se trata como producción. */
-function isProduction() {
-  if (process.env.VERCEL_ENV) return process.env.VERCEL_ENV === 'production';
+/**
+ * Todo despliegue exige firma, producción y preview por igual: las URL de preview
+ * son públicas y comparten variables de entorno con producción salvo que se acoten,
+ * así que un preview sin secreto sería una vía abierta a la misma base.
+ *
+ * Sólo se omite en local, donde Vercel no define VERCEL_ENV.
+ */
+function requiresSignature() {
+  if (process.env.VERCEL_ENV) return true;
   return process.env.NODE_ENV === 'production';
 }
 
@@ -27,7 +31,7 @@ export function verifyMercadoPagoSignature(req, dataId) {
   const secret = (process.env.MERCADOPAGO_WEBHOOK_SECRET || '').trim();
 
   if (!secret) {
-    if (isProduction()) {
+    if (requiresSignature()) {
       return { valid: false, configured: false, skipped: false, reason: 'secret_not_configured' };
     }
     return { valid: true, configured: false, skipped: true };
