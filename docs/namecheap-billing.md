@@ -11,7 +11,7 @@
 | Auto-Renew | ON |
 | Método de Auto Renewal (dominio) | **Default** |
 | Payment methods | Mastercard •••• 3144, vence may 2030, ACTIVE |
-| Default de esa tarjeta | **DEFAULT FOR APPS** (Marketplace). Falta confirmarla para auto-renew de dominios. |
+| Default de esa tarjeta | **DEFAULT** en Payment Cards (estrella). **Use for auto-renewal = ON** (checkbox marcado y bloqueado: es la única tarjeta). En Apps sigue pudiendo decir “DEFAULT FOR APPS”; no contradice esto. |
 | Account Funds | **$0.00**, ACTIVE |
 | Privacidad WHOIS | ON, también con Auto-Renew |
 | Nameservers | Namecheap BasicDNS |
@@ -30,20 +30,20 @@ Con Funds en $0 el paso 1 no cobra nada y pasa a la tarjeta. Por eso **no hace f
 
 PayPal no sirve para auto-renew de dominios, solo tarjeta o Funds.
 
-## Chequeo que sí falta
+## Default de la 3144 (confirmado 16 ago 2026)
 
-La Mastercard •••• 3144 como **DEFAULT FOR APPS** cubre el Marketplace, no el dominio. **EDIT** de esa fila no muestra auto-renew: Namecheap lo esconde en otro menú ([docs](https://www.namecheap.com/support/knowledgebase/article.aspx/10564/2207/can-i-set-up-automatic-billing-for-my-namecheap-services/)).
+En [Payment Cards](https://ap.www.namecheap.com/profile/billing/PaymentCards) la Mastercard es la única, con estrella **DEFAULT**. En **Edit Card Defaults**:
 
-1. Sal de “Manage Payment Methods” (página de Apps). Ve a **Profile → Billing → Payment Cards → Manage**:  
-   [ap.www.namecheap.com/profile/billing/PaymentCards](https://ap.www.namecheap.com/profile/billing/PaymentCards)
-2. En la 3144, **no pulses EDIT**. Pulsa la **flecha ▾ a la derecha de EDIT** → **Edit Defaults**
-3. Marca **Use for auto-renewal** → Save Changes
+- Dropdown **MC-3144** gris (“Cannot edit default card”)
+- **Use for auto-renewal** marcado y gris
 
-`EDIT` solo cambia nombre, apodo y “default for Apps”. Por eso no sale el checkbox.
+Eso no es un error: con una sola tarjeta Namecheap no deja quitar el default ni desmarcar auto-renew. El dominio `retirobtc.mx` (Auto-Renew ON, método Default) **sí puede** cobrar la 3144 en mayo 2027 si Funds siguen en $0.
 
-Si esa flecha no existe o Edit Defaults no aparece: Domain List → Manage `retirobtc.mx` → en Auto Renewal, cambia el método de **Default** a la Mastercard 3144 (si el dropdown lo lista). No recargues Funds.
+No pulses Save (no hay nada editable). Cancel. No agregues una segunda tarjeta “para desbloquear”. No recargues Funds.
 
-La tarjeta vence en may 2030, después de la renovación de 2027.
+La tarjeta vence en may 2030, después de esa renovación.
+
+El Auto-Renew de **Scale Email** es otro switch (Private Email → OFF). No lo mezcles con este.
 
 ## Pedido de email (15 ago 2026) — compra terminada
 
