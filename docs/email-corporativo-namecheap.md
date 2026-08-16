@@ -1,25 +1,43 @@
 # Email corporativo @retirobtc.mx — Namecheap
 
-> Captura de planes (16 ago 2026) y decisión de arranque **gratuito**.
-> Destino actual de contacto: `calculadora.retirobtc@gmail.com`.
-> El dominio usa Namecheap BasicDNS, requisito del reenvío gratis.
-> Cobro del dominio: [`namecheap-billing.md`](./namecheap-billing.md) (Auto-Renew ON, Default → tarjeta; Funds en $0).
+> Destino humano de respaldo: `calculadora.retirobtc@gmail.com`.
+> Dominio en Namecheap BasicDNS. Cobro del dominio: [`namecheap-billing.md`](./namecheap-billing.md).
 
-## Pedido vivo (15 ago 2026, 20:55)
+## Pedido vivo (15 ago 2026, 20:55) — compra terminada
 
 | Campo | Valor |
 |-------|--------|
 | Order ID | **211252243** |
+| Recibo | `namecheap-order-211252243.pdf` |
 | Producto | **Scale Email**, 1 mes, 5 mailboxes |
-| Cobrado | **$0.00** (método: Account Funds) |
+| Cobrado | **$0.00** (Account Funds) |
 | Transaction ID | 256650766 |
-| Qué es | Trial de 30 días de Private Email Scale, no Email Forwarding |
+| Decisión | Seguir con Private Email Scale (trial 30 días). El forwarding gratis **no** convive. |
 
-Namecheap trata el trial como compra. A ~**14 sep 2026** intenta renovar Scale (~**$71.88/año** de lista, o el mensual equivalente). MAILDEAL del primer año **no** aplica después de un trial. Este dominio ya no puede volver a probar Private Email.
+Namecheap trata el trial como compra. ~**14 sep 2026** intenta renovar Scale (~**$71.88/año**). MAILDEAL no aplica después del trial. Este dominio ya no puede volver a probar Private Email.
 
-**Recomendación:** no pulses **CREATE MAILBOXES**. Cancela Scale en Domain List → Private Email **antes del 14 sep** y activa Email Forwarding (§5). No aceptes el trial de Shared Hosting que sale en esa misma confirmación.
+**Antes de crear buzones:** Product List / Private Email → Scale de `retirobtc.mx` → **Auto-Renew OFF**. Si no, septiembre cobra aunque Funds sigan en $0 (pasa a la tarjeta). No aceptes el trial de Shared Hosting del checkout.
 
-Si de verdad necesitas **enviar** como `@retirobtc.mx` esta semana: crea **un** buzón (`hola@`), apaga Auto-Renew del email, y baja a Launch ($14.88/año) al terminar el trial. Cinco buzones son para equipo; hoy sobran.
+En trial el almacén baja (~200 MB) y no hay auto-forward: cada alias tiene que ser un **buzón real**.
+
+### Alta ahora (orden)
+
+1. Domain List → Manage `retirobtc.mx` → **Advanced DNS** → Mail Settings → **Private Email** → Save. Namecheap escribe MX (`mx1`/`mx2.privateemail.com`) y SPF. No los borres. Espera ~30 min.
+2. Sidebar **Private Email** → Manage `retirobtc.mx` → **Create Mailbox** (el botón naranja de la confirmación).
+3. Crea estos cuatro (minúsculas). El quinto slot déjalo libre.
+
+| Buzón | Uso |
+|-------|-----|
+| `hola@retirobtc.mx` | Contacto público (landing, X, Fedi) |
+| `rito@retirobtc.mx` | Escalamiento del agente |
+| `contacto@retirobtc.mx` | Campañas / respaldo |
+| `facturacion@retirobtc.mx` | CFDI (Vertical 3) |
+
+No crees `noreply@`: eso lo opera Resend. Contraseña distinta por buzón; no la subas al repo.
+
+4. Webmail: [https://privateemail.com](https://privateemail.com). Login = dirección completa + la clave que pusiste.
+5. Prueba: escribe a `hola@` **desde otro correo** (no desde Gmail de destino). Responde desde el webmail para verificar envío.
+6. Opcional después: Gmail → Cuentas → “Enviar como” `hola@` con SMTP `mail.privateemail.com` (465/587). El trial a veces limita forwarding; el SMTP sí suele funcionar.
 
 ---
 
@@ -98,9 +116,9 @@ No crear `noreply@` aquí: ese dominio de envío lo opera Resend, no el MX de Na
 
 ---
 
-## 5. Cómo activarlo (sin pagar)
+## 5. Fallback si cancelas Scale: Email Forwarding (sin pagar)
 
-El dominio ya está en **Namecheap BasicDNS**, que es el requisito.
+El dominio ya está en **Namecheap BasicDNS**, que es el requisito. Con Scale activo **no** uses este camino: Private Email y forwarding no conviven.
 
 1. Domain List → **Manage** `retirobtc.mx` → pestaña **Advanced DNS**
 2. **Mail Settings** → elegir **Email Forwarding** → Save (Namecheap escribe los MX y un SPF; no lo borres)

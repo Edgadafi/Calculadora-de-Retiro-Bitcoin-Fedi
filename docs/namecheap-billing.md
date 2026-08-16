@@ -44,12 +44,12 @@ Si el default de dominios queda en Account Funds y el saldo sigue en $0, el cobr
 
 No recargues Funds “por si acaso”: Relate se canceló precisamente porque el cobro iba al monedero vacío. La tarjeta como default de **auto-renew** es el arreglo. La tarjeta vence en may 2030, después de la renovación de 2027: en esa fecha no hay problema de caducidad.
 
-## Pedido de email (15 ago 2026)
+## Pedido de email (15 ago 2026) — compra terminada
 
-Order **211252243**: Scale Email 1 mes, 5 buzones, cobrado **$0.00** a Funds. Es el trial de Private Email, no el forwarding. Si Auto-Renew del email queda ON, ~14 sep Namecheap intenta ~$71.88/año (Funds $0 → tarjeta). Cancela el email o apaga su Auto-Renew; el dominio no se toca. Detalle en [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
+Order **211252243**: Scale Email 1 mes, 5 buzones, **$0.00** a Funds. Recibo `namecheap-order-211252243.pdf`. Decisión: usar el trial (Private Email), no forwarding. **Auto-Renew del email OFF** o ~14 sep cobra ~$71.88/año. El Auto-Renew del **dominio** es otro switch. Detalle en [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
 
 ## Qué no reactivar
 
 - RelateSocial (~$9.88/mes): sin API, duplica Gemini, no aplica la guía de marca. Ver [`roadmap-agentico-ingresos.md`](./roadmap-agentico-ingresos.md).
 - Shared Hosting “FREE 30 days” (banner del checkout de email): mismo patrón que Relate.
-- Private Email Scale: ya está en trial. No lo dejes renovar. El arranque de `@retirobtc.mx` sigue siendo **Email Forwarding** a $0. Ver [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
+- Private Email Scale: trial activo (pedido 211252243). Auto-Renew del **email** OFF; el 14 sep decide Launch o cancelar. Ver [`email-corporativo-namecheap.md`](./email-corporativo-namecheap.md).
