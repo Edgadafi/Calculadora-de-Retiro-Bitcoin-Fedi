@@ -35,13 +35,28 @@ El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no
 Opcional: en Ignored Build Step → “Only build if there are changes in a folder” → `agents`, para no rebuildar Rito cuando solo cambia el front.
 </details>
 
-## 2. Tabla `purchases` en Supabase
+## 2. Tabla `purchases` en Supabase (sin Pro)
 
-Si Vertical 1 ya corre (leads, chat, alertas), no relances el schema completo. En SQL Editor pega [`../agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) y Run.
+Org **Shill Sarkeys**, plan Free: 2 activos (`elcanario.com.mx`, `remesa-blink`). **Retiro iLATAM** pausado no cuenta; reactivarlo pide Pro. No lo actives. No pagues.
 
-Si el proyecto está vacío, usa [`../agents/supabase/schema.sql`](../agents/supabase/schema.sql).
+P0 usa el proyecto **donde ya corre Rito** (el de `SUPABASE_URL` en `retirobtc-agents`). En SQL Editor de cada activo:
 
-Dos cupos free ocupados: esquema propio + `SUPABASE_DB_SCHEMA` (encabezado del schema).
+```sql
+select table_schema, table_name
+from information_schema.tables
+where table_name in ('leads', 'purchases')
+order by 1, 2;
+```
+
+- Si `leads` está en `public`: pega [`../agents/supabase/migrations/20260816_purchases.sql`](../agents/supabase/migrations/20260816_purchases.sql) y Run. No toques env.
+- Si no hay `leads` en ninguno: en **uno** de los dos activos (el de `SUPABASE_URL`) crea esquema aislado (abajo). No despiertes iLATAM.
+
+```sql
+create schema if not exists retirobtc;
+set search_path = retirobtc, extensions, public;
+```
+
+Luego el SQL de `purchases` (la FK a `leads` exige que `retirobtc.leads` exista; si no, corre el `schema.sql` completo con las dos líneas «ESQUEMA DESTINO» apuntando a `retirobtc`). Settings → API → Exposed schemas → `retirobtc`. En Vercel agentes: `SUPABASE_DB_SCHEMA=retirobtc` (Production y Preview) y Redeploy.
 
 ## 3. Variables en Vercel (los dos proyectos)
 
