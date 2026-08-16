@@ -13,6 +13,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 | [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) | Skill UI/UX Pro Max (Cursor). Se activa al pedir diseño o revisión de interfaz. |
 | [`docs/email-corporativo-namecheap.md`](docs/email-corporativo-namecheap.md) | Planes Private Email y arranque gratis con Email Forwarding (@retirobtc.mx) |
+| [`docs/namecheap-billing.md`](docs/namecheap-billing.md) | Auto-Renew del dominio, Default vs tarjeta, Account Funds en $0 |
 
 La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.
 

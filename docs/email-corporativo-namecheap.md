@@ -3,6 +3,7 @@
 > Captura de planes (16 ago 2026) y decisión de arranque **gratuito**.
 > Destino actual de contacto: `calculadora.retirobtc@gmail.com`.
 > El dominio usa Namecheap BasicDNS, requisito del reenvío gratis.
+> Cobro del dominio: [`namecheap-billing.md`](./namecheap-billing.md) (Auto-Renew ON, Default → tarjeta; Funds en $0).
 
 ---
 
