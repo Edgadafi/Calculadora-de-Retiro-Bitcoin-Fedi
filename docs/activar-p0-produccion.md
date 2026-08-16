@@ -19,11 +19,12 @@ Este agente **no puede** escribir variables en Vercel ni ejecutar SQL en Supabas
 El catálogo ya desplegó `main`. `retirobtc-agents` es **otro** proyecto y **no está enganchado a Git**: la lista de Deployments son `vercel deploy` de **julio** (`CnV42okuf`, etc.). **No les des Redeploy**: volverías a subir el código viejo, sin `/api/purchases`.
 
 1. En `retirobtc-agents` → **Settings → Git** (o pestaña **Connect**) → conecta `Edgadafi/Calculadora-de-Retiro-Bitcoin-Fedi`
-2. **Root Directory** = `agents`
+2. **Root Directory no está en Git ni en Deployments.** Ve a **Settings → General** (o **Build and Deployment**) → sección **Root Directory** → Edit → escribe `agents` → Save. Framework: Next.js.
 3. Production Branch = `main`
-4. Deployments → **Create Deployment** → branch `main` → Production  
-   (si Git no se puede conectar: en tu máquina `git checkout main && cd agents && npx vercel --prod`)
+4. **Después** de guardar Root Directory: Deployments → **Create Deployment** → `main` → Production. Si ya se disparó un deploy del repo entero, cancélalo: habría intentado buildar el catálogo, no `agents/`.
 5. Comprueba: `POST https://retirobtc-agents.vercel.app/api/purchases` debe devolver **401**, no 404
+
+Opcional: en Ignored Build Step → “Only build if there are changes in a folder” → `agents`, para no rebuildar Rito cuando solo cambia el front.
 
 ## 2. Tabla `purchases` en Supabase
 
