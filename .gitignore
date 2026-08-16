@@ -8,5 +8,9 @@ node_modules/
 .vercel
 .env*.local
 
-# Cursor IDE (config local)
-.cursor/
+# Cursor IDE (config local). Las skills y reglas del repo sí se versionan.
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**

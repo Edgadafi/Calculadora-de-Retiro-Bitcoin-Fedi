@@ -11,6 +11,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
 | [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
+| [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) | Skill UI/UX Pro Max (Cursor). Se activa al pedir diseño o revisión de interfaz. |
 
 La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/producto-estudio-mercado.mdc) carga este contexto en cada sesión del agente.
 
