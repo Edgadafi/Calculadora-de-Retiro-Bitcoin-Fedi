@@ -1,9 +1,16 @@
 import { NextRequest } from 'next/server';
 import { isSupabaseConfigured } from '@/lib/config';
 import { getSupabase, type ContentDraftRow, type LegalAlertRow } from '@/lib/db/supabase';
-import { generateContentForAlert } from '@/lib/agents/content-generator';
+import {
+  CONTENT_STATUSES,
+  generateContentForAlert,
+  type ContentStatus,
+} from '@/lib/agents/content-generator';
 import { enqueueBufferUpdate, isBufferConfigured } from '@/lib/buffer';
 import { matchesSecret } from '@/lib/http/shared-secret';
+
+const ACTIONS = ['queue', 'reject', 'regenerate'] as const;
+type Action = (typeof ACTIONS)[number];
 
 function assertAdmin(req: NextRequest): boolean {
   return matchesSecret(req.headers.get('x-admin-secret'), process.env.ADMIN_SECRET);
@@ -18,7 +25,14 @@ export async function GET(req: NextRequest) {
     return Response.json({ drafts: [], warning: 'Supabase not configured' });
   }
 
-  const status = req.nextUrl.searchParams.get('status') || 'draft';
+  const status = (req.nextUrl.searchParams.get('status') || 'draft') as ContentStatus;
+  if (!CONTENT_STATUSES.includes(status)) {
+    return Response.json(
+      { error: `status inválido. Usa uno de: ${CONTENT_STATUSES.join(', ')}` },
+      { status: 400 }
+    );
+  }
+
   const supabase = getSupabase();
   const { data, error } = await supabase
     .from('content_drafts')
@@ -50,13 +64,14 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  const { draftId, action } = body as {
-    draftId?: string;
-    action?: 'queue' | 'reject' | 'regenerate';
-  };
+  const { draftId, action } = body as { draftId?: string; action?: Action };
 
   if (!draftId || !action) {
     return Response.json({ error: 'draftId and action required' }, { status: 400 });
+  }
+
+  if (!ACTIONS.includes(action)) {
+    return Response.json({ error: 'Unknown action' }, { status: 400 });
   }
 
   const supabase = getSupabase();
@@ -71,11 +86,21 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    // Una pieza que ya salió a Buffer no se reescribe ni se marca rechazada
+    // desde aquí: en la red social seguiría agendada y la base mentiría.
+    if (draft.status !== 'draft') {
+      return Response.json(
+        { error: `El borrador está en "${draft.status}"; sólo se opera sobre "draft"` },
+        { status: 409 }
+      );
+    }
+
     if (action === 'reject') {
       const { error: upd } = await supabase
         .from('content_drafts')
         .update({ status: 'rejected', updated_at: new Date().toISOString(), error: null })
-        .eq('id', draftId);
+        .eq('id', draftId)
+        .eq('status', 'draft');
       if (upd) throw new Error(upd.message);
       return Response.json({ ok: true });
     }
@@ -92,36 +117,63 @@ export async function POST(req: NextRequest) {
       if (alertErr || !alert) {
         return Response.json({ error: 'Alerta no encontrada' }, { status: 404 });
       }
-      await generateContentForAlert(alert as LegalAlertRow);
-      return Response.json({ ok: true });
+      const { created, skipped } = await generateContentForAlert(alert as LegalAlertRow);
+      return Response.json({ ok: true, created, skipped });
     }
 
     if (action === 'queue') {
-      if (draft.status !== 'draft') {
-        return Response.json({ error: 'Sólo se encola un borrador en draft' }, { status: 400 });
-      }
-      const result = await enqueueBufferUpdate(draft.body);
-      if ('skipped' in result) {
+      if (!isBufferConfigured()) {
         return Response.json(
           {
             ok: false,
-            skipped: result.skipped,
+            skipped: 'buffer_not_configured',
             error: 'Configura BUFFER_ACCESS_TOKEN y BUFFER_PROFILE_ID para encolar en Buffer',
           },
           { status: 503 }
         );
       }
-      const { error: upd } = await supabase
+
+      // Se reserva la fila antes de llamar a Buffer: dos clics seguidos no
+      // deben producir dos publicaciones agendadas de la misma pieza.
+      const { data: claimed, error: claimErr } = await supabase
         .from('content_drafts')
-        .update({
-          status: 'queued',
-          buffer_update_id: result.id,
-          error: null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', draftId);
-      if (upd) throw new Error(upd.message);
-      return Response.json({ ok: true, bufferUpdateId: result.id });
+        .update({ status: 'queued', error: null, updated_at: new Date().toISOString() })
+        .eq('id', draftId)
+        .eq('status', 'draft')
+        .select('id')
+        .maybeSingle();
+
+      if (claimErr) throw new Error(claimErr.message);
+      if (!claimed) {
+        return Response.json({ error: 'Otro proceso ya encoló este borrador' }, { status: 409 });
+      }
+
+      try {
+        const result = await enqueueBufferUpdate(draft.body);
+        if ('skipped' in result) throw new Error(result.skipped);
+
+        const { error: upd } = await supabase
+          .from('content_drafts')
+          .update({ buffer_update_id: result.id, updated_at: new Date().toISOString() })
+          .eq('id', draftId);
+        if (upd) throw new Error(upd.message);
+
+        return Response.json({ ok: true, bufferUpdateId: result.id });
+      } catch (e) {
+        // Buffer no aceptó la pieza: se devuelve a draft con el motivo visible
+        // en el panel, en lugar de dejarla en queued sin id.
+        const message = e instanceof Error ? e.message : 'Buffer falló';
+        await supabase
+          .from('content_drafts')
+          .update({
+            status: 'draft',
+            buffer_update_id: null,
+            error: message.slice(0, 500),
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', draftId);
+        throw e;
+      }
     }
 
     return Response.json({ error: 'Unknown action' }, { status: 400 });

@@ -11,6 +11,15 @@ import { z } from 'zod';
 export const CONTENT_CHANNELS = ['x_thread', 'reels_30s', 'seo'] as const;
 export type ContentChannel = (typeof CONTENT_CHANNELS)[number];
 
+export const CONTENT_STATUSES = ['draft', 'queued', 'published', 'rejected'] as const;
+export type ContentStatus = (typeof CONTENT_STATUSES)[number];
+
+/**
+ * Estados que ya salieron de revisión: Buffer tiene la pieza agendada o
+ * publicada, así que regenerar no debe sobreescribir el texto que se aprobó.
+ */
+const LOCKED_STATUSES: ContentStatus[] = ['queued', 'published'];
+
 export const DISCLAIMER_SHORT =
   'Educación financiera · No es asesoría · Proyecciones hipotéticas';
 
@@ -94,13 +103,42 @@ seoDraft: markdown corto (200-400 palabras) para blog.`,
 }
 
 /**
- * Crea o reemplaza los tres borradores de una alerta ya ingerida.
- * No publica. Si el LLM falla, usa plantilla factual.
+ * Crea o reemplaza los borradores de una alerta ya ingerida.
+ *
+ * Los canales cuya pieza ya está en Buffer (`queued`) o publicada se dejan
+ * intactos: reescribirlos dejaría la base diciendo una cosa y la red social
+ * otra. No publica nada; el LLM sólo redacta.
  */
-export async function generateContentForAlert(alert: LegalAlertRow): Promise<{ created: number }> {
+export async function generateContentForAlert(
+  alert: LegalAlertRow
+): Promise<{ created: number; skipped: ContentChannel[] }> {
   const supabase = getSupabase();
+
+  const { data: existing, error: readError } = await supabase
+    .from('content_drafts')
+    .select('channel, status')
+    .eq('alert_id', alert.id);
+
+  if (readError) {
+    console.error('[content-generator]', readError.message);
+    throw new Error('No se pudieron leer los borradores existentes');
+  }
+
+  const locked = new Set(
+    (existing ?? [])
+      .filter((row) => LOCKED_STATUSES.includes(row.status as ContentStatus))
+      .map((row) => row.channel as ContentChannel)
+  );
+
+  const targets = CONTENT_CHANNELS.filter((channel) => !locked.has(channel));
+  const skipped = CONTENT_CHANNELS.filter((channel) => locked.has(channel));
+
+  if (!targets.length) {
+    return { created: 0, skipped };
+  }
+
   const raw = await draftWithLlm(alert);
-  const rows = CONTENT_CHANNELS.map((channel) => {
+  const rows = targets.map((channel) => {
     const source =
       channel === 'x_thread' ? raw.xThread : channel === 'reels_30s' ? raw.reelsScript : raw.seoDraft;
     return {
@@ -109,6 +147,7 @@ export async function generateContentForAlert(alert: LegalAlertRow): Promise<{ c
       body: ensureCompliance(source, channel, alert.id),
       cta_url: buildCtaUrl(channel, alert.id),
       status: 'draft' as const,
+      buffer_update_id: null,
       error: null,
       updated_at: new Date().toISOString(),
     };
@@ -121,5 +160,5 @@ export async function generateContentForAlert(alert: LegalAlertRow): Promise<{ c
     console.error('[content-generator]', error.message);
     throw new Error('No se pudieron guardar los borradores');
   }
-  return { created: rows.length };
+  return { created: rows.length, skipped };
 }

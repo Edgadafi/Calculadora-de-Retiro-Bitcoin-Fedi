@@ -47,8 +47,12 @@ export default function AdminContentPage() {
     }
   }, [secret, status]);
 
+  // Debounce: evita una petición por cada tecla del secreto y mantiene el
+  // setState fuera del cuerpo del efecto.
   useEffect(() => {
-    if (secret.length >= 8) load();
+    if (secret.length < 8) return;
+    const timer = setTimeout(load, 300);
+    return () => clearTimeout(timer);
   }, [secret, load]);
 
   async function act(draftId: string, action: 'queue' | 'reject' | 'regenerate') {
@@ -63,7 +67,11 @@ export default function AdminContentPage() {
     const data = await res.json();
     if (!res.ok) {
       window.alert(data.error || 'Error');
+      load();
       return;
+    }
+    if (Array.isArray(data.skipped) && data.skipped.length) {
+      window.alert(`Sin regenerar (ya están en Buffer): ${data.skipped.join(', ')}`);
     }
     load();
   }
@@ -129,6 +137,9 @@ export default function AdminContentPage() {
               >
                 {d.cta_url}
               </a>
+            )}
+            {d.error && (
+              <p className="text-xs text-red-400 mt-2">Último intento falló: {d.error}</p>
             )}
             {d.status === 'draft' && (
               <div className="flex gap-2 mt-3">

@@ -36,8 +36,12 @@ export default function AdminAlertsPage() {
     }
   }, [secret]);
 
+  // Debounce: evita una petición por cada tecla del secreto y mantiene el
+  // setState fuera del cuerpo del efecto.
   useEffect(() => {
-    if (secret.length >= 8) load();
+    if (secret.length < 8) return;
+    const timer = setTimeout(load, 300);
+    return () => clearTimeout(timer);
   }, [secret, load]);
 
   async function act(alertId: string, action: 'approve' | 'reject') {
