@@ -13,10 +13,11 @@
 | **Captura leads** | `POST /api/leads` desde formulario guía `/brujula`. Resend + token guía PDF. |
 | **Investigador jurídico** | Cron diario DOF RSS → `legal_alerts` → revisión humana → ingest KB. |
 
-### Vertical 1.5 — Pendiente
+### Vertical 1.5 — P1 (código)
 
-- Agente Generador de Contenido (TikTok/X/SEO) alimentado por alertas aprobadas.
-- Fase **P1** del [roadmap de ingresos](./roadmap-agentico-ingresos.md#6-p1--generador-de-contenido-vertical-15): publica vía Buffer, con revisión humana previa.
+- Agente generador de contenido: alertas `ingested` → tres borradores (X, Reels, SEO) con disclaimer y UTM.
+- Revisión en `/admin/content`. Publicación vía Buffer (no API de X).
+- Detalle: [P1 del roadmap](./roadmap-agentico-ingresos.md#6-p1--generador-de-contenido-vertical-15).
 
 ### Vertical 2 — Pendiente
 

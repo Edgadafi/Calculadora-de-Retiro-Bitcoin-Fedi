@@ -36,8 +36,12 @@ export default function AdminAlertsPage() {
     }
   }, [secret]);
 
+  // Debounce: evita una petición por cada tecla del secreto y mantiene el
+  // setState fuera del cuerpo del efecto.
   useEffect(() => {
-    if (secret.length >= 8) load();
+    if (secret.length < 8) return;
+    const timer = setTimeout(load, 300);
+    return () => clearTimeout(timer);
   }, [secret, load]);
 
   async function act(alertId: string, action: 'approve' | 'reject') {
@@ -74,6 +78,10 @@ export default function AdminAlertsPage() {
       <h1 className="text-xl font-semibold mb-2">Legal Alerts — Retiro BTC Agents</h1>
       <p className="text-sm text-zinc-400 mb-6">
         Revisión humana antes de indexar en la base de conocimiento de Rito.
+        {' · '}
+        <a href="/admin/content" className="text-orange-400 underline cursor-pointer">
+          Borradores de contenido
+        </a>
       </p>
 
       <label className="block mb-4">
@@ -122,14 +130,14 @@ export default function AdminAlertsPage() {
               <button
                 type="button"
                 onClick={() => act(a.id, 'approve')}
-                className="rounded bg-orange-500 px-3 py-1 text-xs font-medium text-black"
+                className="cursor-pointer rounded bg-orange-500 px-3 py-1 text-xs font-medium text-black"
               >
                 Aprobar e indexar
               </button>
               <button
                 type="button"
                 onClick={() => act(a.id, 'reject')}
-                className="rounded border border-zinc-600 px-3 py-1 text-xs"
+                className="cursor-pointer rounded border border-zinc-600 px-3 py-1 text-xs"
               >
                 Rechazar
               </button>

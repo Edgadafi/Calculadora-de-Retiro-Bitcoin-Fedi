@@ -71,3 +71,17 @@ export type LegalAlertRow = {
   reviewed_by: string | null;
   created_at: string;
 };
+
+export type ContentDraftRow = {
+  id: string;
+  alert_id: string | null;
+  channel: 'x_thread' | 'reels_30s' | 'seo';
+  body: string;
+  cta_url: string | null;
+  status: 'draft' | 'queued' | 'published' | 'rejected';
+  scheduled_for: string | null;
+  buffer_update_id: string | null;
+  error: string | null;
+  created_at: string;
+  updated_at: string;
+};

@@ -10,6 +10,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 | [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
 | [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
 | [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
+| [`docs/fase2-datos-pensiones.md`](docs/fase2-datos-pensiones.md) | Fase 2: sub-marca neutral de datos públicos del SAR (vintages, x402, licencia) |
 | [`docs/activar-p0-produccion.md`](docs/activar-p0-produccion.md) | Activar medición de ingresos en prod (merge, SQL, secretos Vercel) |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
 | [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) | Skill UI/UX Pro Max (Cursor). Se activa al pedir diseño o revisión de interfaz. |
