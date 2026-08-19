@@ -96,12 +96,19 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'reject') {
-      const { error: upd } = await supabase
+      const { data: rejected, error: upd } = await supabase
         .from('content_drafts')
         .update({ status: 'rejected', updated_at: new Date().toISOString(), error: null })
         .eq('id', draftId)
-        .eq('status', 'draft');
+        .eq('status', 'draft')
+        .select('id')
+        .maybeSingle();
+
       if (upd) throw new Error(upd.message);
+      if (!rejected) {
+        // Otra petición encoló la pieza entre la lectura y esta escritura.
+        return Response.json({ error: 'El borrador cambió de estado' }, { status: 409 });
+      }
       return Response.json({ ok: true });
     }
 
@@ -148,20 +155,14 @@ export async function POST(req: NextRequest) {
         return Response.json({ error: 'Otro proceso ya encoló este borrador' }, { status: 409 });
       }
 
+      let bufferId: string;
       try {
         const result = await enqueueBufferUpdate(draft.body);
         if ('skipped' in result) throw new Error(result.skipped);
-
-        const { error: upd } = await supabase
-          .from('content_drafts')
-          .update({ buffer_update_id: result.id, updated_at: new Date().toISOString() })
-          .eq('id', draftId);
-        if (upd) throw new Error(upd.message);
-
-        return Response.json({ ok: true, bufferUpdateId: result.id });
+        bufferId = result.id;
       } catch (e) {
-        // Buffer no aceptó la pieza: se devuelve a draft con el motivo visible
-        // en el panel, en lugar de dejarla en queued sin id.
+        // Buffer no aceptó la pieza: se libera la reserva y el motivo queda
+        // visible en el panel, en lugar de dejarla en queued sin id.
         const message = e instanceof Error ? e.message : 'Buffer falló';
         await supabase
           .from('content_drafts')
@@ -174,6 +175,28 @@ export async function POST(req: NextRequest) {
           .eq('id', draftId);
         throw e;
       }
+
+      // Buffer ya tiene la pieza agendada: pase lo que pase con esta escritura,
+      // la fila se queda en queued. Devolverla a draft permitiría encolarla de
+      // nuevo y publicar dos veces.
+      const { error: upd } = await supabase
+        .from('content_drafts')
+        .update({ buffer_update_id: bufferId, updated_at: new Date().toISOString() })
+        .eq('id', draftId);
+
+      if (upd) {
+        console.error('[admin/content] Buffer aceptó pero no se guardó el id', upd.message);
+        return Response.json(
+          {
+            ok: true,
+            bufferUpdateId: bufferId,
+            warning: 'La pieza quedó agendada en Buffer pero no se pudo guardar su id',
+          },
+          { status: 207 }
+        );
+      }
+
+      return Response.json({ ok: true, bufferUpdateId: bufferId });
     }
 
     return Response.json({ error: 'Unknown action' }, { status: 400 });

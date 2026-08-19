@@ -70,6 +70,9 @@ export default function AdminContentPage() {
       load();
       return;
     }
+    if (data.warning) {
+      window.alert(data.warning);
+    }
     if (Array.isArray(data.skipped) && data.skipped.length) {
       window.alert(`Sin regenerar (ya están en Buffer): ${data.skipped.join(', ')}`);
     }
