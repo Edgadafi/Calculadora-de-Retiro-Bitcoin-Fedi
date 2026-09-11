@@ -1,4 +1,4 @@
-# Product Brief — Retiro BTC (extracto para RAG Rito)
+# Product Brief — Retiro BTC (extracto para RAG Rita)
 
 ## Qué es retirobtc.mx
 Calculadora de Retiro Bitcoin: mini-app Fedi para planeación de retiro en México/LATAM.

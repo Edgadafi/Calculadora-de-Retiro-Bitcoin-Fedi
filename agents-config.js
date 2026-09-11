@@ -1,5 +1,5 @@
 /**
- * URL del servicio de agentes IA (Rito, leads).
+ * URL del servicio de agentes IA (Rita, leads).
  * En local con `cd agents && npm run dev`, usa http://localhost:3000
  */
 (function (global) {

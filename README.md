@@ -8,7 +8,7 @@ Planifica tu independencia financiera con Bitcoin. Una Single Page Application (
 |-----------|-----|
 | [`docs/product-brief.md`](docs/product-brief.md) | Resumen operativo: personas, roadmap, KPIs, decisiones de producto |
 | [`docs/estudio-mercado-calculadora-retiro-bitcoin.md`](docs/estudio-mercado-calculadora-retiro-bitcoin.md) | Estudio de mercado completo (México/LATAM, Fedi, 2026) |
-| [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rito, leads, RAG, monitor legal |
+| [`docs/agentes-ia-arquitectura.md`](docs/agentes-ia-arquitectura.md) | Ecosistema agentes IA: Rita, leads, RAG, monitor legal |
 | [`docs/roadmap-agentico-ingresos.md`](docs/roadmap-agentico-ingresos.md) | Orden de construcción de los agentes pendientes, priorizado por impacto en ingresos |
 | [`docs/activar-p0-produccion.md`](docs/activar-p0-produccion.md) | Activar medición de ingresos en prod (merge, SQL, secretos Vercel) |
 | [`agents/README.md`](agents/README.md) | Deploy y env vars del servicio Next.js de agentes |
@@ -35,9 +35,9 @@ La regla de Cursor [`.cursor/rules/producto-estudio-mercado.mdc`](.cursor/rules/
 ├── manifest.json   # PWA manifest
 ├── package.json    # Dependencias npm (SDK Mercado Pago para APIs serverless)
 ├── api/            # Serverless: Mercado Pago (preferencia, verificación), LNbits, webhook MP
-├── agents/         # Servicio Next.js: Rito, leads, RAG, cron DOF (deploy: retirobtc-agents.vercel.app)
+├── agents/         # Servicio Next.js: Rita, leads, RAG, cron DOF (deploy: retirobtc-agents.vercel.app)
 ├── agents-config.js # URL del servicio de agentes (prod vs local)
-├── rito-loader.js  # Carga widget Rito en landing, calc, brújula
+├── rito-loader.js  # Carga widget Rita en landing, calc, brújula
 ├── docs/           # Estudio de mercado, product brief, arquitectura agentes
 ├── .cursor/rules/  # Reglas de contexto para Cursor (producto, etc.)
 ├── .env.example    # Plantilla de variables (copiar a .env.local)
@@ -361,9 +361,9 @@ Los pagos se procesan vía Lightning Network usando WebLN.
 
 ---
 
-## Agentes IA (Rito)
+## Agentes IA (Rita)
 
-El front estático integra **Rito** (chat 24/7) y captura de leads del formulario guía en `/brujula` vía el servicio en [`agents/`](agents/).
+El front estático integra **Rita** (chat 24/7) y captura de leads del formulario guía en `/brujula` vía el servicio en [`agents/`](agents/).
 
 | Componente | Descripción |
 |------------|-------------|

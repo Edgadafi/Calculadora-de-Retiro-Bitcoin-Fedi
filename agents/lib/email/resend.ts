@@ -30,7 +30,7 @@ export async function sendGuideEmail(params: {
           </a>
         </p>
         <p style="font-size: 0.875rem; color: #666;">
-          Este enlace expira en 7 días. ¿Dudas? Visita <a href="https://retirobtc.mx">retirobtc.mx</a> y pregunta a Rito.
+          Este enlace expira en 7 días. ¿Dudas? Visita <a href="https://retirobtc.mx">retirobtc.mx</a> y pregunta a Rita.
         </p>
         <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
         <p style="font-size: 0.75rem; color: #999;">
@@ -60,7 +60,7 @@ export async function sendEscalationEmail(params: {
   await resend.emails.send({
     from: FROM_EMAIL,
     to,
-    subject: `[Rito] Escalamiento humano — sesión ${params.sessionKey.slice(0, 8)}`,
+    subject: `[Rita] Escalamiento humano — sesión ${params.sessionKey.slice(0, 8)}`,
     text: `Sesión: ${params.sessionKey}\n\nMensaje del usuario:\n${params.userMessage}\n\nPanel: ${AGENTS_BASE_URL}/admin/alerts`,
   });
 }

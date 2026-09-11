@@ -14,7 +14,7 @@ El diseño no es un "superbot", sino agentes especializados conectados por flujo
 ```mermaid
 flowchart TB
   subgraph v1 [Vertical 1 - Front-Office]
-    Rito["Rito<br/>soporte y onboarding 24/7"]
+    Rita["Rita<br/>soporte y onboarding 24/7"]
     Legal["Investigador juridico<br/>monitor DOF"]
     Content["Generador de contenido<br/>X / TikTok / SEO"]
   end
@@ -27,15 +27,15 @@ flowchart TB
     Invoice["Facturacion CFDI<br/>y conciliacion"]
   end
   Legal --> Content
-  Legal --> Rito
+  Legal --> Rita
   Content --> Prospect
-  Prospect --> Rito
-  Rito --> Sales
+  Prospect --> Rita
+  Rita --> Sales
   Sales --> Invoice
   Invoice --> Books
 ```
 
-**Embudo autónomo previsto:** descarga de guía → prospección califica → contenido nutre por correo → Rito resuelve dudas 24/7 → ventas ofrece la cold wallet adecuada → facturación timbra el CFDI y contabilidad consolida.
+**Embudo autónomo previsto:** descarga de guía → prospección califica → contenido nutre por correo → Rita resuelve dudas 24/7 → ventas ofrece la cold wallet adecuada → facturación timbra el CFDI y contabilidad consolida.
 
 ---
 
@@ -45,7 +45,7 @@ flowchart TB
 
 | Agente | Vertical | Implementación |
 |--------|----------|----------------|
-| **Rito** | 1 | [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) + RAG pgvector + widget en landing, calc y brújula |
+| **Rita** | 1 | [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) + RAG pgvector + widget en landing, calc y brújula |
 | **Investigador jurídico** | 1 | [`agents/app/api/cron/legal-monitor/route.ts`](../agents/app/api/cron/legal-monitor/route.ts) → `legal_alerts` → revisión humana en `/admin/alerts` |
 | **Captura de leads** | 1 | [`agents/app/api/leads/route.ts`](../agents/app/api/leads/route.ts) + Resend + token de guía |
 | **Cobro Premium** | — | [`api/create-preference.js`](../api/create-preference.js) (MXN) y [`api/create-invoice.js`](../api/create-invoice.js) (Lightning) |
@@ -188,7 +188,7 @@ La tasa de conversión es una aproximación, no una cohorte estricta: un lead ca
 
 ### Nota de privacidad
 
-`purchases` no guarda correo, datos de tarjeta ni montos de ahorro del usuario, en línea con la política de Rito. El correo del pagador se usa en memoria sólo para resolver el `lead_id` y no se persiste. Se almacena únicamente el importe cobrado, el plan y la atribución.
+`purchases` no guarda correo, datos de tarjeta ni montos de ahorro del usuario, en línea con la política de Rita. El correo del pagador se usa en memoria sólo para resolver el `lead_id` y no se persiste. Se almacena únicamente el importe cobrado, el plan y la atribución.
 
 ### Activación operativa pendiente
 
@@ -214,7 +214,7 @@ Un pago de prueba en cada rail aparece en `purchases` una sola vez, y `/api/admi
 
 **Objetivo:** convertir el trabajo del investigador jurídico en tráfico recurrente hacia `/brujula` y `/calc`.
 
-Es el eslabón que hoy más se nota ausente: la cuenta de X de Rito y el banner en `assets/rito-x-banner-1500x500.png` existen, pero nada los alimenta.
+Es el eslabón que hoy más se nota ausente: la cuenta de X de Rita y el banner en `assets/rito-x-banner-1500x500.png` existen, pero nada los alimenta.
 
 ### Componentes
 
@@ -239,7 +239,7 @@ Datos verificados (agosto 2026):
 **RelateSocial de Namecheap** (~$9.88 USD/mes, suscripción cancelada por falta de fondos en agosto 2026). No se repone. Motivos:
 
 1. **No expone API pública.** Es un dashboard de uso manual, así que no puede recibir los borradores del agente: habría que copiar y pegar cada pieza, lo que anula el motivo de automatizar.
-2. **Duplica IA que ya existe.** Su asistente genera posts e imágenes, pero sin contexto del producto. El servicio en `agents/` ya usa Gemini con RAG sobre la base de conocimiento propia y el system prompt de Rito.
+2. **Duplica IA que ya existe.** Su asistente genera posts e imágenes, pero sin contexto del producto. El servicio en `agents/` ya usa Gemini con RAG sobre la base de conocimiento propia y el system prompt de Rita.
 3. **Riesgo de cumplimiento.** Una IA de marketing genérica no aplica las reglas de [`guia-marca-tono-claude.md`](./guia-marca-tono-claude.md): no inyecta el disclaimer ni evita el hype, que es justo lo prohibido al hablar de rendimientos.
 
 ### Reglas de contenido obligatorias
@@ -328,7 +328,7 @@ Va al final porque depende de que exista volumen real de transacciones en P0 y P
 
 ### Seguridad
 
-Los agentes de back-office manejan datos fiscales y financieros de la empresa. Deben operar con credenciales separadas de las de Rito y sin exponer esos datos al contexto del chat público.
+Los agentes de back-office manejan datos fiscales y financieros de la empresa. Deben operar con credenciales separadas de las de Rita y sin exponer esos datos al contexto del chat público.
 
 ---
 
@@ -336,7 +336,7 @@ Los agentes de back-office manejan datos fiscales y financieros de la empresa. D
 
 **P0 implementada; sigue P1.**
 
-P0 era la fase más pequeña de todo el roadmap y desbloquea la medición de las tres siguientes. Falta su activación operativa (schema y variables de entorno). P1 aprovecha que la cuenta de X de Rito ya está creada y sin contenido.
+P0 era la fase más pequeña de todo el roadmap y desbloquea la medición de las tres siguientes. Falta su activación operativa (schema y variables de entorno). P1 aprovecha que la cuenta de X de Rita ya está creada y sin contenido.
 
 P2 entra cuando haya suficiente historial de atribución para que el scoring se valide contra conversiones reales, no contra intuición.
 

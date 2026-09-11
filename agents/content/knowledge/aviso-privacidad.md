@@ -1,13 +1,13 @@
-# Aviso de privacidad — puntos clave Rito
+# Aviso de privacidad — puntos clave Rita
 
 Responsable: Ramesa S.A. de C.V. (retirobtc.mx).
 
 ## Datos tratados
 - Leads guía: nombre, email, preferencia Bitcoin
-- Chat Rito: mensajes sin solicitar PII financiera
+- Chat Rita: mensajes sin solicitar PII financiera
 - Pagos Premium: procesados por Mercado Pago / Lightning — retirobtc.mx no custodia
 
-## Rito
+## Rita
 Agente de IA 24/7 para soporte y onboarding educativo.
 No reemplaza asesoría legal/fiscal humana.
 

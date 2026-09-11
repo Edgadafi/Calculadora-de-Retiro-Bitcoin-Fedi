@@ -147,7 +147,7 @@ El trial Scale ya está comprado. Opciones:
 | Canal | Quién lo opera | No mezclar con |
 |-------|----------------|----------------|
 | Recepción `@retirobtc.mx` | Namecheap Email Forwarding | Private Email |
-| Contacto humano (Rito) | Gmail `calculadora.retirobtc@gmail.com` | — |
+| Contacto humano (Rita) | Gmail `calculadora.retirobtc@gmail.com` | — |
 | Guía / leads `/brujula` | Resend en `agents/` | MX de Namecheap |
 | Cobros Premium | Mercado Pago / Lightning | Correo |
 

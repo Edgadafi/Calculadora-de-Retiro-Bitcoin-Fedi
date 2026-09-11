@@ -6,7 +6,7 @@ Servicio **Next.js 15 + TypeScript** desplegado en `https://retirobtc-agents.ver
 
 | Agente | Endpoint / UI |
 |--------|----------------|
-| **Rito** | `POST /api/chat` + [`public/widget/rito.js`](public/widget/rito.js) |
+| **Rita** | `POST /api/chat` + [`public/widget/rito.js`](public/widget/rito.js) |
 | **Captura leads** | `POST /api/leads` |
 | **Investigador legal** | Cron `GET /api/cron/legal-monitor` |
 | **Admin alertas** | [`/admin/alerts`](app/admin/alerts/page.tsx) |
@@ -35,7 +35,7 @@ Activación en producción: [`../docs/activar-p0-produccion.md`](../docs/activar
 ```bash
 cd agents
 cp .env.example .env.local
-# Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rito), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET, INTERNAL_API_SECRET
+# Rellenar GOOGLE_GENERATIVE_AI_API_KEY (Rita), OPENAI_API_KEY (embeddings RAG), SUPABASE_*, RESEND_*, ADMIN_SECRET, CRON_SECRET, INTERNAL_API_SECRET
 npm install
 npm run dev
 ```

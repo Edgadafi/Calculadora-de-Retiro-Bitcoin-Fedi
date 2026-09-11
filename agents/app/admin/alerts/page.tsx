@@ -73,7 +73,7 @@ export default function AdminAlertsPage() {
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 max-w-3xl mx-auto">
       <h1 className="text-xl font-semibold mb-2">Legal Alerts — Retiro BTC Agents</h1>
       <p className="text-sm text-zinc-400 mb-6">
-        Revisión humana antes de indexar en la base de conocimiento de Rito.
+        Revisión humana antes de indexar en la base de conocimiento de Rita.
       </p>
 
       <label className="block mb-4">

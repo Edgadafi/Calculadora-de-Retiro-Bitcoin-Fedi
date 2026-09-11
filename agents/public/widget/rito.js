@@ -58,9 +58,9 @@
   var root = document.createElement('div');
   root.id = 'rito-root';
   root.innerHTML =
-    '<button type="button" id="rito-toggle" aria-label="Abrir chat Rito" aria-expanded="false" aria-controls="rito-panel">Rito</button>' +
-    '<div id="rito-panel" role="dialog" aria-label="Chat Rito" aria-modal="true">' +
-    '<div id="rito-header"><div id="rito-header-copy">Rito · Soporte retirobtc.mx<span>Información educativa · no es asesoría legal/fiscal</span></div><button type="button" id="rito-close" aria-label="Cerrar chat">×</button></div>' +
+    '<button type="button" id="rito-toggle" aria-label="Abrir chat Rita" aria-expanded="false" aria-controls="rito-panel">Rita</button>' +
+    '<div id="rito-panel" role="dialog" aria-label="Chat Rita" aria-modal="true">' +
+    '<div id="rito-header"><div id="rito-header-copy">Rita · Soporte retirobtc.mx<span>Información educativa · no es asesoría legal/fiscal</span></div><button type="button" id="rito-close" aria-label="Cerrar chat">×</button></div>' +
     '<div id="rito-messages"></div>' +
     '<div id="rito-disclaimer">No compartas datos de pago ni montos personales.</div>' +
     '<form id="rito-form"><textarea id="rito-input" placeholder="Escríbeme: AFORE, Fedi, calculadora…" rows="1" autocomplete="off"></textarea><button type="submit" id="rito-send">→</button></form>' +
@@ -80,10 +80,10 @@
   function setOpen(open) {
     panel.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    toggle.setAttribute('aria-label', open ? 'Cerrar chat Rito' : 'Abrir chat Rito');
+    toggle.setAttribute('aria-label', open ? 'Cerrar chat Rita' : 'Abrir chat Rita');
     if (open && messages.length === 0) {
       var greet =
-        'Hola, soy Rito. Si quieres, vemos tu retiro con Bitcoin: la calculadora, Fedi o cómo se compara con una AFORE.\n\n¿Por dónde empezamos?';
+        'Hola, soy Rita. Si quieres, vemos tu retiro con Bitcoin: la calculadora, Fedi o cómo se compara con una AFORE.\n\n¿Por dónde empezamos?';
       messages.push({ role: 'assistant', content: greet });
       appendMsg('bot', greet);
     }
@@ -269,12 +269,15 @@
         return read();
       })
       .catch(function (err) {
-        botEl.textContent = err.message || 'No pude conectar con Rito. Intenta de nuevo.';
+        botEl.textContent = err.message || 'No pude conectar con Rita. Intenta de nuevo.';
       });
   });
 
-  window.Rito = {
+  window.Rita = {
     open: function () { setOpen(true); },
     close: function () { setOpen(false); }
   };
+  // "Rito" fue el nombre anterior de la asistente. Se conserva por si algún
+  // embed externo todavía lo invoca.
+  window.Rito = window.Rita;
 })();

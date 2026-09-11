@@ -78,7 +78,7 @@ Canales: catálogo Fedi, *Tu AFORE Soberana*, maratón (Wen/Emily), Nostr/Telegr
 
 ### 4. ¿Producto en 2 años?
 
-Mini-app en federaciones LATAM; comparador AFORE vivo; micro-ahorro Lightning; agente **Rito** para dudas educativas; miles de proyecciones compartidas.
+Mini-app en federaciones LATAM; comparador AFORE vivo; micro-ahorro Lightning; agente **Rita** para dudas educativas; miles de proyecciones compartidas.
 
 ## Agregar mini-app en Fedi (pegar en chat del stream)
 
@@ -95,7 +95,7 @@ El listado oficial en catalog.fedi.xyz puede tardar; la URL directa funciona hoy
 
 - [ ] URL demo abre con resultado en <10 s
 - [ ] Precio BTC visible (CoinGecko o fallback)
-- [ ] Rito carga o `?rito=0` si falla
+- [ ] Rita carga o `?rito=0` si falla
 - [ ] Bio X con link UTM
 - [ ] Screenshot listo para Emily
 - [ ] Ícono Fedi: `https://retirobtc.mx/assets/logo-fedi-512.png`
@@ -130,7 +130,7 @@ Texto sugerido:
 ## Leads y métricas
 
 - Revisar tráfico con UTM `maraton-wenlopez`, `share-maraton`, `maraton-recap`.
-- Leads vía agente Rito → `retirobtc-agents.vercel.app` / Supabase si configurado.
+- Leads vía agente Rita → `retirobtc-agents.vercel.app` / Supabase si configurado.
 
 ## Clip Reel
 

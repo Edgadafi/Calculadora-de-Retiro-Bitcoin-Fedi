@@ -15,7 +15,7 @@
 | Landing | `https://retirobtc.mx/` | Confianza, SEO, campaña |
 | Calculadora | `https://retirobtc.mx/calc` | Producto core (Fedi Mini App) |
 | Brújula | `https://retirobtc.mx/brujula` | Embudo educativo / leads |
-| Agente Rito | Widget en sitio | Soporte 24/7, onboarding |
+| Agente Rita | Widget en sitio | Soporte 24/7, onboarding |
 
 **Propuesta de valor (una línea):**
 
@@ -86,7 +86,7 @@
 
 > El asesor financiero comunitario que explica Bitcoin como herramienta de retiro, no como apuesta.
 
-**Voz del agente Rito (si aplica):** empático, institucional, pedagógico, muy seguro. Español de México. No asesoría fiscal/legal vinculante.
+**Voz del agente Rita (si aplica):** empático, institucional, pedagógico, muy seguro. Español de México. No asesoría fiscal/legal vinculante.
 
 ---
 
@@ -255,7 +255,7 @@ Awareness (X, YouTube, podcast, maratones)
 | Lightning | Sats vía WebLN | Alternativa a Mercado Pago |
 
 - **retirobtc.mx NO custodia** Bitcoin ni fondos de usuarios
-- **Rito** (agente IA): soporte educativo; no presión de ventas agresiva
+- **Rita** (agente IA): soporte educativo; no presión de ventas agresiva
 - **Aureo:** enlace para comprar BTC (partner), no competidor directo
 
 ---

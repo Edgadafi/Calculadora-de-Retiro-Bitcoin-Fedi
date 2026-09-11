@@ -8,7 +8,7 @@
 | Pieza | Host | Estado |
 |-------|------|--------|
 | Front + APIs de pago | `https://www.retirobtc.mx` | Prod en `main` (`f20280c`). Webhook **viejo**: POST sin firma responde **200 OK**. No registra compras. |
-| Agentes (Rito, leads, alertas) | `https://retirobtc-agents.vercel.app` | Vivo. `/api/chat` y `/api/leads` responden. **`/api/purchases` y `/api/admin/revenue` dan 404** — P0 de agentes no está desplegado. |
+| Agentes (Rita, leads, alertas) | `https://retirobtc-agents.vercel.app` | Vivo. `/api/chat` y `/api/leads` responden. **`/api/purchases` y `/api/admin/revenue` dan 404** — P0 de agentes no está desplegado. |
 | `agents.retirobtc.mx` | — | **Sin DNS.** No usarlo. |
 | Preview de este PR | `*.vercel.app` del catálogo | Código P0 del root sí, pero Vercel Authentication bloquea el webhook (401). |
 

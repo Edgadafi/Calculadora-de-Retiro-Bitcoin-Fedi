@@ -9,7 +9,7 @@
 
 | Agente | Implementación |
 |--------|----------------|
-| **Rito** | Chat streaming Gemini Flash + RAG pgvector. Widget en landing, calc, brújula. |
+| **Rita** | Chat streaming Gemini Flash + RAG pgvector. Widget en landing, calc, brújula. |
 | **Captura leads** | `POST /api/leads` desde formulario guía `/brujula`. Resend + token guía PDF. |
 | **Investigador jurídico** | Cron diario DOF RSS → `legal_alerts` → revisión humana → ingest KB. |
 
@@ -51,7 +51,7 @@ Detalle de la fase en [P0 del roadmap](./roadmap-agentico-ingresos.md#5-p0--medi
 flowchart TB
   User[Usuario retirobtc.mx]
   Brujula[brujula.html formulario guía]
-  Widget[Rito widget]
+  Widget[Rita widget]
   LeadsAPI["/api/leads"]
   ChatAPI["/api/chat"]
   Supabase[(Supabase)]
@@ -87,7 +87,7 @@ flowchart TB
 
 | Ruta | Rol |
 |------|-----|
-| [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) | Rito streaming |
+| [`agents/app/api/chat/route.ts`](../agents/app/api/chat/route.ts) | Rita streaming |
 | [`agents/app/api/leads/route.ts`](../agents/app/api/leads/route.ts) | Captura leads |
 | [`agents/app/api/purchases/route.ts`](../agents/app/api/purchases/route.ts) | Ingesta de compras (P0) |
 | [`agents/app/api/admin/revenue/route.ts`](../agents/app/api/admin/revenue/route.ts) | Reporte de ingresos (P0) |
@@ -99,7 +99,7 @@ flowchart TB
 | [`rito-loader.js`](../rito-loader.js) | Carga dinámica del widget |
 | [`brujula-quiz.js`](../brujula-quiz.js) | Integración leads API |
 
-## Política Rito
+## Política Rita
 
 - Tono empático, institucional, pedagógico.
 - **No** asesoría fiscal/legal vinculante — disclaimer en cada sesión.
@@ -128,7 +128,7 @@ Ver [`agents/.env.example`](../agents/.env.example).
 ## KPIs Vertical 1
 
 1. Conversión brújula → lead válido
-2. P95 primera respuesta Rito &lt; 3 s
+2. P95 primera respuesta Rita &lt; 3 s
 3. % conversaciones sin escalamiento humano
 4. Tiempo alerta legal → KB indexada
 
