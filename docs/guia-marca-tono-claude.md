@@ -256,7 +256,7 @@ Awareness (X, YouTube, podcast, maratones)
 
 - **retirobtc.mx NO custodia** Bitcoin ni fondos de usuarios
 - **Rita** (agente IA): soporte educativo; no presión de ventas agresiva
-- **Aureo:** enlace para comprar BTC (partner), no competidor directo
+- **Aureo:** enlace para comprar BTC (partner), no competidor directo. Es un **enlace de afiliado** con comisión por volumen operado (código `calculadoraderetiro`), así que toda pieza que lo incluya debe declararlo
 
 ---
 
