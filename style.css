@@ -941,6 +941,15 @@ input[type="range"]::-moz-range-thumb {
   box-shadow: 0 6px 20px rgba(0, 104, 71, 0.3);
 }
 
+/* Divulgación de afiliado: obligatoria junto al CTA, sin competir con él */
+.aureo-inner .aureo-disclosure {
+  max-width: 44ch;
+  margin: 14px auto 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
 /* Tools grid */
 .tools-grid {
   display: grid;

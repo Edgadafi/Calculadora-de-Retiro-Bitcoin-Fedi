@@ -17,7 +17,18 @@
   const THEME_KEY = 'btc_retirement_theme';
   const MONTHLY_PRICE_USD = 1;
   const LIFETIME_PRICE_USD = 10;
-  const AUREO_REFERRAL_URL = 'https://app.aureobitcoin.com/calculadoraderetiro';
+  /**
+   * Código de afiliado propio en Aureo: paga comisión por volumen operado.
+   * Para cambiarlo basta editar esta constante; la URL se arma abajo.
+   */
+  const AUREO_REFERRAL_CODE = 'calculadoraderetiro';
+  /**
+   * Apuntamos al registro en español directamente. El atajo
+   * /calculadoraderetiro redirige a /en/auth/signup, y un formulario de alta
+   * en inglés es justo donde se cae el embudo de un CTA solo para México.
+   */
+  const AUREO_REFERRAL_URL =
+    'https://app.aureobitcoin.com/es/auth/signup?ref=' + encodeURIComponent(AUREO_REFERRAL_CODE);
   const LANG_KEY = 'btc_retirement_lang';
   const PAYMENT_API = '/api';
   /** true = Checkout Pro (Mercado Pago). false = Lightning (LNbits /api/create-invoice). */
@@ -76,6 +87,7 @@
       aureo_title: '🇲🇽 Compra Bitcoin con pesos',
       aureo_desc: 'Empieza tu plan de ahorro comprando BTC en Aureo, la plataforma para México.',
       aureo_btn: 'Comprar Bitcoin en Aureo →',
+      aureo_disclosure: 'Enlace de afiliado: retirobtc.mx recibe una comisión sobre el volumen que operes. No pagas más por usarlo.',
       tools_title: 'Herramientas para tu plan',
       tool_calendar_title: 'Recordatorio de ahorro',
       tool_calendar_desc: 'Agrega un evento recurrente a Google Calendar',
@@ -149,8 +161,8 @@
       help_premium_fedi: 'Si usas Fedi, el pago se hace directamente desde tu wallet integrada.',
       help_premium_restore: 'El premium se guarda en <strong>este dispositivo y navegador</strong> tras un pago aprobado. <strong>"Reactivar premium"</strong> vuelve a leer lo guardado aquí. En otro equipo pega el <strong>payment_id</strong> bajo <strong>Verificar pago</strong> en el modal.',
       help_aureo_title: 'Comprar Bitcoin con Aureo (solo México)',
-      help_aureo_desc: 'El botón <strong>"Comprar Bitcoin en Aureo"</strong> enlaza a <strong>app.aureobitcoin.com/calculadoraderetiro</strong>, la calculadora de retiro de Aureo para operar en MXN. Enlace aprobado; sin parámetros de referido (<code>?ref=</code>) en la URL.',
-      help_aureo_condition: 'Solo aparece si tu moneda está configurada en MXN.',
+      help_aureo_desc: 'El botón <strong>"Comprar Bitcoin en Aureo"</strong> abre el registro de Aureo en español con nuestro código de afiliado (<code>?ref=calculadoraderetiro</code>). Es un enlace de afiliado: retirobtc.mx recibe una comisión sobre el volumen que operes, y a ti no te cuesta más.',
+      help_aureo_condition: 'Solo aparece si tu moneda está en MXN o si tu navegador está configurado en español de México.',
       help_aureo_platform: 'Aureo es una plataforma regulada en México para compra y venta de Bitcoin.',
       help_calendar_title: 'Recordatorio de ahorro',
       help_calendar_desc: 'El botón <strong>"Recordatorio de ahorro"</strong> crea un evento recurrente en Google Calendar.',
@@ -292,6 +304,7 @@
       aureo_title: '🇲🇽 Buy Bitcoin with pesos',
       aureo_desc: 'Start your savings plan by buying BTC on Aureo, the platform for Mexico.',
       aureo_btn: 'Buy Bitcoin on Aureo →',
+      aureo_disclosure: 'Affiliate link: retirobtc.mx earns a commission on the volume you trade. It costs you nothing extra.',
       tools_title: 'Tools for your plan',
       tool_calendar_title: 'Savings reminder',
       tool_calendar_desc: 'Add a recurring event to Google Calendar',
@@ -365,8 +378,8 @@
       help_premium_fedi: 'If you use Fedi, payment is made directly from your integrated wallet.',
       help_premium_restore: 'Premium is stored in <strong>this browser and device</strong> after an approved payment. <strong>“Reactivate premium”</strong> re-reads that save. On another device paste the <strong>payment_id</strong> under <strong>Verify payment</strong> in the modal.',
       help_aureo_title: 'Buy Bitcoin with Aureo (Mexico only)',
-      help_aureo_desc: 'The <strong>"Buy Bitcoin on Aureo"</strong> button opens <strong>app.aureobitcoin.com/calculadoraderetiro</strong>, the Aureo retirement calculator, where you can buy BTC with Mexican pesos. Approved URL; no legacy referral (<code>?ref=</code>) parameter.',
-      help_aureo_condition: 'Only appears if your currency is set to MXN.',
+      help_aureo_desc: 'The <strong>"Buy Bitcoin on Aureo"</strong> button opens the Aureo Spanish sign-up page with our affiliate code (<code>?ref=calculadoraderetiro</code>). It is an affiliate link: retirobtc.mx earns a commission on the volume you trade, at no extra cost to you.',
+      help_aureo_condition: 'Only appears if your currency is MXN or your browser is set to Mexican Spanish.',
       help_aureo_platform: 'Aureo is a regulated platform in Mexico for buying and selling Bitcoin.',
       help_calendar_title: 'Savings reminder',
       help_calendar_desc: 'The <strong>"Savings reminder"</strong> button creates a recurring event in Google Calendar.',
@@ -508,6 +521,7 @@
       aureo_title: '🇲🇽 Compre Bitcoin com pesos',
       aureo_desc: 'Comece seu plano de poupança comprando BTC na Aureo, a plataforma para o México.',
       aureo_btn: 'Comprar Bitcoin na Aureo →',
+      aureo_disclosure: 'Link de afiliado: o retirobtc.mx recebe uma comissão sobre o volume que você operar. Não custa nada a mais para você.',
       tools_title: 'Ferramentas para seu plano',
       tool_calendar_title: 'Lembrete de poupança',
       tool_calendar_desc: 'Adicione um evento recorrente ao Google Calendar',
@@ -581,8 +595,8 @@
       help_premium_fedi: 'Se usa Fedi, o pagamento é feito diretamente da sua wallet integrada.',
       help_premium_restore: 'O premium fica guardado <strong>neste navegador e dispositivo</strong> após um pagamento aprovado. <strong>“Reativar premium”</strong> relê o que está salvo aqui. Em outro aparelho cole o <strong>payment_id</strong> em <strong>Verificar pagamento</strong> no modal.',
       help_aureo_title: 'Comprar Bitcoin com Aureo (só México)',
-      help_aureo_desc: 'O botão <strong>"Comprar Bitcoin na Aureo"</strong> abre <strong>app.aureobitcoin.com/calculadoraderetiro</strong>, a calculadora de aposentadoria da Aureo para operar em MXN. Link oficial; sem parâmetro de referência (<code>?ref=</code>) na URL.',
-      help_aureo_condition: 'Só aparece se sua moeda estiver configurada em MXN.',
+      help_aureo_desc: 'O botão <strong>"Comprar Bitcoin na Aureo"</strong> abre o cadastro da Aureo em espanhol com nosso código de afiliado (<code>?ref=calculadoraderetiro</code>). É um link de afiliado: o retirobtc.mx recebe uma comissão sobre o volume que você operar, sem custo extra para você.',
+      help_aureo_condition: 'Só aparece se sua moeda estiver em MXN ou se seu navegador estiver em espanhol do México.',
       help_aureo_platform: 'Aureo é uma plataforma regulada no México para compra e venda de Bitcoin.',
       help_calendar_title: 'Lembrete de poupança',
       help_calendar_desc: 'O botão <strong>"Lembrete de poupança"</strong> cria um evento recorrente no Google Calendar.',
@@ -724,6 +738,7 @@
       aureo_title: '🇲🇽 Achetez du Bitcoin avec des pesos',
       aureo_desc: 'Commencez votre plan d\'épargne en achetant du BTC sur Aureo, la plateforme pour le Mexique.',
       aureo_btn: 'Acheter du Bitcoin sur Aureo →',
+      aureo_disclosure: 'Lien d\'affiliation : retirobtc.mx perçoit une commission sur le volume que vous échangez. Cela ne vous coûte rien de plus.',
       tools_title: 'Outils pour votre plan',
       tool_calendar_title: 'Rappel d\'épargne',
       tool_calendar_desc: 'Ajoutez un événement récurrent à Google Calendar',
@@ -797,8 +812,8 @@
       help_premium_fedi: 'Si vous utilisez Fedi, le paiement se fait directement depuis votre wallet intégré.',
       help_premium_restore: 'Le Premium est enregistré <strong>dans ce navigateur et appareil</strong> après un paiement approuvé. <strong>« Réactiver Premium »</strong> relit cette sauvegarde. Sur un autre poste collez le <strong>payment_id</strong> sous <strong>Vérifier le paiement</strong> dans le modal.',
       help_aureo_title: 'Acheter du Bitcoin avec Aureo (Mexique uniquement)',
-      help_aureo_desc: 'Le bouton <strong>"Acheter du Bitcoin sur Aureo"</strong> ouvre <strong>app.aureobitcoin.com/calculadoraderetiro</strong>, la calculatrice retraite Aureo pour opérer en MXN. Lien approuvé ; pas de paramètre de parrainage (<code>?ref=</code>) dans l’URL.',
-      help_aureo_condition: 'Apparaît uniquement si votre monnaie est réglée sur MXN.',
+      help_aureo_desc: 'Le bouton <strong>"Acheter du Bitcoin sur Aureo"</strong> ouvre l’inscription Aureo en espagnol avec notre code d’affiliation (<code>?ref=calculadoraderetiro</code>). C’est un lien d’affiliation : retirobtc.mx perçoit une commission sur le volume que vous échangez, sans surcoût pour vous.',
+      help_aureo_condition: 'Apparaît uniquement si votre monnaie est MXN ou si votre navigateur est réglé sur l’espagnol du Mexique.',
       help_aureo_platform: 'Aureo est une plateforme réglementée au Mexique pour l\'achat et la vente de Bitcoin.',
       help_calendar_title: 'Rappel d\'épargne',
       help_calendar_desc: 'Le bouton <strong>"Rappel d\'épargne"</strong> crée un événement récurrent dans Google Calendar.',
